@@ -29,7 +29,7 @@ export default function Home() {
             <AiFillEyeInvisible onClick={() => setShowPassword('password')} className="text-[30px] hover:text-slate-500 active:text-slate-900"/>}
         </div>
         <button type="button" className="border md:col-span-2  w-full rounded text-slate-50 p-2 font-semibold">Sign Up</button>
-       <p className="text-slate-400 text-center md:col-span-2 ">Already have an account? <Link className="text-slate-50" href=''>Login</Link></p>
+       <p className="text-slate-400 text-center md:col-span-2 ">Already have an account? <Link className="text-slate-50" href='/login'>Login</Link></p>
    </form>
     </main>
   );
