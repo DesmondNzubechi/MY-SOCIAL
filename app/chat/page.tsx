@@ -3,15 +3,16 @@ import Link from "next/link";
 import { IoMdSearch } from "react-icons/io";
 import { FaUserCircle } from "react-icons/fa";
 import { GoDotFill } from "react-icons/go";
+import { IoIosChatbubbles } from "react-icons/io";
 const Chat = () => {
 
     
 
     return (
-        <div className="py-[20px]">
-            <div className="flex flex-col gap-5 items-center">
+        <div className="py-[20px] flex flex-row items-center gap-5 relative justify-around">
+            <div className="flex flex-col gap-5 items-center ">
                 <h1 className="uppercase text-[30px] text-center font-bold">myu chat</h1>
-                <div>
+                <div className="flex flex-col gap-5">
                 <div className="flex items-center border px-5 border-[2px] bg-slate-100 gap-1 rounded-[20px] justify-center">
                     <input type="search" name="" className="outline-none bg-transparent p-2" placeholder="Serach for messages" id="" />
                     <IoMdSearch />
@@ -87,6 +88,11 @@ const Chat = () => {
                     </div>
                 </div>
             </div>
+            <div className="hidden md:flex flex-col items-center justify-center">
+                        <IoIosChatbubbles className="text-[100px]"/>
+                            <h1 className="uppercase font-bold  text-[30px]">Select a message</h1>
+                            <p className="text-slate-500">Choose from your existing conversations, start a new one.</p>
+                    </div>
         </div>
     )
 }
