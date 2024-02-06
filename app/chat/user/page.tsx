@@ -4,13 +4,12 @@ import { IoMdSearch } from "react-icons/io";
 import { FaUserCircle } from "react-icons/fa";
 import { GoDotFill } from "react-icons/go";
 import { IoIosChatbubbles } from "react-icons/io";
-const Chat = () => {
 
-    
+const User = () => {
 
     return (
         <div className="py-[20px] flex flex-row items-center gap-5  justify-around">
-            <div className="flex flex-col max-h-[100vh] overflow-y-auto gap-5 px-[30px] py-[20px] items-center ">
+            <div className=" hidden md:flex flex-col max-h-[100vh] overflow-y-auto gap-5 px-[30px] py-[20px] items-center ">
                 <h1 className="uppercase text-[30px] text-center font-bold">myu chat</h1>
                 <div className="flex flex-col gap-5">
                 <div className="flex items-center border px-5 border-[2px] bg-slate-100 gap-1 rounded-[20px] justify-center">
@@ -88,13 +87,19 @@ const Chat = () => {
                     </div>
                 </div>
             </div>
-            <div className="hidden md:flex flex-col items-center justify-center">
-                        <IoIosChatbubbles className="text-[100px]"/>
-                            <h1 className="uppercase font-bold  text-[30px]">Select a message</h1>
-                            <p className="text-slate-500">Choose from your existing conversations, start a new one.</p>
+            <div className=" items-center justify-center ">
+                <div className="flex items-center  gap-2">
+                    <FaUserCircle className="text-[40px]"/>
+                    <p className="p-[10px] bg-sky-500 text-[20px] text-white rounded-tl-[10px] rounded-r-[15px] ">What's good?</p>
+                </div>
+                <div className="flex items-center  gap-2">
+                   
+                    <p className="p-[10px] bg-sky-500 text-[20px] text-white rounded-tr-[10px] rounded-l-[15px] ">What's good?</p>
+                    <FaUserCircle className="text-[40px]"/>
+                </div>
                     </div>
         </div>
     )
 }
 
-export default Chat;
+export default User;
