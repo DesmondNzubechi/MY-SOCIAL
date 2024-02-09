@@ -87,17 +87,20 @@ const User = () => {
                     </div>
                 </div>
             </div>
-            <div className=" items-center justify-center ">
-                <div className="flex items-center  gap-2">
+            <div className="flex flex-col  justify-between ">
+                <div className="flex items-center align-start self-start  gap-2">
                     <FaUserCircle className="text-[40px]"/>
                     <p className="p-[10px] bg-sky-500 text-[20px] text-white rounded-tl-[10px] rounded-r-[15px] ">What's good?</p>
                 </div>
-                <div className="flex items-center  gap-2">
+                <div className="flex items-center self-end align-end gap-2">
                    
                     <p className="p-[10px] bg-sky-500 text-[20px] text-white rounded-tr-[10px] rounded-l-[15px] ">What's good?</p>
                     <FaUserCircle className="text-[40px]"/>
                 </div>
-                    </div>
+            </div>
+            {/* <form action="">
+                <input type="text" name="" className="bg-slate-200 rounded " id="" />
+           </form> */}
         </div>
     )
 }
