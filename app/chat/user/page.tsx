@@ -102,19 +102,48 @@ const User = () => {
                     </div>
                 </div>
             </div>
-            <div className="flex flex-col overflow-x-none gap-y-[50px] px-[20px] relative  justify-around w-full ">
-                <div className="flex items-center flex-col gap-y-[50px]">
+            <div className="flex flex-col overflow-y-auto overflow-x-hidden max-h-[100vh] gap-y-[50px] px-[20px] relative bg-contain justify-around w-full ">
+            <div  className="left-0  md:left-[363px] flex right-0 items-center  gap-3 p-2 rounded fixed bg-slate-200 top-0">
+                    <FaUserCircle className="text-[40px]" />
+                    <h1 className="uppercase font-medium text-[20px] ">Desmond Nzubechukwu</h1>
+
+           </div>
+                <div className="flex py-[50px] pb-[100px]  items-center flex-col gap-y-[50px]">
                 <div className="flex items-center  self-start  gap-2">
                     <FaUserCircle className="text-[40px]"/>
-                    <p className="p-[10px] bg-sky-500 text-[20px] text-white rounded-tl-[10px] rounded-r-[15px] ">What's good?</p>
+                    <p className="p-[20px] bg-slate-500 text-[20px] text-white rounded-tl-[10px] rounded-r-[15px] ">What's good ]?</p>
                 </div>
                 <div className="flex items-center self-end align-end gap-2">
-                   
-                    <p className="p-[10px] bg-sky-500 text-[20px] text-white rounded-tr-[10px] rounded-l-[15px] ">What's good?</p>
+                    <p className="p-[20px] bg-sky-500 text-[20px] text-white rounded-tr-[10px] rounded-l-[15px] ">What's good?</p>
+                    <FaUserCircle className="text-[40px]"/>
+                    </div>
+                    <div className="flex items-center  self-start  gap-2">
+                    <FaUserCircle className="text-[40px]"/>
+                    <p className="p-[20px] bg-slate-500 text-[20px] text-white rounded-tl-[10px] rounded-r-[15px] ">What's good ]?</p>
+                </div>
+                <div className="flex items-center self-end align-end gap-2">
+                    <p className="p-[20px] bg-sky-500 text-[20px] text-white rounded-tr-[10px] rounded-l-[15px] ">What's good?</p>
+                    <FaUserCircle className="text-[40px]"/>
+                    </div>
+                    <div className="flex items-center  self-start  gap-2">
+                    <FaUserCircle className="text-[40px]"/>
+                    <p className="p-[20px] bg-slate-500 text-[20px] text-white rounded-tl-[10px] rounded-r-[15px] ">What's good ]?</p>
+                </div>
+                <div className="flex items-center self-end align-end gap-2">
+                    <p className="p-[20px] bg-sky-500 text-[20px] text-white rounded-tr-[10px] rounded-l-[15px] ">What's good?</p>
+                    <FaUserCircle className="text-[40px]"/>
+                    </div>
+                    <div className="flex items-center  self-start  gap-2">
+                    <FaUserCircle className="text-[40px]"/>
+                    <p className="p-[20px] bg-slate-500 text-[20px] text-white rounded-tl-[10px] rounded-r-[15px] ">What's good ]?</p>
+                </div>
+                <div className="flex items-center self-end align-end gap-2">
+                    <p className="p-[20px] bg-sky-500 text-[20px] text-white rounded-tr-[10px] rounded-l-[15px] ">What's good?</p>
                     <FaUserCircle className="text-[40px]"/>
                 </div>
                 </div>
-                <form action=""  className="left-0 md:left-[360px] flex right-0 items-center p-2 rounded fixed bg-slate-200 bottom-0">
+                
+                <form action=""  className="left-0  md:left-[363px] flex right-0 items-center p-2 rounded fixed bg-slate-200 bottom-0">
                     <input type="text" name="" placeholder="Write you message here" className=" py-[10px] text-[20px] bg-transparent outline-none  w-full rounded " id="" />
                     <button className="bg-sky-500 py-[10px] shadow-2xl rounded-[7px] text-slate-50 text-[20px]  px-[20px]">Send</button>
            </form>
