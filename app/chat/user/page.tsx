@@ -4,6 +4,8 @@ import { IoMdSearch } from "react-icons/io";
 import { FaUserCircle } from "react-icons/fa";
 import { GoDotFill } from "react-icons/go";
 import { IoIosChatbubbles } from "react-icons/io";
+import { HiDotsHorizontal } from "react-icons/hi";
+import { useState } from "react";
 
 const User = () => {
 
@@ -21,6 +23,8 @@ const User = () => {
             userImg: ''
         }
     ]
+
+    const [viewProfile, setViewprofile] = useState(false);
 
     return (
         <div className="py-[20px] fixed w-full flex flex-row items-start gap-5  justify-around">
@@ -102,11 +106,22 @@ const User = () => {
                     </div>
                 </div>
             </div>
-            <div className="flex flex-col overflow-y-auto overflow-x-hidden max-h-[100vh] gap-y-[50px] px-[20px] relative bg-contain justify-around w-full ">
-            <div  className="left-0  md:left-[363px] flex right-0 items-center  gap-3 p-2 rounded fixed bg-slate-200 top-0">
+            <div className="flex flex-col overflow-y-auto overflow-x-hidden max-h-[100vh]+ gap-y-[50px] px-[20px] relative bg-contain justify-around w-full ">
+                <div className="left-0  md:left-[363px]  px-[20px] flex right-0 items-center justify-between  gap-3 p-2 rounded fixed bg-slate-200 top-0">
+                    <div className="flex gap-2 items-center">
                     <FaUserCircle className="text-[40px]" />
                     <h1 className="uppercase font-medium text-[20px] ">Desmond Nzubechukwu</h1>
-
+                    </div>
+                    <HiDotsHorizontal onClick={() => {
+                        if (!viewProfile) {
+                            setViewprofile(true);
+                        } else {
+                            setViewprofile(false)
+                        }
+                    }} className="border text-[30px] border-slate-900 p-1  rounded-full " />
+                  
+                     { viewProfile &&  <Link href="" className="text-slate-900 bg-white  fixed top-[50px] font-medium px-[20px] py-[30px] shadow-2xl rounded  right-0">View Profile</Link>}
+                 
            </div>
                 <div className="flex py-[50px] pb-[100px]  items-center flex-col gap-y-[50px]">
                 <div className="flex items-center  self-start  gap-2">
