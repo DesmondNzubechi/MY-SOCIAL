@@ -6,6 +6,10 @@ import { GoDotFill } from "react-icons/go";
 import { IoIosChatbubbles } from "react-icons/io";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { useState } from "react";
+import Image from "next/image";
+import fvi from '../../../public/codes.jpg';
+import { RiImageAddFill } from "react-icons/ri";
+
 
 const User = () => {
 
@@ -106,7 +110,7 @@ const User = () => {
                     </div>
                 </div>
             </div>
-            <div className="flex flex-col overflow-y-auto overflow-x-hidden max-h-[100vh]+ gap-y-[50px] px-[20px] relative bg-contain justify-around w-full ">
+            <div className="flex flex-col overflow-y-auto overflow-x-hidden h-[100vh] gap-y-[50px] px-[20px] relative bg-contain justify-around w-full ">
                 <div className="left-0  md:left-[363px]  px-[20px] flex right-0 items-center justify-between  gap-3 p-2 rounded fixed bg-slate-200 top-0">
                     <div className="flex gap-2 items-center">
                     <FaUserCircle className="text-[40px]" />
@@ -123,7 +127,7 @@ const User = () => {
                      { viewProfile &&  <Link href="" className="text-slate-900 bg-white  fixed top-[50px] font-medium px-[20px] py-[30px] shadow-2xl rounded  right-0">View Profile</Link>}
                  
            </div>
-                <div className="flex py-[50px] pb-[100px]  items-center flex-col gap-y-[50px]">
+                <div className="flex pt-[200px] pb-[120px]  items-center flex-col gap-y-[50px]">
                 <div className="flex items-center  self-start  gap-2">
                     <FaUserCircle className="text-[40px]"/>
                     <p className="p-[20px] bg-slate-500 text-[20px] text-white rounded-tl-[10px] rounded-r-[15px] ">What's good ]?</p>
@@ -154,6 +158,10 @@ const User = () => {
                 </div>
                 <div className="flex items-center self-end align-end gap-2">
                     <p className="p-[20px] bg-sky-500 text-[20px] text-white rounded-tr-[10px] rounded-l-[15px] ">What's good?</p>
+                    <FaUserCircle className="text-[40px]"/>
+                    </div>
+                    <div className="flex items-center self-end align-end gap-2">
+                        <Image alt="" width={200} height={200} className="w-[200px] shadow-2xl rounded-2xl " src={fvi} />
                     <FaUserCircle className="text-[40px]"/>
                 </div>
                 </div>
