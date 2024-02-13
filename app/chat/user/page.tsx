@@ -161,14 +161,18 @@ const User = () => {
                     <FaUserCircle className="text-[40px]"/>
                     </div>
                     <div className="flex items-center self-end align-end gap-2">
-                        <Image alt="" width={200} height={200} className="w-[200px] shadow-2xl rounded-2xl " src={fvi} />
+                        <Image alt="" width={200} height={200} className="w-[200px] shadow-2xl rounded " src={fvi} />
                     <FaUserCircle className="text-[40px]"/>
                 </div>
                 </div>
                 
-                <form action=""  className="left-0  md:left-[363px] flex right-0 items-center p-2 rounded fixed bg-slate-200 bottom-0">
+                <form action=""  className="left-0  md:left-[363px] flex gap-2 right-0 items-center p-2 rounded fixed bg-slate-200 bottom-0">
                     <input type="text" name="" placeholder="Write you message here" className=" py-[10px] text-[20px] bg-transparent outline-none  w-full rounded " id="" />
-                    <button className="bg-sky-500 py-[10px] shadow-2xl rounded-[7px] text-slate-50 text-[20px]  px-[20px]">Send</button>
+                    <input type="file" className="hidden " name="file" id="file" />
+                    <label htmlFor="file">
+                    <RiImageAddFill className="text-[40px] rounded-full    "/>
+                    </label>
+                    <button className="bg-sky-500 py-[5px] shadow-2xl rounded-[7px] text-slate-50 text-[20px]  px-[20px]">Send</button>
            </form>
             </div>
         </div>
