@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AiFillEye } from "react-icons/ai";
 import { AiFillEyeInvisible } from "react-icons/ai";
 import Link from "next/link";
+import { signInWithEmailAndPassword } from "firebase/auth";
 export default function Login() {
 
   const [showPassword, setShowPassword] = useState('password')
