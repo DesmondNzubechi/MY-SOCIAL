@@ -7,6 +7,9 @@ import Link from "next/link";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "./components/config/firebase";
 import { useRouter } from "next/navigation";
+import { userAuth } from "./components/auths/auth";
+import { redirect } from "next/navigation";
+
 export default function Home() {
 
   const [showPassword, setShowPassword] = useState('password')
@@ -52,9 +55,10 @@ router.push('/chat')
       alert(error)
     }
   }
-
+  const user = userAuth();
   console.log(userDetails);
   return (
+      user ? redirect('/chat') :
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
       <form className="grid md:grid-cols-2 gap-5 items-center justify-center rounded shadow-2xl bg-slate-900 py-[30px] px-[30px]" action="">
         <h1 className="font-bold uppercase text-white text-center md:col-span-2 text-[40px] ">Myu Chat</h1>

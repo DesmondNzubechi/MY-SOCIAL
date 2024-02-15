@@ -5,10 +5,13 @@ import { AiFillEye } from "react-icons/ai";
 import { AiFillEyeInvisible } from "react-icons/ai";
 import Link from "next/link";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { userAuth } from "../components/auths/auth";
+import { redirect } from "next/navigation";
 export default function Login() {
-
+  const user = userAuth();
   const [showPassword, setShowPassword] = useState('password')
-    return (
+  return (
+      <>{ user? redirect('/chat') :
         <div className="flex min-h-screen flex-col items-center justify-center p-24">
     <form className="grid  gap-5 items-center justify-center rounded shadow-2xl bg-slate-900 py-[30px] px-[30px]" action="">
         <h1 className="font-bold uppercase text-white text-center  text-[40px] ">Myu Chat</h1>
@@ -22,6 +25,7 @@ export default function Login() {
         <button type="button" className="border   w-full rounded text-slate-50 p-2 font-semibold">Login</button>
        <p className="text-slate-400 text-center  ">Don't have an account yet? <Link className="text-slate-50" href='/'>Sign up</Link></p>
    </form>
-  </div>
+      </div>}
+      </>
   );
 }
