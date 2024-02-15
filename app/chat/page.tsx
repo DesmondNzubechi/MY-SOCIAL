@@ -6,8 +6,29 @@ import { GoDotFill } from "react-icons/go";
 import { IoIosChatbubbles } from "react-icons/io";
 import { FcAddImage } from "react-icons/fc";
 import { userAuth } from "../components/auths/auth";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { storage } from "../components/config/firebase";
+import { useState } from "react";
+import { updateProfile } from "firebase/auth";
+
 const Chat = () => {
     const user = userAuth();
+    const [dp, setDp] = useState<any>(null);
+   console.log(user)
+    const updateDp = async () => {
+        const dpRef = ref(storage, 'dp');
+        try {
+            const dpName = ref(dpRef, dp.name)
+            const uploadDp = await uploadBytes(dpName, dp);
+            const dpUrl = await getDownloadURL(uploadDp.ref);
+            await updateProfile(user, {
+              photoURL: dpUrl
+          })
+        } catch (error) {
+            
+        }
+    }
+
     return (
         <>
             {user ? (
@@ -17,7 +38,10 @@ const Chat = () => {
                         <div className="flex items-center w-full self-start justify-between gap-5 ">
                             <div className="items-center flex relative">
                                 <FaUserCircle className="text-[50px] " />
-                                <input type="file" name="image" className="hidden" id="image" />
+                                <input type="file" onChange={(e) => {
+                                    setDp(e.target.files?.[0])
+                                    updateDp();
+                                }} name="image" className="hidden" id="image" />
                                 <label htmlFor="image" className="absolute text-[20px] bottom-[-5px] " >
                                     <FcAddImage />
                                 </label>
