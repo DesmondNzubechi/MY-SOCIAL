@@ -4,8 +4,9 @@ import { useState } from "react";
 import { AiFillEye } from "react-icons/ai";
 import { AiFillEyeInvisible } from "react-icons/ai";
 import Link from "next/link";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "./components/config/firebase";
+import { useRouter } from "next/navigation";
 export default function Home() {
 
   const [showPassword, setShowPassword] = useState('password')
@@ -15,6 +16,7 @@ export default function Home() {
     userPassword: '',
     userConfirmPassword : ''
   })
+  const router = useRouter();
 
   const registerUser = async () => {
     if (userDetails.username === '') {
@@ -41,7 +43,11 @@ export default function Home() {
       return;
 }
     try {
-     await createUserWithEmailAndPassword(auth, userDetails.userEmail, userDetails.userPassword)
+      const res = await createUserWithEmailAndPassword(auth, userDetails.userEmail, userDetails.userPassword);
+      await updateProfile(res.user, {
+     displayName: userDetails.username  
+      })
+router.push('/chat')
     } catch (error) {
       alert(error)
     }
