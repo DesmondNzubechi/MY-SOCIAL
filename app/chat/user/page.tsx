@@ -10,7 +10,7 @@ import Image from "next/image";
 import fvi from '../../../public/codes.jpg';
 import { RiImageAddFill } from "react-icons/ri";
 import { FcAddImage } from "react-icons/fc";
-
+import { ProtectedRoute } from "@/app/components/protected  route/protected";
 const User = () => {
 
     let userChat = [
@@ -31,6 +31,7 @@ const User = () => {
     const [viewProfile, setViewprofile] = useState(false);
 
     return (
+        <ProtectedRoute>
         <div className="py-[20px] fixed w-full flex flex-row items-start gap-5  justify-around">
             <div className=" hidden md:flex flex-col max-h-[100vh] overflow-y-auto gap-5 overflow-x-hidden px-[30px] py-[20px] items-center ">
                 <h1 className="uppercase text-[30px] text-center font-bold">myu chat</h1>
@@ -186,7 +187,8 @@ const User = () => {
                     <button className="bg-sky-500 py-[5px] shadow-2xl rounded-[7px] text-slate-50 text-[20px]  px-[20px]">Send</button>
            </form>
             </div>
-        </div>
+            </div>
+            </ProtectedRoute>
     )
 }
 

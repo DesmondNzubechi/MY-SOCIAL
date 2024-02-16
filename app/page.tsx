@@ -70,12 +70,12 @@ router.push('/chat')
         <input onChange={(e) => {
           let value = e.target.value;
           setUserDetails({...userDetails, userEmail: value})
-          }} className=" text-center w-full p-2 rounded placeholder:text-[#555]  border outline-none" type="email" name="email" placeholder="Email"  id="" />
+          }} className=" text-center w-full p-2 rounded placeholder:text-[#555]  border outline-none" type="email" name="email" placeholder="Email"  id="email" />
         <div className="flex items-center p-2 rounded bg-slate-50">
           <input onChange={(e) => {
             let value = e.target.value;
             setUserDetails({...userDetails, userPassword: value})
-          }} className=" text-center rounded-l bg-transparent w-full   placeholder:text-[#555]  outline-none" type={showPassword} name="Password" placeholder="Password" id="" />
+          }} className=" text-center rounded-l bg-transparent w-full   placeholder:text-[#555]  outline-none" type={showPassword} name="Password" placeholder="Password" id="password" />
             {showPassword === 'password'? <AiFillEye onClick={() => setShowPassword('text')} className="text-[30px] hover:text-slate-500 active:text-slate-900 "/> :
             <AiFillEyeInvisible onClick={() => setShowPassword('password')} className="text-[30px] hover:text-slate-500 active:text-slate-900"/>}
         </div>
@@ -83,7 +83,7 @@ router.push('/chat')
           <input onChange={(e) => {
             let value = e.target.value;
             setUserDetails({...userDetails, userConfirmPassword: value})
-        }} className=" text-center rounded-l bg-transparent w-full   placeholder:text-[#555]  outline-none" type={showPassword} name="Password" placeholder="Confirm Password" id="" />
+        }} className=" text-center rounded-l bg-transparent w-full   placeholder:text-[#555]  outline-none" type={showPassword} name="Password" placeholder="Confirm Password" id="confirm password" />
             {showPassword === 'password'? <AiFillEye onClick={() => setShowPassword('text')} className="text-[30px] hover:text-slate-500 active:text-slate-900 "/> :
             <AiFillEyeInvisible onClick={() => setShowPassword('password')} className="text-[30px] hover:text-slate-500 active:text-slate-900"/>}
         </div>

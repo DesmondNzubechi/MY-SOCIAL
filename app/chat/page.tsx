@@ -10,7 +10,10 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../components/config/firebase";
 import { useState } from "react";
 import { updateProfile } from "firebase/auth";
-
+import { ProtectedRoute } from "../components/protected  route/protected";
+import { signOut } from "firebase/auth";
+import { auth } from "../components/config/firebase";
+import Login from "../login/page";
 const Chat = () => {
     const user = userAuth();
     const [dp, setDp] = useState<any>(null);
@@ -29,6 +32,17 @@ const Chat = () => {
         }
     }
 
+    const logOutUser = async () => {
+        console.log('hhghd')
+        const confirmLogout = confirm("Are you sure that you want to logout?")
+        if (!confirmLogout) return;
+        try {
+           await signOut(auth) 
+        } catch (error: any) {
+           alert(error.message) 
+        }
+    }
+    
     return (
         <>
             {user ? (
@@ -47,7 +61,7 @@ const Chat = () => {
                                 </label>
                                 <h1 className="font-medium text-[20px] ">@{user?.displayName}</h1>
                             </div>
-                            <button className="bg-red-500 p-1 text-slate-50 px-[20px] rounded text-[20px] font-medium">Logout</button>
+                            <button onClick={() => logOutUser()} className="bg-red-500 p-1 text-slate-50 px-[20px] rounded text-[20px] font-medium">Logout</button>
                         </div>
                         <div className="flex flex-col gap-5">
                             <div className="flex items-center border px-5 border-[2px] bg-slate-100 gap-1 rounded-[20px] justify-center">
@@ -131,7 +145,7 @@ const Chat = () => {
                         <p className="text-slate-500">Choose from your existing conversations, start a new one.</p>
                     </div>
                 </div>) : (
-                <p>Please login</p>
+                    <Login /> 
             )}
             </>
         )
