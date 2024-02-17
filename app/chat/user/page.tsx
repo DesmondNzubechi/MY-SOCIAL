@@ -11,6 +11,7 @@ import fvi from '../../../public/codes.jpg';
 import { RiImageAddFill } from "react-icons/ri";
 import { FcAddImage } from "react-icons/fc";
 import { ProtectedRoute } from "@/app/components/protected  route/protected";
+import { userAuth } from "@/app/components/auths/auth";
 const User = () => {
 
     let userChat = [
@@ -29,21 +30,39 @@ const User = () => {
     ]
 
     const [viewProfile, setViewprofile] = useState(false);
+    const user = userAuth();
+    const [dp, setDp] = useState<any>(null);
+    console.log(user)
+     const updateDp = async () => {
+         const dpRef = ref(storage, 'dp');
+         try {
+             const dpName = ref(dpRef, dp.name)
+             const uploadDp = await uploadBytes(dpName, dp);
+             const dpUrl = await getDownloadURL(uploadDp.ref);
+             await updateProfile(user, {
+               photoURL: dpUrl
+           })
+         } catch (error) {
+             
+         }
+     }
 
     return (
-        <ProtectedRoute>
         <div className="py-[20px] fixed w-full flex flex-row items-start gap-5  justify-around">
             <div className=" hidden md:flex flex-col max-h-[100vh] overflow-y-auto gap-5 overflow-x-hidden px-[30px] py-[20px] items-center ">
                 <h1 className="uppercase text-[30px] text-center font-bold">myu chat</h1>
                 <div className="flex items-center w-full self-start justify-between gap-5 ">
-                    <div className="items-center flex relative">
-                        <FaUserCircle className="text-[50px] " />
-                        <input type="file" name="image" className="hidden" id="image" />
-                        <label htmlFor="image" className="absolute text-[20px] bottom-[-5px] " >
-                        <FcAddImage />
-                        </label>
-                        <h1 className="font-medium text-[20px] ">@Nzubechukwu</h1>
-                    </div>
+                <div className="items-center flex relative">
+                                <FaUserCircle className="text-[50px] " />
+                                <input type="file" onChange={(e) => {
+                                    setDp(e.target.files?.[0])
+                                    updateDp();
+                                }} name="image" className="hidden" id="image" />
+                                <label htmlFor="image" className="absolute text-[20px] bottom-[-5px] " >
+                                    <FcAddImage />
+                                </label>
+                                <h1 className="font-medium text-[20px] ">@{user?.displayName}</h1>
+                                </div>
                     <button className="bg-red-500 p-1 text-slate-50 px-[20px] rounded text-[20px] font-medium">Logout</button>
                 </div>
                 <div className="flex flex-col gap-5">
@@ -188,7 +207,6 @@ const User = () => {
            </form>
             </div>
             </div>
-            </ProtectedRoute>
     )
 }
 

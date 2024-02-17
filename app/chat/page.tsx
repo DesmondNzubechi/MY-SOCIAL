@@ -8,29 +8,98 @@ import { FcAddImage } from "react-icons/fc";
 import { userAuth } from "../components/auths/auth";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../components/config/firebase";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { updateProfile } from "firebase/auth";
 import { ProtectedRoute } from "../components/protected  route/protected";
 import { signOut } from "firebase/auth";
 import { auth } from "../components/config/firebase";
 import Login from "../login/page";
+import { db } from "../components/config/firebase";
+import Image from "next/image";
+import { Timestamp, collection, doc, getDoc, getDocs, query, serverTimestamp, setDoc, updateDoc, where } from "firebase/firestore";
 const Chat = () => {
     const user = userAuth();
+    // const searchUser = async () => {
+    //     const q = query(
+    //         collection(db, "allusers"), 
+    //         where("displayname". '==', 'username')
+    //     )
+
+    //     const querySnapshot = await getDoc(q);
+    //     querySnapshot.forEach(doc => {
+    //         console.log(doc.id, "=", doc.data() )
+    //     });
+    // }
+    
+    
+//     const handleSelect = async () => {
+//         try {
+//             const combineUserId = Mainuser.uid > user.uid
+//             ? Mainuser.uid + user.uid
+//             : user.uid + Mainuser.uid
+//         const res = await getDoc(db, "chats", combineUserId);
+
+//         if (!res.exist()) {
+//             //create chat in the chat collection
+//             await setDoc(doc, (db, "chats", combineUserId), { messages: [] });
+
+//             //create user chats
+// //             userChats: {
+// // userInfo{
+// //                     dn, img, id
+// //                 },
+// //                 lastMessage: '',
+// //                     date: Timestamp()
+//             //             }
+            
+//             await updateDoc(db, (db, 'userChats', Mainuser.id), {
+//                 [combineUserId + '.userInfo']: {
+//                     uid: user.id,
+//                     displayName: user.displayName,
+//                     photoURL: user.photoURL,
+//                 },
+//                [ combineUserId+'.date']: serverTimestamp()
+//             })
+
+//             await updateDoc(db, (db, 'userChats', user.id), {
+//                 [combineUserId+'.userInfo']: {
+//                     uid: Mainuser.id,
+//                     displayName: Mainuser.displayName,
+//                     photoURL: Mainuser.photoURL,
+//                 },
+//                [ combineUserId+'.date']: serverTimestamp()
+//             })
+//  }
+//         } catch (error) {
+            
+//         }
+      
+//     }
+
+
     const [dp, setDp] = useState<any>(null);
    console.log(user)
     const updateDp = async () => {
         const dpRef = ref(storage, 'dp');
         try {
-            const dpName = ref(dpRef, dp.name)
+            const dpName = ref(dpRef, user.displayName)
             const uploadDp = await uploadBytes(dpName, dp);
             const dpUrl = await getDownloadURL(uploadDp.ref);
             await updateProfile(user, {
               photoURL: dpUrl
-          })
+            })
+            alert("success");
         } catch (error) {
-            
+           alert(error) 
         }
     }
+
+    useEffect(() => {
+        if (dp !== null) {
+            updateDp()   
+        }
+
+    }, [dp])
 
     const logOutUser = async () => {
         console.log('hhghd')
@@ -50,17 +119,21 @@ const Chat = () => {
                     <div className="flex flex-col max-h-[100vh] md:overflow-y-auto gap-5 px-[20px] py-[20px] items-center ">
                         <h1 className="uppercase text-[30px] text-center font-bold">myu chat</h1>
                         <div className="flex items-center w-full self-start justify-between gap-5 ">
-                            <div className="items-center flex relative">
-                                <FaUserCircle className="text-[50px] " />
+                            <div className="flex flex-col gap-2">
+                                <div className="items-center flex relative">
+                                {user.photoURL? <Image alt={user?.displayName} width={50} height={30} className="rounded-full h-[50px]" src={user?.photoURL} /> :
+                            <FaUserCircle className="text-[50px] " />}
                                 <input type="file" onChange={(e) => {
                                     setDp(e.target.files?.[0])
-                                    updateDp();
                                 }} name="image" className="hidden" id="image" />
                                 <label htmlFor="image" className="absolute text-[20px] bottom-[-5px] " >
                                     <FcAddImage />
                                 </label>
                                 <h1 className="font-medium text-[20px] ">@{user?.displayName}</h1>
+                                </div>
+                            {/* <button className="bg-slate-900 text-slate-50 rounded-[5px] shadow-2xl ">Update</button> */}
                             </div>
+                           
                             <button onClick={() => logOutUser()} className="bg-red-500 p-1 text-slate-50 px-[20px] rounded text-[20px] font-medium">Logout</button>
                         </div>
                         <div className="flex flex-col gap-5">
