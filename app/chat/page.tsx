@@ -16,9 +16,37 @@ import { auth } from "../components/config/firebase";
 import Login from "../login/page";
 import { db } from "../components/config/firebase";
 import Image from "next/image";
-import { Timestamp, collection, doc, getDoc, getDocs, query, serverTimestamp, setDoc, updateDoc, where } from "firebase/firestore";
+import { AllUser } from "../components/allUser/allUser";
+import { Timestamp, collection, doc, getDoc, getDocs, onSnapshot, query, serverTimestamp, setDoc, updateDoc, where } from "firebase/firestore";
 const Chat = () => {
     const user = userAuth();
+    const allUser = AllUser();
+    const [allTheUsers, setAllTheUsers] = useState<any>([])
+    useEffect(() => {
+        const userStore = collection(db, 'chats');
+        const unsub = onSnapshot(userStore, (snapshot) => {
+            const allTheUser = snapshot.docs.map(doc => doc.data());
+            setAllTheUsers(allTheUser)
+        })
+        return () => {
+            unsub()
+        }
+    }, [])
+console.log('all the user', allTheUsers)
+    const [currentUser, setCurrentUser] = useState<any>({})
+    useEffect(() => {
+        const getCurrentUser = () => {
+            const currentUser = allTheUsers.find((cUser: any) => {
+            return cUser.userID === user.uid
+            })
+            setCurrentUser({...currentUser})
+        }
+       
+            getCurrentUser();
+       
+    }, [allTheUsers])
+    console.log('all user', allUser)
+    console.log("current user", currentUser)
     // const searchUser = async () => {
     //     const q = query(
     //         collection(db, "allusers"), 
@@ -78,15 +106,20 @@ const Chat = () => {
 
 
     const [dp, setDp] = useState<any>(null);
-   console.log(user)
+    console.log(user)
+    
     const updateDp = async () => {
         const dpRef = ref(storage, 'dp');
         try {
-            const dpName = ref(dpRef, user.displayName)
+            const dpName = ref(dpRef, currentUser.username)
             const uploadDp = await uploadBytes(dpName, dp);
             const dpUrl = await getDownloadURL(uploadDp.ref);
             await updateProfile(user, {
               photoURL: dpUrl
+            })
+
+            await updateDoc(doc(db, 'chats', currentUser.userID), {
+             userPic: dpUrl   
             })
             alert("success");
         } catch (error) {
@@ -96,7 +129,7 @@ const Chat = () => {
 
     useEffect(() => {
         if (dp !== null) {
-            updateDp()   
+            updateDp()
         }
 
     }, [dp])
@@ -121,7 +154,7 @@ const Chat = () => {
                         <div className="flex items-center w-full self-start justify-between gap-5 ">
                             <div className="flex flex-col gap-2">
                                 <div className="items-center flex relative">
-                                {user.photoURL? <Image alt={user?.displayName} width={50} height={30} className="rounded-full h-[50px]" src={user?.photoURL} /> :
+                                {currentUser.userPic? <Image alt={currentUser?.username} width={50} height={30} className="rounded-full h-[50px]" src={currentUser?.userPic} /> :
                             <FaUserCircle className="text-[50px] " />}
                                 <input type="file" onChange={(e) => {
                                     setDp(e.target.files?.[0])
@@ -129,7 +162,7 @@ const Chat = () => {
                                 <label htmlFor="image" className="absolute text-[20px] bottom-[-5px] " >
                                     <FcAddImage />
                                 </label>
-                                <h1 className="font-medium text-[20px] ">@{user?.displayName}</h1>
+                                <h1 className="font-medium text-[20px] ">@{currentUser?.username}</h1>
                                 </div>
                             {/* <button className="bg-slate-900 text-slate-50 rounded-[5px] shadow-2xl ">Update</button> */}
                             </div>

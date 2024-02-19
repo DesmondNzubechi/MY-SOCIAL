@@ -57,7 +57,9 @@ export default function Home() {
         username: res.user.displayName,
         useremail: res.user.email,
         userPic: res.user.photoURL
-     })
+      });
+
+      await setDoc(doc(db, "userChats", res.user.uid), {})
 router.push('/chat')
     } catch (error) {
       alert(error)
