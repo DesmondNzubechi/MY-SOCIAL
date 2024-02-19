@@ -5,10 +5,12 @@ import { AiFillEye } from "react-icons/ai";
 import { AiFillEyeInvisible } from "react-icons/ai";
 import Link from "next/link";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth } from "./components/config/firebase";
+import { auth, db } from "./components/config/firebase";
 import { useRouter } from "next/navigation";
 import { userAuth } from "./components/auths/auth";
 import { redirect } from "next/navigation";
+import { setDoc } from "firebase/firestore";
+import { doc } from "firebase/firestore";
 
 export default function Home() {
 
@@ -50,6 +52,12 @@ export default function Home() {
       await updateProfile(res.user, {
      displayName: userDetails.username  
       })
+      await setDoc(doc(db, "chats", res.user.uid), {
+        userID: res.user.uid,
+        username: res.user.displayName,
+        useremail: res.user.email,
+        userPic: res.user.photoURL
+     })
 router.push('/chat')
     } catch (error) {
       alert(error)
