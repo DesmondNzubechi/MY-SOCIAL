@@ -52,14 +52,14 @@ export default function Home() {
       await updateProfile(res.user, {
      displayName: userDetails.username  
       })
-      await setDoc(doc(db, "chats", res.user.uid), {
+      await setDoc(doc(db, "users", res.user.uid), {
         userID: res.user.uid,
         username: res.user.displayName,
         useremail: res.user.email,
         userPic: res.user.photoURL
       });
 
-      await setDoc(doc(db, "userChats", res.user.uid), {})
+      await setDoc(doc(db, "UserChats", res.user.uid), {})
 router.push('/chat')
     } catch (error) {
       alert(error)

@@ -18,22 +18,35 @@ import { db } from "../components/config/firebase";
 import Image from "next/image";
 import { AllUser } from "../components/allUser/allUser";
 import { Timestamp, collection, doc, getDoc, getDocs, onSnapshot, query, serverTimestamp, setDoc, updateDoc, where } from "firebase/firestore";
+
 const Chat = () => {
     const user = userAuth();
     const allUser = AllUser();
-    const [allTheUsers, setAllTheUsers] = useState<any>([])
+    const [allTheUsers, setAllTheUsers] = useState<Array<any>>([]);
+
+    //const [secondChat, setSecondChat] = useState<any>({});
+
+
     useEffect(() => {
-        const userStore = collection(db, 'chats');
+        const userStore = collection(db, 'users');
         const unsub = onSnapshot(userStore, (snapshot) => {
             const allTheUser = snapshot.docs.map(doc => doc.data());
-            setAllTheUsers(allTheUser)
+            setAllTheUsers([allTheUser])
+
         })
         return () => {
             unsub()
         }
     }, [])
 console.log('all the user', allTheUsers)
-    const [currentUser, setCurrentUser] = useState<any>({})
+interface User {
+    userID: string;
+    username: string;
+    userPic: string;
+}
+
+const [currentUser, setCurrentUser] = useState<User | any>({});
+
     useEffect(() => {
         const getCurrentUser = () => {
             const currentUser = allTheUsers.find((cUser: any) => {
@@ -47,6 +60,7 @@ console.log('all the user', allTheUsers)
     }, [allTheUsers])
     console.log('all user', allUser)
     console.log("current user", currentUser)
+
     // const searchUser = async () => {
     //     const q = query(
     //         collection(db, "allusers"), 
@@ -59,14 +73,46 @@ console.log('all the user', allTheUsers)
     //     });
     // }
     
-    
+    const startChat = async (theUserID: string) => {
+        try {
+            const combinedId = currentUser?.userID > theUserID ?
+                currentUser?.userID + theUserID :
+                theUserID + currentUser?.userID;
+            // const theDoc = 
+            // const res = getDoc(db, 'chats', combinedId);
+            // if ((await res).empty) {
+                await setDoc(doc(db, "chats", combinedId), { message: [] });
+           // }
+
+            await updateDoc(doc(db, 'UserChats', currentUser.userID), {
+                [combinedId + ".userInfo"]: {
+                    userID: currentUser.userID,
+                    username: currentUser.username,
+                    userPic: currentUser.userPic,
+                },
+                lastMessage: '',
+                [combinedId + ".date"] : serverTimestamp(),
+            })
+            await updateDoc(doc(db, 'UserChats', theUserID), {
+                [combinedId + ".userInfo"]: {
+                    userID: currentUser.userID,
+                    username: currentUser.username,
+                    userPic: currentUser.userPic,
+                },
+                lastMessage: '',
+                [combinedId + ".date"] : serverTimestamp(),
+            })
+
+        } catch (error) {
+            
+        }
+    }
 //     const handleSelect = async () => {
 //         try {
 //             const combineUserId = Mainuser.uid > user.uid
 //             ? Mainuser.uid + user.uid
 //             : user.uid + Mainuser.uid
 //         const res = await getDoc(db, "chats", combineUserId);
-
 //         if (!res.exist()) {
 //             //create chat in the chat collection
 //             await setDoc(doc, (db, "chats", combineUserId), { messages: [] });
@@ -105,7 +151,8 @@ console.log('all the user', allTheUsers)
 //     }
 
 
-    const [dp, setDp] = useState<any>(null);
+const [dp, setDp] = useState<File | any>(null);
+
     console.log(user)
     
     const updateDp = async () => {
@@ -118,7 +165,7 @@ console.log('all the user', allTheUsers)
               photoURL: dpUrl
             })
 
-            await updateDoc(doc(db, 'chats', currentUser.userID), {
+            await updateDoc(doc(db, 'users', currentUser.userID), {
              userPic: dpUrl   
             })
             alert("success");
@@ -149,7 +196,7 @@ console.log('all the user', allTheUsers)
         <>
             {user ? (
                 <div className="py-[20px] flex flex-row items-center gap-5  justify-evenly">
-                    <div className="flex flex-col max-h-[100vh] md:overflow-y-auto gap-5 px-[20px] py-[20px] items-center ">
+                    <div className="flex flex-col max-h-[100vh] md:overflow-y-scroll gap-5 px-[20px] py-[20px] items-center ">
                         <h1 className="uppercase text-[30px] text-center font-bold">myu chat</h1>
                         <div className="flex items-center w-full self-start justify-between gap-5 ">
                             <div className="flex flex-col gap-2">
@@ -175,73 +222,24 @@ console.log('all the user', allTheUsers)
                                 <IoMdSearch />
                             </div>
                             <div className="flex flex-col gap-5">
-                                <Link href='' className="flex gap-2 items-center">
-                                    <FaUserCircle className="text-[40px] " />
-                                    <div className="flex flex-col gap-[5px]">
-                                        <div className="flex items-center flex-row gap-2">
-                                            <h1 className="text-slate-900 text-[15px] font-semibold">Desmond Nzubechukwu</h1> <p className="text-slate-500 text-[15px]">@NzubechukwuDev</p><GoDotFill className="text-[10px]" /> <p className="text-slate-400 text-[12px]">Feb 5</p>
-                                        </div>
-                                        <div>
-                                            <p className="text-slate-500 text-[15px]">Hello, How are you doing?</p>
-                                        </div>
-                                    </div>
-                                </Link>
-                                <hr /> <Link href='' className="flex gap-2 items-center">
-                                    <FaUserCircle className="text-[40px] " />
-                                    <div className="flex flex-col gap-[5px]">
-                                        <div className="flex items-center flex-row gap-2">
-                                            <h1 className="text-slate-900 text-[15px] font-semibold">Desmond Nzubechukwu</h1> <p className="text-slate-500 text-[15px]">@NzubechukwuDev</p><GoDotFill className="text-[10px]" /> <p className="text-slate-400 text-[12px]">Feb 5</p>
-                                        </div>
-                                        <div>
-                                            <p className="text-slate-500 text-[15px]">Hello, How are you doing?</p>
-                                        </div>
-                                    </div>
-                                </Link>
-                                <hr /> <Link href='' className="flex gap-2 items-center">
-                                    <FaUserCircle className="text-[40px] " />
-                                    <div className="flex flex-col gap-[5px]">
-                                        <div className="flex items-center flex-row gap-2">
-                                            <h1 className="text-slate-900 text-[15px] font-semibold">Desmond Nzubechukwu</h1> <p className="text-slate-500 text-[15px]">@NzubechukwuDev</p><GoDotFill className="text-[10px]" /> <p className="text-slate-400 text-[12px]">Feb 5</p>
-                                        </div>
-                                        <div>
-                                            <p className="text-slate-500 text-[15px]">Hello, How are you doing?</p>
-                                        </div>
-                                    </div>
-                                </Link>
-                                <hr /> <Link href='' className="flex gap-2 items-center">
-                                    <FaUserCircle className="text-[40px] " />
-                                    <div className="flex flex-col gap-[5px]">
-                                        <div className="flex items-center flex-row gap-2">
-                                            <h1 className="text-slate-900 text-[15px] font-semibold">Desmond Nzubechukwu</h1> <p className="text-slate-500 text-[15px]">@NzubechukwuDev</p><GoDotFill className="text-[10px]" /> <p className="text-slate-400 text-[12px]">Feb 5</p>
-                                        </div>
-                                        <div>
-                                            <p className="text-slate-500 text-[15px]">Hello, How are you doing?</p>
-                                        </div>
-                                    </div>
-                                </Link>
-                                <hr /> <Link href='' className="flex gap-2 items-center">
-                                    <FaUserCircle className="text-[40px] " />
-                                    <div className="flex flex-col gap-[5px]">
-                                        <div className="flex items-center flex-row gap-2">
-                                            <h1 className="text-slate-900 text-[15px] font-semibold">Desmond Nzubechukwu</h1> <p className="text-slate-500 text-[15px]">@NzubechukwuDev</p><GoDotFill className="text-[10px]" /> <p className="text-slate-400 text-[12px]">Feb 5</p>
-                                        </div>
-                                        <div>
-                                            <p className="text-slate-500 text-[15px]">Hello, How are you doing?</p>
-                                        </div>
-                                    </div>
-                                </Link>
-                                <hr /> <Link href='' className="flex gap-2 items-center">
-                                    <FaUserCircle className="text-[40px] " />
-                                    <div className="flex flex-col gap-[5px]">
-                                        <div className="flex items-center flex-row gap-2">
-                                            <h1 className="text-slate-900 text-[15px] font-semibold">Desmond Nzubechukwu</h1> <p className="text-slate-500 text-[15px]">@NzubechukwuDev</p><GoDotFill className="text-[10px]" /> <p className="text-slate-400 text-[12px]">Feb 5</p>
-                                        </div>
-                                        <div>
-                                            <p className="text-slate-500 text-[15px]">Hello, How are you doing?</p>
-                                        </div>
-                                    </div>
-                                </Link>
-                                <hr />
+                              
+                                {
+                                    allUser?.map((users:any) => {
+                                        return <><Link onClick={() => startChat(users.userID)} key={users.userID} href='' className="flex gap-2 items-center">
+                                        <FaUserCircle className="text-[40px] " />
+                                        <div className="flex flex-col gap-[5px]">
+                                            <div className="flex items-center flex-row gap-2">
+                                                    <h1 className="text-slate-900 text-[15px] font-semibold">{users?.username}</h1> <p className="text-slate-500 text-[15px]">@{users?.username}</p><GoDotFill className="text-[10px]" /> <p className="text-slate-400 text-[12px]">Feb 5</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-slate-500 text-[15px]">Hello, How are you doing?</p>
+                                            </div>
+                                            </div>
+                                        </Link>
+                                            <hr />
+                                            </>
+                                    })
+                                }
                             </div>
                         </div>
                     </div>

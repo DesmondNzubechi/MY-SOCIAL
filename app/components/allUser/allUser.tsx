@@ -10,7 +10,7 @@ export const AllUser = () => {
 
     useEffect(() => {
 
-        const userCollection = collection(db, 'chats');
+        const userCollection = collection(db, 'users');
 
         const unsub = onSnapshot(userCollection, (snapshot) => {
             const users = snapshot.docs.map(doc => ({ ...doc.data() }))
