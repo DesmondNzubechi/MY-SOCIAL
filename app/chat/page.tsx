@@ -21,7 +21,7 @@ import { Timestamp, collection, doc, getDoc, getDocs, onSnapshot, query, serverT
 
 const Chat = () => {
     const user = userAuth();
-    const allUser = AllUser();
+    //const allUser = AllUser();
     const [allTheUsers, setAllTheUsers] = useState<Array<any>>([]);
 
     //const [secondChat, setSecondChat] = useState<any>({});
@@ -31,7 +31,7 @@ const Chat = () => {
         const userStore = collection(db, 'users');
         const unsub = onSnapshot(userStore, (snapshot) => {
             const allTheUser = snapshot.docs.map(doc => doc.data());
-            setAllTheUsers([allTheUser])
+            setAllTheUsers(allTheUser)
 
         })
         return () => {
@@ -52,13 +52,14 @@ const [currentUser, setCurrentUser] = useState<User | any>({});
             const currentUser = allTheUsers.find((cUser: any) => {
             return cUser.userID === user.uid
             })
-            setCurrentUser({...currentUser})
+            setCurrentUser({ ...currentUser })
+            console.log("type", currentUser)
         }
        
             getCurrentUser();
        
     }, [allTheUsers])
-    console.log('all user', allUser)
+    // console.log('all user', allUser)
     console.log("current user", currentUser)
 
     // const searchUser = async () => {
@@ -78,20 +79,29 @@ const [currentUser, setCurrentUser] = useState<User | any>({});
             const combinedId = currentUser?.userID > theUserID ?
                 currentUser?.userID + theUserID :
                 theUserID + currentUser?.userID;
-            // const theDoc = 
-            // const res = getDoc(db, 'chats', combinedId);
-            // if ((await res).empty) {
-                await setDoc(doc(db, "chats", combinedId), { message: [] });
-           // }
+//          // const theDoc =
+// const res = getDoc(db, 'chats', combinedId);
+// if (!res.exists()) {
+//     await setDoc(doc(db, "chats", combinedId), { message: [] });
+// }
+
+                // Assuming 'db' is your Firestore database reference
+const docRef = doc(db, "chats", combinedId);
+const res = await getDoc(docRef);
+
+if (!res.exists()) {
+    await setDoc(docRef, { message: [] });
+}
+
 
             await updateDoc(doc(db, 'UserChats', currentUser.userID), {
-                [combinedId + ".userInfo"]: {
+                [combinedId+".userInfo"]: {
                     userID: currentUser.userID,
                     username: currentUser.username,
                     userPic: currentUser.userPic,
                 },
                 lastMessage: '',
-                [combinedId + ".date"] : serverTimestamp(),
+                [combinedId+".date"] : serverTimestamp(),
             })
             await updateDoc(doc(db, 'UserChats', theUserID), {
                 [combinedId + ".userInfo"]: {
@@ -104,7 +114,7 @@ const [currentUser, setCurrentUser] = useState<User | any>({});
             })
 
         } catch (error) {
-            
+            alert(error)
         }
     }
 //     const handleSelect = async () => {
@@ -201,7 +211,7 @@ const [dp, setDp] = useState<File | any>(null);
                         <div className="flex items-center w-full self-start justify-between gap-5 ">
                             <div className="flex flex-col gap-2">
                                 <div className="items-center flex relative">
-                                {currentUser.userPic? <Image alt={currentUser?.username} width={50} height={30} className="rounded-full h-[50px]" src={currentUser?.userPic} /> :
+                                {currentUser.userPic? <Image alt={currentUser.username} width={50} height={30} className="rounded-full h-[50px]" src={currentUser?.userPic} /> :
                             <FaUserCircle className="text-[50px] " />}
                                 <input type="file" onChange={(e) => {
                                     setDp(e.target.files?.[0])
@@ -224,7 +234,7 @@ const [dp, setDp] = useState<File | any>(null);
                             <div className="flex flex-col gap-5">
                               
                                 {
-                                    allUser?.map((users:any) => {
+                                    allTheUsers?.map((users:any) => {
                                         return <><Link onClick={() => startChat(users.userID)} key={users.userID} href='' className="flex gap-2 items-center">
                                         <FaUserCircle className="text-[40px] " />
                                         <div className="flex flex-col gap-[5px]">
