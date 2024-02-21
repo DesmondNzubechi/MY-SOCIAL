@@ -12,7 +12,8 @@ import { RiImageAddFill } from "react-icons/ri";
 import { FcAddImage } from "react-icons/fc";
 import { ProtectedRoute } from "@/app/components/protected  route/protected";
 import { userAuth } from "@/app/components/auths/auth";
-const User = () => {
+
+const User = ({params} : {params: {id: string}}) => {
 
     let userChat = [
         {
@@ -33,19 +34,19 @@ const User = () => {
     const user = userAuth();
     const [dp, setDp] = useState<any>(null);
     console.log(user)
-     const updateDp = async () => {
-         const dpRef = ref(storage, 'dp');
-         try {
-             const dpName = ref(dpRef, dp.name)
-             const uploadDp = await uploadBytes(dpName, dp);
-             const dpUrl = await getDownloadURL(uploadDp.ref);
-             await updateProfile(user, {
-               photoURL: dpUrl
-           })
-         } catch (error) {
+    //  const updateDp = async () => {
+    //      const dpRef = ref(storage, 'dp');
+    //      try {
+    //          const dpName = ref(dpRef, dp.name)
+    //          const uploadDp = await uploadBytes(dpName, dp);
+    //          const dpUrl = await getDownloadURL(uploadDp.ref);
+    //          await updateProfile(user, {
+    //            photoURL: dpUrl
+    //        })
+    //      } catch (error) {
              
-         }
-     }
+    //      }
+    //  }
 
     return (
         <div className="py-[20px] fixed w-full flex flex-row items-start gap-5  justify-around">
@@ -56,7 +57,7 @@ const User = () => {
                                 <FaUserCircle className="text-[50px] " />
                                 <input type="file" onChange={(e) => {
                                     setDp(e.target.files?.[0])
-                                    updateDp();
+                                  //  updateDp();
                                 }} name="image" className="hidden" id="image" />
                                 <label htmlFor="image" className="absolute text-[20px] bottom-[-5px] " >
                                     <FcAddImage />

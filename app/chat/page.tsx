@@ -79,11 +79,6 @@ const [currentUser, setCurrentUser] = useState<User | any>({});
             const combinedId = currentUser?.userID > theUserID ?
                 currentUser?.userID + theUserID :
                 theUserID + currentUser?.userID;
-//          // const theDoc =
-// const res = getDoc(db, 'chats', combinedId);
-// if (!res.exists()) {
-//     await setDoc(doc(db, "chats", combinedId), { message: [] });
-// }
 
                 // Assuming 'db' is your Firestore database reference
 const docRef = doc(db, "chats", combinedId);
@@ -104,13 +99,13 @@ if (!res.exists()) {
                 [combinedId+".date"] : serverTimestamp(),
             })
             await updateDoc(doc(db, 'UserChats', theUserID), {
-                [combinedId + ".userInfo"]: {
+                [combinedId+".userInfo"]: {
                     userID: currentUser.userID,
                     username: currentUser.username,
                     userPic: currentUser.userPic,
                 },
                 lastMessage: '',
-                [combinedId + ".date"] : serverTimestamp(),
+                [combinedId+".date"] : serverTimestamp(),
             })
 
         } catch (error) {
@@ -235,7 +230,7 @@ const [dp, setDp] = useState<File | any>(null);
                               
                                 {
                                     allTheUsers?.map((users:any) => {
-                                        return <><Link onClick={() => startChat(users.userID)} key={users.userID} href='' className="flex gap-2 items-center">
+                                        return <><Link  onClick={() => startChat(users.userID)} key={users.userID} href={`chat/${users.userID}`} className="flex gap-2 items-center">
                                         <FaUserCircle className="text-[40px] " />
                                         <div className="flex flex-col gap-[5px]">
                                             <div className="flex items-center flex-row gap-2">
