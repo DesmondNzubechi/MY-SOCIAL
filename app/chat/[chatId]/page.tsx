@@ -3,32 +3,66 @@ import Link from "next/link";
 import { IoMdSearch } from "react-icons/io";
 import { FaUserCircle } from "react-icons/fa";
 import { GoDotFill } from "react-icons/go";
-import { IoIosChatbubbles } from "react-icons/io";
+
 import { HiDotsHorizontal } from "react-icons/hi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import fvi from '../../../public/codes.jpg';
 import { RiImageAddFill } from "react-icons/ri";
 import { FcAddImage } from "react-icons/fc";
-import { ProtectedRoute } from "@/app/components/protected  route/protected";
+
 import { userAuth } from "@/app/components/auths/auth";
+import { AllUser } from "@/app/components/allUser/allUser";
 
-const User = ({params} : {params: {id: string}}) => {
+interface userInfo  {
+    userID: string,
+    username: string,
+    useremail: string,
+    userPic: string
+}
 
-    let userChat = [
-        {
-            name: 'Nzube',
-            message: "How are you doing",
-            id: "jsdhh",
-            userImg: ''
-        },
-        {
-            name: 'og man',
-            message: "How are you doing",
-            id: "js",
-            userImg: ''
-        }
-    ]
+const User = ({ params }: { params: { chatId: string } }) => {
+
+    const { chatId } = params; // Access the correct parameter name
+  
+    const allUser = AllUser();
+
+    const [userInfoState, setUserInfoState] = useState<userInfo>({
+        userID: '',
+        username: '',
+        useremail: '',
+        userPic: '',
+    });
+    console.log("routess", userInfoState);
+    console.log('params', params.chatId);
+
+    useEffect(() => {
+        const filterUser = () => {
+            const findUser = allUser.find((user: userInfo) => user.userID === chatId);
+            setUserInfoState(findUser || {
+                userID: '',
+                username: '',
+                useremail: '',
+                userPic: '',
+            });
+        };
+      filterUser()
+}, [chatId])
+    
+    // let userChat = [
+    //     {
+    //         name: 'Nzube',
+    //         message: "How are you doing",
+    //         id: "jsdhh",
+    //         userImg: ''
+    //     },
+    //     {
+    //         name: 'og man',
+    //         message: "How are you doing",
+    //         id: "js",
+    //         userImg: ''
+    //     }
+    // ]
 
     const [viewProfile, setViewprofile] = useState(false);
     const user = userAuth();
