@@ -13,6 +13,9 @@ import { FcAddImage } from "react-icons/fc";
 
 import { userAuth } from "@/app/components/auths/auth";
 import { AllUser } from "@/app/components/allUser/allUser";
+import { Timestamp, collection, doc, getDoc, getDocs, onSnapshot, query, serverTimestamp, setDoc, updateDoc, where } from "firebase/firestore";
+import { db } from "@/app/components/config/firebase";
+
 
 interface userInfo  {
     userID: string,
@@ -26,29 +29,28 @@ const User = ({ params }: { params: { chatId: string } }) => {
     const { chatId } = params; // Access the correct parameter name
   
     const allUser = AllUser();
-
     const [userInfoState, setUserInfoState] = useState<userInfo>({
         userID: '',
         username: '',
         useremail: '',
         userPic: '',
     });
-    console.log("routess", userInfoState);
-    console.log('params', params.chatId);
 
+   
+   
     useEffect(() => {
         const filterUser = () => {
-            const findUser = allUser.find((user: userInfo) => user.userID === chatId);
-            setUserInfoState(findUser || {
-                userID: '',
-                username: '',
-                useremail: '',
-                userPic: '',
-            });
+            const findUser = allUser.find((user: userInfo) => user.userID === params.chatId);
+            setUserInfoState(findUser);
+            console.log("find user",  findUser)
         };
+        
       filterUser()
-}, [chatId])
+}, [chatId, allUser])
     
+console.log("routess", userInfoState);
+console.log('params', params.chatId);
+console.log("all users", allUser)
     // let userChat = [
     //     {
     //         name: 'Nzube',
