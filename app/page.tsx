@@ -61,7 +61,7 @@ export default function Home() {
 
       await setDoc(doc(db, "UserChats", res.user.uid), {})
 router.push('/chat')
-    } catch (error) {
+    } catch (error) { 
       alert(error)
     }
   }

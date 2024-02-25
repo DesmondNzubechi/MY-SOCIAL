@@ -87,7 +87,7 @@ const res = await getDoc(docRef);
 if (!res.exists()) {
     await setDoc(docRef, { message: [] });
 }
-
+ 
 
             await updateDoc(doc(db, 'UserChats', currentUser.userID), {
                 [combinedId+".userInfo"]: {
@@ -112,48 +112,6 @@ if (!res.exists()) {
             alert(error)
         }
     }
-//     const handleSelect = async () => {
-//         try {
-//             const combineUserId = Mainuser.uid > user.uid
-//             ? Mainuser.uid + user.uid
-//             : user.uid + Mainuser.uid
-//         const res = await getDoc(db, "chats", combineUserId);
-//         if (!res.exist()) {
-//             //create chat in the chat collection
-//             await setDoc(doc, (db, "chats", combineUserId), { messages: [] });
-
-//             //create user chats
-// //             userChats: {
-// // userInfo{
-// //                     dn, img, id
-// //                 },
-// //                 lastMessage: '',
-// //                     date: Timestamp()
-//             //             }
-            
-//             await updateDoc(db, (db, 'userChats', Mainuser.id), {
-//                 [combineUserId + '.userInfo']: {
-//                     uid: user.id,
-//                     displayName: user.displayName,
-//                     photoURL: user.photoURL,
-//                 },
-//                [ combineUserId+'.date']: serverTimestamp()
-//             })
-
-//             await updateDoc(db, (db, 'userChats', user.id), {
-//                 [combineUserId+'.userInfo']: {
-//                     uid: Mainuser.id,
-//                     displayName: Mainuser.displayName,
-//                     photoURL: Mainuser.photoURL,
-//                 },
-//                [ combineUserId+'.date']: serverTimestamp()
-//             })
-//  }
-//         } catch (error) {
-            
-//         }
-      
-//     }
 
 
 const [dp, setDp] = useState<File | any>(null);

@@ -27,7 +27,7 @@ interface userInfo  {
 const User = ({ params }: { params: { chatId: string } }) => {
 
     const { chatId } = params; // Access the correct parameter name
-  
+    const user = userAuth();
     const allUser = AllUser();
     const [userInfoState, setUserInfoState] = useState<userInfo>({
         userID: '',
@@ -35,8 +35,27 @@ const User = ({ params }: { params: { chatId: string } }) => {
         useremail: '',
         userPic: '',
     });
+    
+    interface messageInfo {
+        senderId: string,
+        senderName: string,
+        messagTitle: string,
+        time: any
+    }
 
-   
+const [currentChat, setCurrentChat] = useState<Array<any>>([])
+
+    const [message, setMesage] = useState<messageInfo>({
+        senderId: '',
+        senderName: '',
+        messagTitle: '',
+      time:  null
+    })
+    
+    console.log("message", message)
+    const combinedId = user?.uid > params.chatId ?
+        user?.uid + params.chatId :
+        params.chatId + user?.uid;
    
     useEffect(() => {
         const filterUser = () => {
@@ -46,43 +65,57 @@ const User = ({ params }: { params: { chatId: string } }) => {
         };
         
       filterUser()
-}, [chatId, allUser])
+    }, [chatId, allUser])
     
-console.log("routess", userInfoState);
-console.log('params', params.chatId);
-console.log("all users", allUser)
-    // let userChat = [
-    //     {
-    //         name: 'Nzube',
-    //         message: "How are you doing",
-    //         id: "jsdhh",
-    //         userImg: ''
-    //     },
-    //     {
-    //         name: 'og man',
-    //         message: "How are you doing",
-    //         id: "js",
-    //         userImg: ''
-    //     }
-    // ]
+    useEffect(() => {
+        const chatStore = doc(db, 'chats', combinedId);
+        console.log('combine id', combinedId);
 
+        const unsubscribe = onSnapshot(chatStore, (theChatSnapshot) => {
+            try {
+                // Check if the document exists before accessing data
+                if (theChatSnapshot.exists()) {
+                    const theChat = theChatSnapshot.data();
+                    setCurrentChat([theChat]); // Use an array if you are storing multiple chat documents
+                    console.log('current chat', currentChat);
+                } else {
+                    // Handle case where the document doesn't exist
+                    console.log('Chat document does not exist');
+                }
+            } catch (error) {
+                console.error('Error processing chat snapshot:', error);
+            }
+        });
+
+        return () => unsubscribe();
+    }, [combinedId, message]);
+
+    
+    const sendAMessage = async () => {
+        if (message.messagTitle === '') {
+            alert("please in put message");
+            return;
+        }
+        try {
+            const chatRef = doc(db, 'chats', combinedId);
+        await updateDoc(chatRef, {
+            message: [...currentChat, message]
+        })
+            alert("message succesful")
+        } catch (error) {
+           alert(error) 
+        }
+        
+    }
+    
+// console.log("routess", userInfoState);
+// console.log('params', params.chatId);
+// console.log("all users", allUser)
+   
     const [viewProfile, setViewprofile] = useState(false);
-    const user = userAuth();
     const [dp, setDp] = useState<any>(null);
-    console.log(user)
-    //  const updateDp = async () => {
-    //      const dpRef = ref(storage, 'dp');
-    //      try {
-    //          const dpName = ref(dpRef, dp.name)
-    //          const uploadDp = await uploadBytes(dpName, dp);
-    //          const dpUrl = await getDownloadURL(uploadDp.ref);
-    //          await updateProfile(user, {
-    //            photoURL: dpUrl
-    //        })
-    //      } catch (error) {
-             
-    //      }
-    //  }
+    console.log("current user", user)
+    
 
     return (
         <div className="py-[20px] fixed w-full flex flex-row items-start gap-5  justify-around">
@@ -182,7 +215,7 @@ console.log("all users", allUser)
                 <div className="left-0  md:left-[363px]  px-[20px] flex right-0 items-center justify-between  gap-3 p-2 rounded fixed bg-slate-200 top-0">
                     <div className="flex gap-2 items-center">
                     <FaUserCircle className="text-[40px]" />
-                    <h1 className="uppercase font-medium text-[20px] ">Desmond Nzubechukwu</h1>
+                        <h1 className="uppercase font-medium text-[20px] ">{ userInfoState?.username}</h1>
                     </div>
                     <HiDotsHorizontal onClick={() => {
                         if (!viewProfile) {
@@ -235,12 +268,19 @@ console.log("all users", allUser)
                 </div>
                 
                 <form action=""  className="left-0  md:left-[363px] flex gap-2 right-0 items-center p-2 rounded fixed bg-slate-200 bottom-0">
-                    <input type="text" name="" placeholder="Write you message here" className=" py-[10px] text-[20px] bg-transparent outline-none  w-full rounded " id="" />
+                    <input type="text" onChange={(e) => {
+                        setMesage({
+                            messagTitle: e.target.value,
+                            senderId: user.uid,
+                            senderName: user.displayName,
+                            time: 'january',
+                        })
+                    }} name="" placeholder="Write you message here" className=" py-[10px] text-[20px] bg-transparent outline-none  w-full rounded " id="" />
                     <input type="file" className="hidden " name="file" id="file" />
                     <label htmlFor="file">
                     <RiImageAddFill className="text-[40px] rounded-full    "/>
                     </label>
-                    <button className="bg-sky-500 py-[5px] shadow-2xl rounded-[7px] text-slate-50 text-[20px]  px-[20px]">Send</button>
+                    <button onClick={sendAMessage} className="bg-sky-500 py-[5px] shadow-2xl rounded-[7px] text-slate-50 text-[20px]  px-[20px]" type="button">Send</button>
            </form>
             </div>
             </div>
