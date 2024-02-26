@@ -136,7 +136,8 @@ const [currentChat, setCurrentChat] = useState<any>([])
                 <h1 className="uppercase text-[30px] text-center font-bold">myu chat</h1>
                 <div className="flex items-center w-full self-start justify-between gap-5 ">
                 <div className="items-center flex relative">
-                                <FaUserCircle className="text-[50px] " />
+                {user?.photoURL? <Image alt={user?.photoURL} width={50} height={30} className="rounded-full h-[50px]" src={user?.photoURL} /> :
+                            <FaUserCircle className="text-[50px] " />}
                                 <input type="file" onChange={(e) => {
                                     setDp(e.target.files?.[0])
                                   //  updateDp();
@@ -227,7 +228,7 @@ const [currentChat, setCurrentChat] = useState<any>([])
             <div className="flex flex-col overflow-y-auto overflow-x-hidden h-[100vh] gap-y-[50px] px-[20px] relative bg-contain justify-around w-full ">
                 <div className="left-0  md:left-[363px]  px-[20px] flex right-0 items-center justify-between  gap-3 p-2 rounded fixed bg-slate-200 top-0">
                     <div className="flex gap-2 items-center">
-                    <FaUserCircle className="text-[40px]" />
+                   {userInfoState?.userPic ? <Image alt={userInfoState?.username} width={50} height={30} className="rounded-full h-[50px]" src={userInfoState?.userPic} /> : <FaUserCircle className="text-[50px] " />}
                         <h1 className="uppercase font-medium text-[20px] ">{ userInfoState?.username}</h1>
                     </div>
                     <HiDotsHorizontal onClick={() => {
