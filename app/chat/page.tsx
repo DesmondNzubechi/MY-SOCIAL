@@ -50,7 +50,7 @@ const [currentUser, setCurrentUser] = useState<User | any>({});
     useEffect(() => {
         const getCurrentUser = () => {
             const currentUser = allTheUsers.find((cUser: any) => {
-            return cUser.userID === user.uid
+            return cUser.userID === user?.uid
             })
             setCurrentUser({ ...currentUser })
             console.log("type", currentUser)

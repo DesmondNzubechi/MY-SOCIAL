@@ -5,7 +5,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { GoDotFill } from "react-icons/go";
 
 import { HiDotsHorizontal } from "react-icons/hi";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import fvi from '../../../public/codes.jpg';
 import { RiImageAddFill } from "react-icons/ri";
@@ -35,6 +35,7 @@ const User = ({ params }: { params: { chatId: string } }) => {
         useremail: '',
         userPic: '',
     });
+
     
     const arrayObj = [{}, {}, {}];
     console.log("array obj", arrayObj)
@@ -53,7 +54,15 @@ const [currentChat, setCurrentChat] = useState<any>([])
         messagTitle: '',
       time:  null
     })
+
+    const lastMessageRef = useRef<HTMLDivElement | null>(null);
     
+    useEffect(() => {
+        if (lastMessageRef.current) {
+            lastMessageRef.current.scrollIntoView({behavior: "smooth"})
+        }
+    }, [currentChat.message])
+
     console.log("message", message)
     const combinedId = user?.uid > params.chatId ?
         user?.uid + params.chatId :
@@ -234,7 +243,7 @@ const [currentChat, setCurrentChat] = useState<any>([])
                 <div className="flex pt-[200px] pb-[120px]  items-center flex-col gap-y-[50px]">
                     {
                         currentChat?.message?.map((chats: messageInfo) => {
-                            return <div className={`flex items-center ${chats?.senderId === chatId? "self-start" : "self-end" }   ${chats?.senderId === chatId? "flex-row" : "flex-row-reverse" }  gap-2`}>
+                            return <div  ref={(el) => (lastMessageRef.current = el)} className={`flex items-center ${chats?.senderId === chatId? "self-start" : "self-end" }   ${chats?.senderId === chatId? "flex-row" : "flex-row-reverse" }  gap-2`}>
                            <FaUserCircle className="text-[40px]"/>
                                 <p className={` ${chats?.senderId === chatId? ' p-[20px] bg-slate-500 text-[20px] text-white rounded-tl-[10px] rounded-r-[15px]' : "p-[20px] bg-sky-500 text-[20px] text-white rounded-tr-[10px] rounded-l-[15px] "} `}>{chats?.messagTitle}</p>
                               
