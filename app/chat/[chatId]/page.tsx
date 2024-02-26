@@ -36,6 +36,8 @@ const User = ({ params }: { params: { chatId: string } }) => {
         userPic: '',
     });
     
+    const arrayObj = [{}, {}, {}];
+    console.log("array obj", arrayObj)
     interface messageInfo {
         senderId: string,
         senderName: string,
@@ -43,7 +45,7 @@ const User = ({ params }: { params: { chatId: string } }) => {
         time: any
     }
 
-const [currentChat, setCurrentChat] = useState<Array<any>>([])
+const [currentChat, setCurrentChat] = useState<any>([])
 
     const [message, setMesage] = useState<messageInfo>({
         senderId: '',
@@ -76,7 +78,7 @@ const [currentChat, setCurrentChat] = useState<Array<any>>([])
                 // Check if the document exists before accessing data
                 if (theChatSnapshot.exists()) {
                     const theChat = theChatSnapshot.data();
-                    setCurrentChat([theChat]); // Use an array if you are storing multiple chat documents
+                    setCurrentChat(theChat); // Use an array if you are storing multiple chat documents
                     console.log('current chat', currentChat);
                 } else {
                     // Handle case where the document doesn't exist
@@ -88,7 +90,8 @@ const [currentChat, setCurrentChat] = useState<Array<any>>([])
         });
 
         return () => unsubscribe();
-    }, [combinedId, message]);
+    }, [combinedId, params.chatId, message.messagTitle]);
+
 
     
     const sendAMessage = async () => {
@@ -99,7 +102,7 @@ const [currentChat, setCurrentChat] = useState<Array<any>>([])
         try {
             const chatRef = doc(db, 'chats', combinedId);
         await updateDoc(chatRef, {
-            message: [...currentChat, message]
+            message: [...currentChat?.message, message]
         })
             alert("message succesful")
         } catch (error) {
@@ -229,49 +232,35 @@ const [currentChat, setCurrentChat] = useState<Array<any>>([])
                  
            </div>
                 <div className="flex pt-[200px] pb-[120px]  items-center flex-col gap-y-[50px]">
-                <div className="flex items-center  self-start  gap-2">
+                    {
+                        currentChat?.message?.map((chats: messageInfo) => {
+                            return <div className={`flex items-center ${chats?.senderId === chatId? "self-start" : "self-end" }   ${chats?.senderId === chatId? "flex-row" : "flex-row-reverse" }  gap-2`}>
+                           <FaUserCircle className="text-[40px]"/>
+                                <p className={` ${chats?.senderId === chatId? ' p-[20px] bg-slate-500 text-[20px] text-white rounded-tl-[10px] rounded-r-[15px]' : "p-[20px] bg-sky-500 text-[20px] text-white rounded-tr-[10px] rounded-l-[15px] "} `}>{chats?.messagTitle}</p>
+                              
+                            </div>
+                        })
+                }
+                    {/* <div className="flex items-center  self-start  gap-2">
                     <FaUserCircle className="text-[40px]"/>
                     <p className="p-[20px] bg-slate-500 text-[20px] text-white rounded-tl-[10px] rounded-r-[15px] ">What's good ]?</p>
                 </div>
+               
                 <div className="flex items-center self-end align-end gap-2">
                     <p className="p-[20px] bg-sky-500 text-[20px] text-white rounded-tr-[10px] rounded-l-[15px] ">What's good?</p>
                     <FaUserCircle className="text-[40px]"/>
-                    </div>
-                    <div className="flex items-center  self-start  gap-2">
-                    <FaUserCircle className="text-[40px]"/>
-                    <p className="p-[20px] bg-slate-500 text-[20px] text-white rounded-tl-[10px] rounded-r-[15px] ">What's good ]?</p>
-                </div>
-                <div className="flex items-center self-end align-end gap-2">
-                    <p className="p-[20px] bg-sky-500 text-[20px] text-white rounded-tr-[10px] rounded-l-[15px] ">What's good?</p>
-                    <FaUserCircle className="text-[40px]"/>
-                    </div>
-                    <div className="flex items-center  self-start  gap-2">
-                    <FaUserCircle className="text-[40px]"/>
-                    <p className="p-[20px] bg-slate-500 text-[20px] text-white rounded-tl-[10px] rounded-r-[15px] ">What's good ]?</p>
-                </div>
-                <div className="flex items-center self-end align-end gap-2">
-                    <p className="p-[20px] bg-sky-500 text-[20px] text-white rounded-tr-[10px] rounded-l-[15px] ">What's good?</p>
-                    <FaUserCircle className="text-[40px]"/>
-                    </div>
-                    <div className="flex items-center  self-start  gap-2">
-                    <FaUserCircle className="text-[40px]"/>
-                    <p className="p-[20px] bg-slate-500 text-[20px] text-white rounded-tl-[10px] rounded-r-[15px] ">What's good ]?</p>
-                </div>
-                <div className="flex items-center self-end align-end gap-2">
-                    <p className="p-[20px] bg-sky-500 text-[20px] text-white rounded-tr-[10px] rounded-l-[15px] ">What's good?</p>
-                    <FaUserCircle className="text-[40px]"/>
-                    </div>
-                    <div className="flex items-center self-end align-end gap-2">
+                    </div> */}
+                    {/* <div className="flex items-center self-end align-end gap-2">
                         <Image alt="" width={200} height={200} className="w-[200px] shadow-2xl rounded " src={fvi} />
                     <FaUserCircle className="text-[40px]"/>
-                </div>
+                </div> */}
                 </div>
                 
                 <form action=""  className="left-0  md:left-[363px] flex gap-2 right-0 items-center p-2 rounded fixed bg-slate-200 bottom-0">
                     <input type="text" onChange={(e) => {
                         setMesage({
                             messagTitle: e.target.value,
-                            senderId: user.uid,
+                            senderId: user?.uid,
                             senderName: user.displayName,
                             time: 'january',
                         })
