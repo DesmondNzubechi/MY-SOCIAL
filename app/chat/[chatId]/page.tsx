@@ -43,7 +43,8 @@ const User = ({ params }: { params: { chatId: string } }) => {
         senderId: string,
         senderName: string,
         messagTitle: string,
-        time: any
+        time: any,
+       
     }
 
 const [currentChat, setCurrentChat] = useState<any>([])
@@ -244,7 +245,8 @@ const [currentChat, setCurrentChat] = useState<any>([])
                     {
                         currentChat?.message?.map((chats: messageInfo) => {
                             return <div  ref={(el) => (lastMessageRef.current = el)} className={`flex items-center ${chats?.senderId === chatId? "self-start" : "self-end" }   ${chats?.senderId === chatId? "flex-row" : "flex-row-reverse" }  gap-2`}>
-                           <FaUserCircle className="text-[40px]"/>
+                                {chats?.senderId === chatId && (userInfoState?.userPic ? <Image alt={userInfoState?.username} width={50} height={30} className="rounded-full h-[50px]" src={userInfoState?.userPic} /> : <FaUserCircle className="text-[50px] " />)}
+                                {chats?.senderId !== chatId &&  (user?.photoURL ? <Image alt={userInfoState?.username} width={50} height={30} className="rounded-full h-[50px]" src={user?.photoURL} /> :<FaUserCircle className="text-[50px] " />)}
                                 <p className={` ${chats?.senderId === chatId? ' p-[20px] bg-slate-500 text-[20px] text-white rounded-tl-[10px] rounded-r-[15px]' : "p-[20px] bg-sky-500 text-[20px] text-white rounded-tr-[10px] rounded-l-[15px] "} `}>{chats?.messagTitle}</p>
                               
                             </div>
