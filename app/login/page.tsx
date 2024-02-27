@@ -51,7 +51,7 @@ export default function Login() {
         </div>
        
         <button onClick={signInUser} type="button" className="border   w-full rounded text-slate-50 p-2 font-semibold">Login</button>
-       <p className="text-slate-400 text-center  ">Don't have an account yet? <Link className="text-slate-50" href='/'>Sign up</Link></p>
+       <p className="text-slate-400 text-center  ">Don't have an account yet? <Link className="text-slate-50" href='/signup'>Sign up</Link></p>
    </form>
       </div>}
       </>

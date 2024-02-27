@@ -158,11 +158,11 @@ const [dp, setDp] = useState<File | any>(null);
     return (
         <>
             {user ? (
-                <div className="py-[20px] flex flex-row items-center gap-5  justify-evenly">
-                    <div className="flex flex-col max-h-[100vh] md:overflow-y-scroll gap-5 px-[20px] py-[20px] items-center ">
+                <div className="py-[20px] flex flex-row items-center gap-5  fixed left-0 right-0 top-0 bottom-0 justify-evenly">
+                    <div className="flex flex-col max-h-[100vh] w-full overflow-y-scroll gap-5 px-[10px] py-[20px] pt-[100px]  bg-slate-100 items-center ">
                         <h1 className="uppercase text-[30px] text-center font-bold">myu chat</h1>
-                        <div className="flex items-center w-full self-start justify-between gap-5 ">
-                            <div className="flex flex-col gap-2">
+                        <div className="flex items-center w-full self-start justify-center gap-5 ">
+                            <div className="flex self-start flex-col gap-2">
                                 <div className="items-center flex relative">
                                 {currentUser.userPic? <Image alt={currentUser.username} width={50} height={30} className="rounded-full h-[50px]" src={currentUser?.userPic} /> :
                             <FaUserCircle className="text-[50px] " />}
@@ -177,26 +177,27 @@ const [dp, setDp] = useState<File | any>(null);
                             {/* <button className="bg-slate-900 text-slate-50 rounded-[5px] shadow-2xl ">Update</button> */}
                             </div>
                            
-                            <button onClick={() => logOutUser()} className="bg-red-500 p-1 text-slate-50 px-[20px] rounded text-[20px] font-medium">Logout</button>
+                            {/* <button onClick={() => logOutUser()} className="bg-red-500 p-1 text-slate-50 px-[20px] rounded text-[20px] font-medium">Logout</button> */}
                         </div>
                         <div className="flex flex-col gap-5">
-                            <div className="flex items-center border px-5 border-[2px] bg-slate-100 gap-1 rounded-[20px] justify-center">
-                                <input type="search" name="" className="outline-none bg-transparent p-2" placeholder="Serach for messages" id="" />
+                            <div className="flex items-center  border px-5 border-[2px] bg-slate-100 gap-1 rounded-[10px] justify-center">
+                                <input type="search" name="" className="outline-none w-full bg-transparent p-2" placeholder="Serach for messages" id="" />
                                 <IoMdSearch />
                             </div>
-                            <div className="flex flex-col gap-5">
+                            <div className="flex w-full flex-col gap-5">
                               
                                 {
                                     allTheUsers?.map((users:any) => {
-                                        return <><Link  onClick={() => startChat(users.userID)} key={users.userID} href={`chat/${users.userID}`} className="flex gap-2 items-center">
+                                        return <><Link  onClick={() => startChat(users.userID)} key={users.userID} href={`chat/${users.userID}`} className="flex w-full gap-2 items-center">
                                         <FaUserCircle className="text-[40px] " />
                                         <div className="flex flex-col gap-[5px]">
                                             <div className="flex items-center flex-row gap-2">
-                                                    <h1 className="text-slate-900 text-[15px] font-semibold">{users?.username}</h1> <p className="text-slate-500 text-[15px]">@{users?.username}</p><GoDotFill className="text-[10px]" /> <p className="text-slate-400 text-[12px]">Feb 5</p>
-                                            </div>
-                                            <div>
+                                                    <h1 className="text-slate-900 text-[15px] uppercase font-bold font-semibold">{users?.username}</h1> <p className="text-slate-500 text-[15px]">@{users?.username}</p>
+                                                </div>
+                                                
+                                            {/* <div>
                                                 <p className="text-slate-500 text-[15px]">Hello, How are you doing?</p>
-                                            </div>
+                                            </div> */}
                                             </div>
                                         </Link>
                                             <hr />
@@ -206,7 +207,7 @@ const [dp, setDp] = useState<File | any>(null);
                             </div>
                         </div>
                     </div>
-                    <div className="hidden md:flex flex-col items-center justify-self-center">
+                    <div className="hidden md:flex w-full flex-col items-center justify-self-center">
                         <IoIosChatbubbles className="text-[100px]" />
                         <h1 className="uppercase font-bold  text-[30px]">Select a message</h1>
                         <p className="text-slate-500">Choose from your existing conversations, start a new one.</p>
