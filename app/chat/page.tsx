@@ -158,12 +158,12 @@ const [dp, setDp] = useState<File | any>(null);
     return (
         <>
             {user ? (
-                <div className="py-[20px] flex flex-row items-center gap-5  fixed left-0 right-0 top-0 bottom-0 justify-evenly">
+                <div className="py-[20px] flex flex-row items-center gap-5  absolute left-0 right-0 top-0 bottom-0 justify-evenly">
                     <div className="flex flex-col max-h-[100vh] w-full overflow-y-scroll gap-5 px-[10px] py-[20px] pt-[100px]  bg-slate-100 items-center ">
-                        <h1 className="uppercase text-[30px] text-center font-bold">myu chat</h1>
+                        <h1 className="uppercase text-[30px] text-center font-bold">all the chats</h1>
                         <div className="flex items-center w-full self-start justify-center gap-5 ">
                             <div className="flex self-start flex-col gap-2">
-                                <div className="items-center flex relative">
+                                {/* <div className="items-center flex relative">
                                 {currentUser.userPic? <Image alt={currentUser.username} width={50} height={30} className="rounded-full h-[50px]" src={currentUser?.userPic} /> :
                             <FaUserCircle className="text-[50px] " />}
                                 <input type="file" onChange={(e) => {
@@ -173,7 +173,7 @@ const [dp, setDp] = useState<File | any>(null);
                                     <FcAddImage />
                                 </label>
                                 <h1 className="font-medium text-[20px] ">@{currentUser?.username}</h1>
-                                </div>
+                                </div> */}
                             {/* <button className="bg-slate-900 text-slate-50 rounded-[5px] shadow-2xl ">Update</button> */}
                             </div>
                            
@@ -209,7 +209,7 @@ const [dp, setDp] = useState<File | any>(null);
                     </div>
                     <div className="hidden md:flex w-full flex-col items-center justify-self-center">
                         <IoIosChatbubbles className="text-[100px]" />
-                        <h1 className="uppercase font-bold  text-[30px]">Select a message</h1>
+                        <h1 className="uppercase font-bold  text-[30px]">Click on a user</h1>
                         <p className="text-slate-500">Choose from your existing conversations, start a new one.</p>
                     </div>
                 </div>) : (

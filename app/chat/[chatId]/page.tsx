@@ -37,8 +37,7 @@ const User = ({ params }: { params: { chatId: string } }) => {
     });
 
     
-    const arrayObj = [{}, {}, {}];
-    console.log("array obj", arrayObj)
+
     interface messageInfo {
         senderId: string,
         senderName: string,
@@ -64,7 +63,7 @@ const [currentChat, setCurrentChat] = useState<any>([])
         }
     }, [currentChat.message])
 
-    console.log("message", message)
+    
     const combinedId = user?.uid > params.chatId ?
         user?.uid + params.chatId :
         params.chatId + user?.uid;
@@ -79,6 +78,22 @@ const [currentChat, setCurrentChat] = useState<any>([])
       filterUser()
     }, [chatId, allUser])
     
+    useEffect(() => {
+        if (user) {
+            const userChatRef = doc(db, "UserChats", user?.uid);
+            const unsub = onSnapshot(userChatRef, (userChatSnapshot) => {
+                try {
+                        const userChat = userChatSnapshot.data();
+                    console.log("users chats", userChat)
+                } catch (error) {
+                    alert(error)
+                }
+            })
+            return () => unsub()
+        }
+       
+    }, [user])
+
     useEffect(() => {
         const chatStore = doc(db, 'chats', combinedId);
         console.log('combine id', combinedId);
@@ -132,101 +147,56 @@ const [currentChat, setCurrentChat] = useState<any>([])
 
     return (
         <div className="py-[20px] fixed w-full flex flex-row items-start gap-5  justify-around">
-            <div className=" hidden md:flex flex-col max-h-[100vh] overflow-y-auto gap-5 overflow-x-hidden px-[30px] py-[20px] items-center ">
-                <h1 className="uppercase text-[30px] text-center font-bold">myu chat</h1>
-                <div className="flex items-center w-full self-start justify-between gap-5 ">
-                <div className="items-center flex relative">
-                {user?.photoURL? <Image alt={user?.photoURL} width={50} height={30} className="rounded-full h-[50px]" src={user?.photoURL} /> :
+         <div className="flex flex-col max-h-[100vh] w-full overflow-y-scroll gap-5 px-[10px] py-[20px] pt-[100px]  bg-slate-100 items-center ">
+                        <h1 className="uppercase text-[30px] text-center font-bold">all the chats</h1>
+                        <div className="flex items-center w-full self-start justify-center gap-5 ">
+                            <div className="flex self-start flex-col gap-2">
+                                {/* <div className="items-center flex relative">
+                                {currentUser.userPic? <Image alt={currentUser.username} width={50} height={30} className="rounded-full h-[50px]" src={currentUser?.userPic} /> :
                             <FaUserCircle className="text-[50px] " />}
                                 <input type="file" onChange={(e) => {
                                     setDp(e.target.files?.[0])
-                                  //  updateDp();
                                 }} name="image" className="hidden" id="image" />
                                 <label htmlFor="image" className="absolute text-[20px] bottom-[-5px] " >
                                     <FcAddImage />
                                 </label>
-                                <h1 className="font-medium text-[20px] ">@{user?.displayName}</h1>
-                                </div>
-                    <button className="bg-red-500 p-1 text-slate-50 px-[20px] rounded text-[20px] font-medium">Logout</button>
-                </div>
-                <div className="flex flex-col gap-5">
-                <div className="flex items-center border px-5 border-[2px] bg-slate-100 gap-1 rounded-[20px] justify-center">
-                    <input type="search" name="" className="outline-none bg-transparent p-2" placeholder="Serach for messages" id="" />
-                    <IoMdSearch />
-                </div>
-                <div className="flex flex-col gap-5">
-                <Link href='' className="flex gap-2 items-center">
-                <FaUserCircle className="text-[40px] "/>
-                    <div className="flex flex-col gap-[5px]">
-                    <div className="flex items-center flex-row gap-2">
-                    <h1 className="text-slate-900 text-[15px] font-semibold">Desmond Nzubechukwu</h1> <p className="text-slate-500 text-[15px]">@NzubechukwuDev</p><GoDotFill className="text-[10px]"/> <p className="text-slate-400 text-[12px]">Feb 5</p>
+                                <h1 className="font-medium text-[20px] ">@{currentUser?.username}</h1>
+                                </div> */}
+                            {/* <button className="bg-slate-900 text-slate-50 rounded-[5px] shadow-2xl ">Update</button> */}
+                            </div>
+                           
+                            {/* <button onClick={() => logOutUser()} className="bg-red-500 p-1 text-slate-50 px-[20px] rounded text-[20px] font-medium">Logout</button> */}
+                        </div>
+                        <div className="flex flex-col gap-5">
+                            <div className="flex items-center  border px-5 border-[2px] bg-slate-100 gap-1 rounded-[10px] justify-center">
+                                <input type="search" name="" className="outline-none w-full bg-transparent p-2" placeholder="Serach for messages" id="" />
+                                <IoMdSearch />
+                            </div>
+                            <div className="flex w-full flex-col gap-5">
+                              
+                                {
+                                    allUser?.map((users:any) => {
+                                        return <><Link  onClick={() => startChat(users.userID)} key={users.userID} href={`chat/${users.userID}`} className="flex w-full gap-2 items-center">
+                                        <FaUserCircle className="text-[40px] " />
+                                        <div className="flex flex-col gap-[5px]">
+                                            <div className="flex items-center flex-row gap-2">
+                                                    <h1 className="text-slate-900 text-[15px] uppercase font-bold font-semibold">{users?.username}</h1> <p className="text-slate-500 md:flex hidden text-[15px]">@{users?.username}</p>
+                                                </div>
+                                                
+                                            {/* <div>
+                                                <p className="text-slate-500 text-[15px]">Hello, How are you doing?</p>
+                                            </div> */}
+                                            </div>
+                                        </Link>
+                                            <hr />
+                                            </>
+                                    })
+                                }
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <p className="text-slate-500 text-[15px]">Hello, How are you doing?</p>
-                    </div>
-                    </div>
-                    </Link>
-                    <hr /> <Link href='' className="flex gap-2 items-center">
-                <FaUserCircle className="text-[40px] "/>
-                    <div className="flex flex-col gap-[5px]">
-                    <div className="flex items-center flex-row gap-2">
-                    <h1 className="text-slate-900 text-[15px] font-semibold">Desmond Nzubechukwu</h1> <p className="text-slate-500 text-[15px]">@NzubechukwuDev</p><GoDotFill className="text-[10px]"/> <p className="text-slate-400 text-[12px]">Feb 5</p>
-                    </div>
-                    <div>
-                        <p className="text-slate-500 text-[15px]">Hello, How are you doing?</p>
-                    </div>
-                    </div>
-                    </Link>
-                    <hr /> <Link href='' className="flex gap-2 items-center">
-                <FaUserCircle className="text-[40px] "/>
-                    <div className="flex flex-col gap-[5px]">
-                    <div className="flex items-center flex-row gap-2">
-                    <h1 className="text-slate-900 text-[15px] font-semibold">Desmond Nzubechukwu</h1> <p className="text-slate-500 text-[15px]">@NzubechukwuDev</p><GoDotFill className="text-[10px]"/> <p className="text-slate-400 text-[12px]">Feb 5</p>
-                    </div>
-                    <div>
-                        <p className="text-slate-500 text-[15px]">Hello, How are you doing?</p>
-                    </div>
-                    </div>
-                    </Link>
-                    <hr /> <Link href='' className="flex gap-2 items-center">
-                <FaUserCircle className="text-[40px] "/>
-                    <div className="flex flex-col gap-[5px]">
-                    <div className="flex items-center flex-row gap-2">
-                    <h1 className="text-slate-900 text-[15px] font-semibold">Desmond Nzubechukwu</h1> <p className="text-slate-500 text-[15px]">@NzubechukwuDev</p><GoDotFill className="text-[10px]"/> <p className="text-slate-400 text-[12px]">Feb 5</p>
-                    </div>
-                    <div>
-                        <p className="text-slate-500 text-[15px]">Hello, How are you doing?</p>
-                    </div>
-                    </div>
-                    </Link>
-                    <hr /> <Link href='' className="flex gap-2 items-center">
-                <FaUserCircle className="text-[40px] "/>
-                    <div className="flex flex-col gap-[5px]">
-                    <div className="flex items-center flex-row gap-2">
-                    <h1 className="text-slate-900 text-[15px] font-semibold">Desmond Nzubechukwu</h1> <p className="text-slate-500 text-[15px]">@NzubechukwuDev</p><GoDotFill className="text-[10px]"/> <p className="text-slate-400 text-[12px]">Feb 5</p>
-                    </div>
-                    <div>
-                        <p className="text-slate-500 text-[15px]">Hello, How are you doing?</p>
-                    </div>
-                    </div>
-                    </Link>
-                    <hr /> <Link href='' className="flex gap-2 items-center">
-                <FaUserCircle className="text-[40px] "/>
-                    <div className="flex flex-col gap-[5px]">
-                    <div className="flex items-center flex-row gap-2">
-                    <h1 className="text-slate-900 text-[15px] font-semibold">Desmond Nzubechukwu</h1> <p className="text-slate-500 text-[15px]">@NzubechukwuDev</p><GoDotFill className="text-[10px]"/> <p className="text-slate-400 text-[12px]">Feb 5</p>
-                    </div>
-                    <div>
-                        <p className="text-slate-500 text-[15px]">Hello, How are you doing?</p>
-                    </div>
-                    </div>
-                    </Link>
-                    <hr />
-                    </div>
-                </div>
-            </div>
             <div className="flex flex-col overflow-y-auto overflow-x-hidden h-[100vh] gap-y-[50px] px-[20px] relative bg-contain justify-around w-full ">
-                <div className="left-0  md:left-[363px]  px-[20px] flex right-0 items-center justify-between  gap-3 p-2 rounded fixed bg-slate-200 top-0">
+                <div className="right-0  px-[20px] flex  items-center justify-between w-full  gap-3 p-2 rounded fixed bg-slate-200 top-0">
                     <div className="flex gap-2 items-center">
                    {userInfoState?.userPic ? <Image alt={userInfoState?.username} width={50} height={30} className="rounded-full h-[50px]" src={userInfoState?.userPic} /> : <FaUserCircle className="text-[50px] " />}
                         <h1 className="uppercase font-medium text-[20px] ">{ userInfoState?.username}</h1>
@@ -268,7 +238,7 @@ const [currentChat, setCurrentChat] = useState<any>([])
                 </div> */}
                 </div>
                 
-                <form action=""  className="left-0  md:left-[363px] flex gap-2 right-0 items-center p-2 rounded fixed bg-slate-200 bottom-0">
+                <form action=""  className="left-0  w-full flex gap-2 right-0 items-center p-2 rounded fixed bg-slate-200 bottom-0">
                     <input type="text" onChange={(e) => {
                         setMesage({
                             messagTitle: e.target.value,
