@@ -144,26 +144,78 @@ const [dp, setDp] = useState<File | any>(null);
 
     }, [dp])
 
-    const logOutUser = async () => {
-        console.log('hhghd')
-        const confirmLogout = confirm("Are you sure that you want to logout?")
-        if (!confirmLogout) return;
+    // const logOutUser = async () => {
+    //     console.log('hhghd')
+    //     const confirmLogout = confirm("Are you sure that you want to logout?")
+    //     if (!confirmLogout) return;
+    //     try {
+    //        await signOut(auth) 
+    //     } catch (error: any) {
+    //        alert(error.message) 
+    //     }
+    // }
+    
+    const createChats = async (theUserID: string) => {
         try {
-           await signOut(auth) 
-        } catch (error: any) {
-           alert(error.message) 
+            // Iterate through all users
+            for (const user of allTheUsers) {
+                // Skip the current user
+                if (user.userID === currentUser.userID) {
+                    continue;
+                }
+    
+                // Combine user IDs
+                const combinedId =
+                    currentUser.userID > user.userID
+                        ? currentUser.userID + user.userID
+                        : user.userID + currentUser.userID;
+    
+                // Assuming 'db' is your Firestore database reference
+                const docRef = doc(db, "chats", combinedId);
+                const res = await getDoc(docRef);
+    
+                // Check if the document exists, and create if not
+                if (!res.exists()) {
+                    await setDoc(docRef, { message: [], lasMessage: 'start chats' });
+                }
+    
+                // Update UserChats for the current user
+                await updateDoc(doc(db, 'UserChats', currentUser.userID), {
+                    [combinedId + ".userInfo"]: {
+                        userID: user.userID,
+                        username: user.username,
+                        userPic: user.userPic,
+                    },
+                    lastMessage: '',
+                    [combinedId + ".date"]: serverTimestamp(),
+                });
+    
+                // Update UserChats for the other user
+                await updateDoc(doc(db, 'UserChats', user.userID), {
+                    [combinedId + ".userInfo"]: {
+                        userID: currentUser.userID,
+                        username: currentUser.username,
+                        userPic: currentUser.userPic,
+                    },
+                    lastMessage: '',
+                    [combinedId + ".date"]: serverTimestamp(),
+                });
+            }
+        } catch (error) {
+            alert(error);
         }
-    }
+    };
+    
     
     return (
         <>
             {user ? (
                 <div className="py-[20px] flex flex-row items-center gap-5  absolute left-0 right-0 top-0 bottom-0 justify-evenly">
-                    <div className="flex flex-col max-h-[100vh] w-full overflow-y-scroll gap-5 px-[10px] py-[20px] pt-[100px]  bg-slate-100 items-center ">
+                    <div className="flex flex-col h-[100vh] w-full overflow-y-scroll gap-5 px-[10px] py-[20px] pt-[100px]  bg-slate-100 items-center ">
                         <h1 className="uppercase text-[30px] text-center font-bold">all the chats</h1>
-                        <div className="flex items-center w-full self-start justify-center gap-5 ">
+                        <div className="flex items-center  w-full self-start justify-center gap-5 ">
                             <div className="flex self-start flex-col gap-2">
-                                {/* <div className="items-center flex relative">
+                                <div className="items-center flex relative">
                                 {currentUser.userPic? <Image alt={currentUser.username} width={50} height={30} className="rounded-full h-[50px]" src={currentUser?.userPic} /> :
                             <FaUserCircle className="text-[50px] " />}
                                 <input type="file" onChange={(e) => {
@@ -172,9 +224,8 @@ const [dp, setDp] = useState<File | any>(null);
                                 <label htmlFor="image" className="absolute text-[20px] bottom-[-5px] " >
                                     <FcAddImage />
                                 </label>
-                                <h1 className="font-medium text-[20px] ">@{currentUser?.username}</h1>
-                                </div> */}
-                            {/* <button className="bg-slate-900 text-slate-50 rounded-[5px] shadow-2xl ">Update</button> */}
+                                <h1 className="font-bold uppercase text-[20px] ">@{currentUser?.username}</h1>
+                                </div>
                             </div>
                            
                             {/* <button onClick={() => logOutUser()} className="bg-red-500 p-1 text-slate-50 px-[20px] rounded text-[20px] font-medium">Logout</button> */}

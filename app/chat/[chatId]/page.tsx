@@ -95,6 +95,19 @@ const [currentChat, setCurrentChat] = useState<any>([])
     }, [user])
 
     useEffect(() => {
+        const userStore = collection(db, 'chats');
+        const unsub = onSnapshot(userStore, (snapshot) => {
+            const allTheUser = snapshot.docs.map(doc => doc.data());
+            //setAllTheUsers(allTheUser)
+            console.log("chat collections", allTheUser)
+
+        })
+        return () => {
+            unsub()
+        }
+    }, [])
+
+    useEffect(() => {
         const chatStore = doc(db, 'chats', combinedId);
         console.log('combine id', combinedId);
 
@@ -135,6 +148,8 @@ const [currentChat, setCurrentChat] = useState<any>([])
         }
         
     }
+
+    
     
 // console.log("routess", userInfoState);
 // console.log('params', params.chatId);
@@ -147,12 +162,12 @@ const [currentChat, setCurrentChat] = useState<any>([])
 
     return (
         <div className="py-[20px] fixed w-full flex flex-row items-start gap-5  justify-around">
-         <div className="flex flex-col max-h-[100vh] w-full overflow-y-scroll gap-5 px-[10px] py-[20px] pt-[100px]  bg-slate-100 items-center ">
+         <div className="md:flex flex-col hidden  h-[100vh] w-full overflow-y-scroll gap-5 px-[10px] py-[20px] pt-[100px]  bg-slate-100 items-center ">
                         <h1 className="uppercase text-[30px] text-center font-bold">all the chats</h1>
-                        <div className="flex items-center w-full self-start justify-center gap-5 ">
+                        <div className="flex items-center  w-full self-start justify-center gap-5 ">
                             <div className="flex self-start flex-col gap-2">
-                                {/* <div className="items-center flex relative">
-                                {currentUser.userPic? <Image alt={currentUser.username} width={50} height={30} className="rounded-full h-[50px]" src={currentUser?.userPic} /> :
+                                <div className="items-center flex relative">
+                                {user?.photoURL? <Image alt={user?.displayName} width={50} height={30} className="rounded-full h-[50px]" src={user?.photoURL} /> :
                             <FaUserCircle className="text-[50px] " />}
                                 <input type="file" onChange={(e) => {
                                     setDp(e.target.files?.[0])
@@ -160,9 +175,8 @@ const [currentChat, setCurrentChat] = useState<any>([])
                                 <label htmlFor="image" className="absolute text-[20px] bottom-[-5px] " >
                                     <FcAddImage />
                                 </label>
-                                <h1 className="font-medium text-[20px] ">@{currentUser?.username}</h1>
-                                </div> */}
-                            {/* <button className="bg-slate-900 text-slate-50 rounded-[5px] shadow-2xl ">Update</button> */}
+                                <h1 className="font-bold uppercase text-[20px] ">@{user?.displayName}</h1>
+                                </div>
                             </div>
                            
                             {/* <button onClick={() => logOutUser()} className="bg-red-500 p-1 text-slate-50 px-[20px] rounded text-[20px] font-medium">Logout</button> */}
@@ -176,7 +190,7 @@ const [currentChat, setCurrentChat] = useState<any>([])
                               
                                 {
                                     allUser?.map((users:any) => {
-                                        return <><Link  onClick={() => startChat(users.userID)} key={users.userID} href={`chat/${users.userID}`} className="flex w-full gap-2 items-center">
+                                        return <><Link href={`${users.userID}`} className="flex w-full gap-2 items-center">
                                         <FaUserCircle className="text-[40px] " />
                                         <div className="flex flex-col gap-[5px]">
                                             <div className="flex items-center flex-row gap-2">
@@ -196,7 +210,7 @@ const [currentChat, setCurrentChat] = useState<any>([])
                         </div>
                     </div>
             <div className="flex flex-col overflow-y-auto overflow-x-hidden h-[100vh] gap-y-[50px] px-[20px] relative bg-contain justify-around w-full ">
-                <div className="right-0  px-[20px] flex  items-center justify-between w-full  gap-3 p-2 rounded fixed bg-slate-200 top-0">
+                <div className="right-0  md:left-0 px-[20px] flex  items-center justify-between w-full  gap-3 p-2 rounded fixed bg-slate-200 top-0">
                     <div className="flex gap-2 items-center">
                    {userInfoState?.userPic ? <Image alt={userInfoState?.username} width={50} height={30} className="rounded-full h-[50px]" src={userInfoState?.userPic} /> : <FaUserCircle className="text-[50px] " />}
                         <h1 className="uppercase font-medium text-[20px] ">{ userInfoState?.username}</h1>
