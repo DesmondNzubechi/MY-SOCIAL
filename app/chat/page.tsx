@@ -74,39 +74,39 @@ const [currentUser, setCurrentUser] = useState<User | any>({});
     //     });
     // }
     
-    const startChat = async (theUserID: string) => {
+    const startChat = async (theUserID: any) => {
         try {
-            const combinedId = currentUser?.userID > theUserID ?
-                currentUser?.userID + theUserID :
-                theUserID + currentUser?.userID;
+            const combinedId = currentUser?.userID > theUserID.userID ?
+                currentUser?.userID + theUserID.userID :
+                theUserID.userID + currentUser?.userID;
 
                 // Assuming 'db' is your Firestore database reference
 const docRef = doc(db, "chats", combinedId);
 const res = await getDoc(docRef);
 
 if (!res.exists()) {
-    await setDoc(docRef, { message: [] });
+    await setDoc(docRef, { message: [], userInvoled: theUserID, lastMessage: 'start chat'  });
 }
  
 
-            await updateDoc(doc(db, 'UserChats', currentUser.userID), {
-                [combinedId+".userInfo"]: {
-                    userID: currentUser.userID,
-                    username: currentUser.username,
-                    userPic: currentUser.userPic,
-                },
-                lastMessage: '',
-                [combinedId+".date"] : serverTimestamp(),
-            })
-            await updateDoc(doc(db, 'UserChats', theUserID), {
-                [combinedId+".userInfo"]: {
-                    userID: currentUser.userID,
-                    username: currentUser.username,
-                    userPic: currentUser.userPic,
-                },
-                lastMessage: '',
-                [combinedId+".date"] : serverTimestamp(),
-            })
+            // await updateDoc(doc(db, 'UserChats', currentUser.userID), {
+            //     [combinedId+".userInfo"]: {
+            //         userID: currentUser.userID,
+            //         username: currentUser.username,
+            //         userPic: currentUser.userPic,
+            //     },
+            //     lastMessage: '',
+            //     [combinedId+".date"] : serverTimestamp(),
+            // })
+            // await updateDoc(doc(db, 'UserChats', theUserID), {
+            //     [combinedId+".userInfo"]: {
+            //         userID: currentUser.userID,
+            //         username: currentUser.username,
+            //         userPic: currentUser.userPic,
+            //     },
+            //     lastMessage: '',
+            //     [combinedId+".date"] : serverTimestamp(),
+            // })
 
         } catch (error) {
             alert(error)
@@ -116,7 +116,7 @@ if (!res.exists()) {
 
 const [dp, setDp] = useState<File | any>(null);
 
-    console.log(user)
+    //console.log(user)
     
     const updateDp = async () => {
         const dpRef = ref(storage, 'dp');
@@ -155,7 +155,7 @@ const [dp, setDp] = useState<File | any>(null);
     //     }
     // }
     
-    const createChats = async (theUserID: string) => {
+    const createChats = async (theUserID: any) => {
         try {
             // Iterate through all users
             for (const user of allTheUsers) {
@@ -239,7 +239,7 @@ const [dp, setDp] = useState<File | any>(null);
                               
                                 {
                                     allTheUsers?.map((users:any) => {
-                                        return <><Link  onClick={() => startChat(users.userID)} key={users.userID} href={`chat/${users.userID}`} className="flex w-full gap-2 items-center">
+                                        return <><Link  onClick={() => startChat(users)} key={users.userID} href={`chat/${users.userID}`} className="flex w-full gap-2 items-center">
                                         <FaUserCircle className="text-[40px] " />
                                         <div className="flex flex-col gap-[5px]">
                                             <div className="flex items-center flex-row gap-2">
