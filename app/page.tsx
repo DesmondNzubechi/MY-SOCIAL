@@ -10,6 +10,10 @@ import { FaHeart } from "react-icons/fa";
 import { FcAddImage } from "react-icons/fc";
 import { IoLocationSharp } from "react-icons/io5";
 import { IoIosTime } from "react-icons/io";
+import { GoDotFill } from "react-icons/go";
+import { FaCommentAlt } from "react-icons/fa";
+import { SlLike } from "react-icons/sl";
+import { BiRepost } from "react-icons/bi";
 export default function Home() {
   //const loggedInUser = userAuth();
   return (
@@ -47,6 +51,24 @@ export default function Home() {
             <span className="flex items-center gap-1 text-slate-500"><FaHeart  className="text-[20px]"/> <p className="capitalize">Coding</p></span>
             <span className="flex items-center gap-1 text-slate-500"><IoLocationSharp /> <p className="capitalize">Nigeria</p></span>
 <span className="flex items-center gap-1 text-slate-500"><IoIosTime /> <p className="capitalize">Joined March 2024</p></span>
+          </div>
+        </div>
+
+        <div className="py-[50px] ">
+          <div className="shadow-2xl  p-2 gap-[20px] rounded-2xl flex-col flex">
+            <div className="flex gap-1 flex-row items-center">
+              <h1 className="font-bold flex items-center ">  <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />@Nzubechukwu(B2R)</h1> <span className="text-slate-500 ">posted this</span> <GoDotFill/> <p className="text-slate-500 text-[10px]">2nd March 2024</p>
+            </div>
+            <div className="">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <button type="button" className="font-bold">See More...</button>
+            </div>
+            <Image src={CoverPics} className="rounded-2xl " alt="post pic" />
+            <div className="flex items-center justify-around">
+              <div className="bg-slate-100 flex items-center p-[5px] gap-x-[5px] rounded"><FaCommentAlt className="text-[20px] "/> <p className="text-slate-500">20 Comments</p></div>
+              <div className="bg-slate-100 flex items-center p-[5px] gap-x-[5px] rounded"><SlLike className="text-[20px] "/> <p className="text-slate-500">50 Likes</p></div>
+              <div className="bg-slate-100 flex items-center p-[5px] gap-x-[5px] rounded"><BiRepost className="text-[20px] " /><p className="text-slate-500">10 Repost</p></div>
+            </div>
           </div>
         </div>
      </div>
