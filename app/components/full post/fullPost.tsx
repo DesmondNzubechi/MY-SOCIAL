@@ -9,7 +9,7 @@ import Image from "next/image";
 export const FullPost = () => {
     return (
         <div>
-              <div className="fixed  flex flex-col justify-center items-center top-0 bottom-0 left-0 right-0 h-full w-full bg-Tp z-[1000]">
+              <div className="fixed hidden flex flex-col justify-center items-center top-0 bottom-0 left-0 right-0 h-full w-full bg-Tp z-[1000]">
         <div className="bg-slate-50 relative overflow-y-auto md:w-[700px] w-full md:h-[90vh] p-4   ">
        
           <div className=" p-2 gap-[20px] relative pb-[70px] flex-col flex">

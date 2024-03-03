@@ -8,6 +8,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { userAuth } from "../components/auths/auth";
 import { redirect } from "next/navigation";
 import { auth } from "../components/config/firebase";
+
 export default function Login() {
   const user = userAuth();
   const [showPassword, setShowPassword] = useState('password')
