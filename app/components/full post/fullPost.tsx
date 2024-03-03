@@ -6,12 +6,13 @@ import { SlLike } from "react-icons/sl";
 import { BiRepost } from "react-icons/bi";
 import { GoDotFill } from "react-icons/go";
 import Image from "next/image";
-export const FullPost = () => {
+export const FullPost = ({ displayFullPost, setShowFullPost }: { displayFullPost: string, setShowFullPost: React.Dispatch<React.SetStateAction<string>> }) => {
+  
     return (
         <div>
-              <div className="fixed hidden flex flex-col justify-center items-center top-0 bottom-0 left-0 right-0 h-full w-full bg-Tp z-[1000]">
+        <div className={`fixed ${displayFullPost} flex flex-col justify-center items-center top-0 bottom-0 left-0 right-0 h-full w-full bg-Tp z-[1000]`}>
         <div className="bg-slate-50 relative overflow-y-auto md:w-[700px] w-full md:h-[90vh] p-4   ">
-       
+        <h1 onClick={() => setShowFullPost("hidden")} className="uppercase text-white absolute z-[10] right-[5px] top-[10px] bg-slate-900 focus:bg-slate-500 cursor-pointer text-[20px] px-[12px] rounded-full py-[4px] ">X</h1>
           <div className=" p-2 gap-[20px] relative pb-[70px] flex-col flex">
             <div className="flex gap-1 flex-row items-center">
               <h1 className="font-bold flex items-center ">  <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />@Nzubechukwu(B2R)</h1> <span className="text-slate-500 ">posted this</span> <GoDotFill/> <p className="text-slate-500 text-[10px]">2nd March 2024</p>

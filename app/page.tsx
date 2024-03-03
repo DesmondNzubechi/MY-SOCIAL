@@ -24,8 +24,12 @@ import { TbSocial } from "react-icons/tb";
 
 export default function Home() {
   //const loggedInUser = userAuth();
-  const [showFullPost, setShowFullPost] = useState<string>('hidded')
+  const [showFullPost, setShowFullPost] = useState<string>('block')
   const [showPublishPost, setPublishPost] = useState<string>('hidden')
+ 
+  const showFullPostFn = () => {
+setShowFullPost('block')
+  }
 
   return (
     <main className="flex min-h-screen pt-[100px] py-[20px] bg-slate-50 flex-col items-center  ">
@@ -77,13 +81,13 @@ export default function Home() {
             </div>
             <div className="">
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-            <button type="button" className="font-bold">See More...</button>
+            <button onClick={showFullPostFn} type="button" className="font-bold">See More...</button>
             </div>
             <Image src={CoverPics} className="rounded-[10px] " alt="post pic" />
             <div className="flex items-center border-t border-b py-[5px] justify-around">
-              <div className=" border-r flex items-center p-[5px] gap-x-[5px] "><FaCommentAlt className="text-[20px] "/> <p className="text-slate-500">20 Comments</p></div>
-              <div className=" flex items-center p-[5px] gap-x-[5px] "><SlLike className="text-[20px] "/> <p className="text-slate-500">50 Likes</p></div>
-              <div className=" flex items-center p-[5px] gap-x-[5px] border-l "><BiRepost className="text-[20px] " /><p className="text-slate-500">10 Repost</p></div>
+              <div onClick={showFullPostFn} className=" border-r flex items-center cursor-pointer p-[5px] gap-x-[5px] "><FaCommentAlt className="text-[20px] "/> <p className="text-slate-500">20 Comments</p></div>
+              <div className=" flex items-center p-[5px] cursor-pointer gap-x-[5px] "><SlLike className="text-[20px] "/> <p className="text-slate-500">50 Likes</p></div>
+              <div className=" flex items-center p-[5px] cursor-pointer gap-x-[5px] border-l "><BiRepost className="text-[20px] " /><p className="text-slate-500">10 Repost</p></div>
             </div>
           
               <div className="py-[10px] w-full bg-slate-50 flex items-center justify-around px-[20px] gap-1">
