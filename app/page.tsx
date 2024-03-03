@@ -14,6 +14,7 @@ import { GoDotFill } from "react-icons/go";
 import { FaCommentAlt } from "react-icons/fa";
 import { SlLike } from "react-icons/sl";
 import { BiRepost } from "react-icons/bi";
+import { FullPost } from "./components/full post/fullPost";
 export default function Home() {
   //const loggedInUser = userAuth();
   return (
@@ -49,6 +50,7 @@ export default function Home() {
           <button className="bg-slate-900 mt-[20px] py-[15px]  w-full text-slate-50 rounded ">Update Profile</button>
 </div>
       </div>
+      <FullPost/>
       <div className="relative max-w-[500px] px-[20px]">
         <Image alt="cover pics" src={CoverPics} className="rounded w-full" height={200} />
         <input type="file" onChange={(e) => {
@@ -85,6 +87,7 @@ export default function Home() {
           </div>
         </div>
 
+       
         <div className="py-[50px] ">
           <div className="shadow-xl border  p-2 gap-[20px] rounded-[10px] flex-col flex">
             <div className="flex gap-1 flex-row items-center">
@@ -95,11 +98,17 @@ export default function Home() {
             <button type="button" className="font-bold">See More...</button>
             </div>
             <Image src={CoverPics} className="rounded-[10px] " alt="post pic" />
-            <div className="flex items-center justify-around">
-              <div className="bg-slate-100 flex items-center p-[5px] gap-x-[5px] rounded"><FaCommentAlt className="text-[20px] "/> <p className="text-slate-500">20 Comments</p></div>
-              <div className="bg-slate-100 flex items-center p-[5px] gap-x-[5px] rounded"><SlLike className="text-[20px] "/> <p className="text-slate-500">50 Likes</p></div>
-              <div className="bg-slate-100 flex items-center p-[5px] gap-x-[5px] rounded"><BiRepost className="text-[20px] " /><p className="text-slate-500">10 Repost</p></div>
+            <div className="flex items-center border-t border-b py-[5px] justify-around">
+              <div className=" border-r flex items-center p-[5px] gap-x-[5px] "><FaCommentAlt className="text-[20px] "/> <p className="text-slate-500">20 Comments</p></div>
+              <div className=" flex items-center p-[5px] gap-x-[5px] "><SlLike className="text-[20px] "/> <p className="text-slate-500">50 Likes</p></div>
+              <div className=" flex items-center p-[5px] gap-x-[5px] border-l "><BiRepost className="text-[20px] " /><p className="text-slate-500">10 Repost</p></div>
             </div>
+          
+              <div className="py-[10px] w-full bg-slate-50 flex items-center justify-around px-[20px] gap-1">
+                <input type="text" placeholder="Input your comment" className="w-full outline-none bg-transparent" />
+                <button type="button" className="bg-sky-500 p-2 rounded text-slate-50">Comment</button>
+              </div>
+           
           </div>
         </div>
      </div>
