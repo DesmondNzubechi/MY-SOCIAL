@@ -18,15 +18,26 @@ import { FullPost } from "./components/full post/fullPost";
 import { PublishAPost } from "./components/publishAPost/publishAPost";
 import { IoMdPhotos } from "react-icons/io";
 import { MdVideoLibrary } from "react-icons/md";
+import { FaSearch } from "react-icons/fa";
 import { IoMdLogOut } from "react-icons/io";
+import { TbSocial } from "react-icons/tb";
 export default function Home() {
   //const loggedInUser = userAuth();
   return (
-    <main className="flex min-h-screen py-[20px] bg-slate-50 flex-col items-center  ">
+    <main className="flex min-h-screen pt-[100px] py-[20px] bg-slate-50 flex-col items-center  ">
+      <div className="bg-white flex items-center justify-between gap-2 fixed px-[20px] py-[10px] z-[100] right-0 left-0 top-0 shadow border-b">
+        <div className="flex items-center bg-blue-500 text-white py-[5px] px-[10px] rounded">
+          <TbSocial className="text-[50px]"/>
+          <h1 className="text-[20px] ">B2social</h1>
+        </div>
+       
+          <input type="text" className="bg-slate-50 capitalize outline-none py-[18px] w-full  text-center text-[20px]" placeholder="search for a post here" name="" id="" />
+      
+      </div>
       <div className="grid md:grid-cols-6 px-[30px] relative">
       <div></div>
         {/* SIDE BAR */}
-        <div className="md:col-span-2  bg-white shadow-2xl fixed z-[1000] gap-2 top-[50px] w-[300px] bottom-[50px] w-[30%] top-0 md:right-[50px] right-[20px] rounded-[20px] p-2 py-[20px] flex flex-col justify-center">
+        <div className="md:col-span-2  bg-white shadow-2xl fixed z-[1000] gap-2 top-[100px] w-[300px]  w-[30%]  md:right-[50px] right-[20px] rounded-[20px] p-2 py-[20px] hidden md:flex flex-col justify-center">
           <ul className="flex flex-col gap-3 items-center ">
             <div className="flex flex-col border  rounded-[10px] py-[10px] px-[20px] items-center">
               <FaUserCircle className="text-[70px] bg-slate-50 rounded-full  " />
