@@ -16,50 +16,45 @@ import { SlLike } from "react-icons/sl";
 import { BiRepost } from "react-icons/bi";
 import { FullPost } from "./components/full post/fullPost";
 import { PublishAPost } from "./components/publishAPost/publishAPost";
+import { IoMdPhotos } from "react-icons/io";
+import { MdVideoLibrary } from "react-icons/md";
+import { IoMdLogOut } from "react-icons/io";
 export default function Home() {
   //const loggedInUser = userAuth();
   return (
-    <main className="flex min-h-screen py-[20px] flex-col items-center  ">
-      <PublishAPost/>
-      <div className="relative max-w-[500px] px-[20px]">
-        <Image alt="cover pics" src={CoverPics} className="rounded w-full" height={200} />
-        <input type="file" onChange={(e) => {
-                                     // setDp(e.target.files?.[0])
-                                  }} name="image" className="hidden" id="image" />
-                                  <label htmlFor="image" className="absolute bg-slate-50 rounded-full text-[30px] p-1 top-[70px] right-[50px] " >
-                                     <FaPlus className="bg-slate-"/>
-                                  </label>
-        <div className="absolute top-[200px] ">
-        <div className="items-center flex relative">
-                              
-                              <FaUserCircle className="text-[200px] bg-slate-50 rounded-full shadow-2xl " />
-                                  <input type="file" onChange={(e) => {
-                                     // setDp(e.target.files?.[0])
-                                  }} name="image" className="hidden" id="image" />
-                                  <label htmlFor="image" className="absolute text-[50px] bottom-[10px] left-[150px] " >
-                                      <FcAddImage className="bg-slate-"/>
-                                  </label>
-                                 </div>
+    <main className="flex min-h-screen py-[20px] bg-slate-50 flex-col items-center  ">
+      <div className="grid md:grid-cols-6 px-[30px] relative">
+      <div></div>
+        {/* SIDE BAR */}
+        <div className="md:col-span-2  bg-white shadow-2xl fixed z-[1000] gap-2 top-[50px] w-[300px] bottom-[50px] w-[30%] top-0 md:right-[50px] right-[20px] rounded-[20px] p-2 py-[20px] flex flex-col justify-center">
+          <ul className="flex flex-col gap-3 items-center ">
+            <div className="flex flex-col border  rounded-[10px] py-[10px] px-[20px] items-center">
+              <FaUserCircle className="text-[70px] bg-slate-50 rounded-full  " />
+              <h1 className="text-[20px] font-bold">@Unknown Man</h1>
+              <Link className="bg-sky-500  w-full text-center text-slate-50 rounded p-1" href=''>Complet Profile</Link>
+            </div>
+          <li className="text-slate-700 text-[20px] capitalize ">Home</li>
+            <li className="text-slate-700 text-[20px] capitalize ">Friends</li>
+            <li className="text-slate-700 text-[20px] capitalize ">Messages</li>
+            <li className="text-slate-700 text-[20px] capitalize ">Make a post</li>
+            <button className="flex text-[20px] mt-[20px] items-center"><IoMdLogOut /> <span className="text-slate-500">Logout</span></button>
+          </ul>
         </div>
-        <button className="absolute top-[300px] right-[30px] active:bg-slate-200 shadow-2xl border p-2 rounded-[5px] text-slate-700 text-[20px] ">Edit Profile</button>
-        <div className="pt-[180px] flex flex-col gap-y-[20px]">
-          <div>
-            <h1 className="font-bold text-[20px] text-slate-900 capitalize">Desmond Nzubechukwu</h1>
-            <p className="font-[500] text-slate-500">@Nzubechukwu(B2R)</p>
+     
+        <div className="md:col-span-3 flex max-w-[500px] flex-col gap-5">
+          <div className="flex flex-col cursor-pointer gap-y-2 bg-white p-4 rounded">
+            <div className="flex flex-row gap-x-[20px] items-center">
+              <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />
+              <div className="text-slate-500 p-3 border w-full rounded-[10px]">Write a post here...</div>
+            </div>
+            <hr />
+            <div className="flex flex-row gap-5  w-full justify-around">
+              <div className="flex items-center gap-1 text-slate-700  bg-slate-50 p-2 rounded"><IoMdPhotos /><span>Photo</span></div>
+              <div className="flex items-center gap-1 text-slate-700 bg-slate-50 p-2 rounded"><MdVideoLibrary /><span>Video</span></div>
+              <button className="bg-sky-500 text-slate-50 p-2 rounded">Publish Post</button>
+            </div>
           </div>
-          <div>
-            <p>Frontend Software Developer | reactJs | NextJs | JavaScript | Typescript | Firebase | Tailwindcss | Crafting Value & Solutions | Sharing Insights in Software Development</p>
-          </div>
-          <div className="flex items-center gap-x-[20px] ">
-            <span className="flex items-center gap-1 text-slate-500"><FaHeart  className="text-[20px]"/> <p className="capitalize">Coding</p></span>
-            <span className="flex items-center gap-1 text-slate-500"><IoLocationSharp /> <p className="capitalize">Nigeria</p></span>
-<span className="flex items-center gap-1 text-slate-500"><IoIosTime /> <p className="capitalize">Joined March 2024</p></span>
-          </div>
-        </div>
-
-       
-        <div className="py-[50px] ">
-          <div className="shadow-xl border  p-2 gap-[20px] rounded-[10px] flex-col flex">
+          <div className="shadow-xl border bg-white  p-2 gap-[20px] rounded-[10px] flex-col flex">
             <div className="flex gap-1 flex-row items-center">
               <h1 className="font-bold flex items-center ">  <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />@Nzubechukwu(B2R)</h1> <span className="text-slate-500 ">posted this</span> <GoDotFill/> <p className="text-slate-500 text-[10px]">2nd March 2024</p>
             </div>
@@ -81,7 +76,7 @@ export default function Home() {
            
           </div>
         </div>
-     </div>
+        </div>
     </main>
   );
 }

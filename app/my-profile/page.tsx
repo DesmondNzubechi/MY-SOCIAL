@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
-import CoverPics from '../public/codes.jpg'
+import CoverPics from '../../public/codes.jpg'
 import { userAuth } from "../components/auths/auth";
 import { FaUserCircle } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
