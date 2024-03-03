@@ -21,39 +21,45 @@ import { MdVideoLibrary } from "react-icons/md";
 import { FaSearch } from "react-icons/fa";
 import { IoMdLogOut } from "react-icons/io";
 import { TbSocial } from "react-icons/tb";
+
 export default function Home() {
   //const loggedInUser = userAuth();
+  const [showFullPost, setShowFullPost] = useState<string>('hidded')
+  const [showPublishPost, setPublishPost] = useState<string>('hidden')
+
   return (
     <main className="flex min-h-screen pt-[100px] py-[20px] bg-slate-50 flex-col items-center  ">
+      <FullPost displayFullPost={showFullPost} setShowFullPost={setShowFullPost} />
+     <PublishAPost displayPro={showPublishPost} setPublishPost={setPublishPost} />
       <div className="bg-white flex items-center justify-between gap-2 fixed px-[20px] py-[10px] z-[100] right-0 left-0 top-0 shadow border-b">
         <div className="flex items-center bg-blue-500 text-white py-[5px] px-[10px] rounded">
           <TbSocial className="text-[50px]"/>
-          <h1 className="text-[20px] ">B2social</h1>
+          <h1 className="text-[15px] ">MYsocial</h1>
         </div>
        
-          <input type="text" className="bg-slate-50 capitalize outline-none py-[18px] w-full  text-center text-[20px]" placeholder="search for a post here" name="" id="" />
+          <input type="text" className="bg-slate-50 capitalize outline-none py-[18px] w-full  text-center text-[15px]" placeholder="search for a post here" name="" id="" />
       
       </div>
       <div className="grid md:grid-cols-6 px-[30px] relative">
       <div></div>
         {/* SIDE BAR */}
-        <div className="md:col-span-2  bg-white shadow-2xl fixed z-[1000] gap-2 top-[100px] w-[300px]  w-[30%]  md:right-[50px] right-[20px] rounded-[20px] p-2 py-[20px] hidden md:flex flex-col justify-center">
+        <div className="md:col-span-2  bg-white shadow-2xl fixed z-[100] gap-2 top-[100px] w-[300px]  w-[30%]  md:right-[50px] right-[20px] rounded-[20px] p-2 py-[20px] hidden md:flex flex-col justify-center">
           <ul className="flex flex-col gap-3 items-center ">
             <div className="flex flex-col border  rounded-[10px] py-[10px] px-[20px] items-center">
               <FaUserCircle className="text-[70px] bg-slate-50 rounded-full  " />
               <h1 className="text-[20px] font-bold">@Unknown Man</h1>
-              <Link className="bg-sky-500  w-full text-center text-slate-50 rounded p-1" href=''>Complet Profile</Link>
+              <Link className="bg-sky-500  w-full text-center text-slate-50 rounded p-1" href='/my-profile'>Complet Profile</Link>
             </div>
-          <li className="text-slate-700 text-[20px] capitalize ">Home</li>
-            <li className="text-slate-700 text-[20px] capitalize ">Friends</li>
-            <li className="text-slate-700 text-[20px] capitalize ">Messages</li>
-            <li className="text-slate-700 text-[20px] capitalize ">Make a post</li>
+          <Link href='/' className="text-slate-700 text-[20px] capitalize ">Home</Link>
+            <Link href='/users' className="text-slate-700 text-[20px] capitalize ">Friends</Link>
+            <Link href='/chat' className="text-slate-700 text-[20px] capitalize ">Chats</Link>
+            <Link href='' className="text-slate-700 text-[20px] capitalize ">Make a post</Link>
             <button className="flex text-[20px] mt-[20px] items-center"><IoMdLogOut /> <span className="text-slate-500">Logout</span></button>
           </ul>
         </div>
      
         <div className="md:col-span-3 flex max-w-[500px] flex-col gap-5">
-          <div className="flex flex-col cursor-pointer gap-y-2 bg-white p-4 rounded">
+          <div onClick={() => setPublishPost('block')} className="flex flex-col cursor-pointer gap-y-2 bg-white p-4 rounded">
             <div className="flex flex-row gap-x-[20px] items-center">
               <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />
               <div className="text-slate-500 p-3 border w-full rounded-[10px]">Write a post here...</div>
