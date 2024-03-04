@@ -5,8 +5,9 @@ import { FaCommentAlt } from "react-icons/fa";
 import { SlLike } from "react-icons/sl";
 import { BiRepost } from "react-icons/bi";
 import { GoDotFill } from "react-icons/go";
+import { allPostInfo } from "@/app/allPosts/allPost";
 import Image from "next/image";
-export const FullPost = ({ setShowFullPost }: { displayFullPost: boolean, setShowFullPost: React.Dispatch<React.SetStateAction<boolean>> }) => {
+export const FullPost = ({ setShowFullPost, data }: {setShowFullPost: React.Dispatch<React.SetStateAction<boolean>>, data: allPostInfo}) => {
   
     return (
         <div>
@@ -15,48 +16,36 @@ export const FullPost = ({ setShowFullPost }: { displayFullPost: boolean, setSho
         <h1 onClick={() => setShowFullPost(false)} className="uppercase text-white absolute z-[10] right-[5px] top-[10px] bg-slate-900 focus:bg-slate-500 cursor-pointer text-[20px] px-[12px] rounded-full py-[4px] ">X</h1>
           <div className=" p-2 gap-[20px] relative pb-[70px] flex-col flex">
             <div className="flex gap-1 flex-row items-center">
-              <h1 className="font-bold flex items-center ">  <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />@Nzubechukwu(B2R)</h1> <span className="text-slate-500 ">posted this</span> <GoDotFill/> <p className="text-slate-500 text-[10px]">2nd March 2024</p>
-            </div>
+            <h1 className="font-bold flex  capitalize items-center ">  {data.authorPics !== '' ? <Image src={data.authorPics} height={50} width={50} className="rounded-full " alt="post pic" /> :  <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />}@{data.authorName}</h1> <span className="text-slate-500 ">posted this</span> <GoDotFill/> <p className="text-slate-500 text-[10px]">{data.postsDate}</p>
+              </div>
             <div className="">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+            <p>{data.postsContent}</p>
             
             </div>
-            <Image src={CoverPics} className=" " alt="post pic" />
+            <Image src={data.postImg} height={400} width={500} className="w-full  " alt="post pic" />
             <div className="flex items-center border-t border-b bg-slate-50 py-[10px] justify-around">
-              <div className=" flex items-center p-[5px] gap-x-[5px] rounded"><FaCommentAlt className="text-[20px] "/> <p className="text-slate-500">20 Comments</p></div>
-              <div className=" flex items-center p-[5px] gap-x-[5px] rounded"><SlLike className="text-[20px] "/> <p className="text-slate-500">50 Likes</p></div>
-              <div className=" flex items-center p-[5px] gap-x-[5px] rounded"><BiRepost className="text-[20px] " /><p className="text-slate-500">10 Repost</p></div>
+              <div className=" flex items-center p-[5px] gap-x-[5px] rounded"><FaCommentAlt className="text-[20px] "/> <p className="text-slate-500">{data.postComment} Comments</p></div>
+              <div className=" flex items-center p-[5px] gap-x-[5px] rounded"><SlLike className="text-[20px] "/> <p className="text-slate-500">{data.postComment} Likes</p></div>
+              <div className=" flex items-center p-[5px] gap-x-[5px] rounded"><BiRepost className="text-[20px] " /><p className="text-slate-500">{data.postRepost} Repost</p></div>
                         </div>
                         {/* COMMENTS UNDER POST */}
                         <div className="flex flex-col gap-5">
-                            <h1 className="font-bold text-slate-700 text-[30px] my-[20px] border-b w-fit">Comments section</h1>
-                        <div className="flex flex-start gap-1">
-                            <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />
-                            <div className="flex flex-col gap-1 bg-slate-200 rounded-bl-[20px]  rounded-r-[20px] p-3">
-                        <div className="flex gap-1 flex-row items-center">
-              <h1 className="font-bold flex items-center "> @Nzubechukwu</h1> <span className="text-slate-500 text-[10px] ">Commented</span> <GoDotFill/> <p className="text-slate-500 text-[10px]">2nd March 2024</p>
-            </div>
-            <p>What are you talking about exactly?</p>
-          </div>
-                            </div>
-                            <div className="flex flex-start gap-1">
-                            <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />
-                            <div className="flex flex-col gap-1 bg-slate-200 rounded-bl-[20px]  rounded-r-[20px] p-3">
-                        <div className="flex gap-1 flex-row items-center">
-              <h1 className="font-bold flex items-center "> @Nzubechukwu</h1> <span className="text-slate-500 text-[10px] ">Commented</span> <GoDotFill/> <p className="text-slate-500 text-[10px]">2nd March 2024</p>
-            </div>
-            <p>What are you talking about exactly?</p>
-          </div>
-                            </div>
-                            <div className="flex flex-start gap-1">
-                            <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />
-                            <div className="flex flex-col gap-1 bg-slate-200 rounded-bl-[20px]  rounded-r-[20px] p-3">
-                        <div className="flex gap-1 flex-row items-center">
-              <h1 className="font-bold flex items-center "> @Nzubechukwu</h1> <span className="text-slate-500 text-[10px] ">Commented</span> <GoDotFill/> <p className="text-slate-500 text-[10px]">2nd March 2024</p>
-            </div>
-            <p>What are you talking about exactly?</p>
-          </div>
-                        </div>
+                <h1 className="font-bold text-slate-700 text-[30px] my-[20px] border-b w-fit">Comments section</h1>
+                {data.postComment.length == 0 ?
+                  <h1 className="capitalize text-slate-500 text-[20px] text-center ">There is no comment under this post. be the first person to comment</h1> : 
+                  <div className="flex flex-start gap-1">
+                  <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />
+                  <div className="flex flex-col gap-1 bg-slate-200 rounded-bl-[20px]  rounded-r-[20px] p-3">
+              <div className="flex gap-1 flex-row items-center">
+    <h1 className="font-bold flex items-center "> @Nzubechukwu</h1> <span className="text-slate-500 text-[10px] ">Commented</span> <GoDotFill/> <p className="text-slate-500 text-[10px]">2nd March 2024</p>
+  </div>
+  <p>What are you talking about exactly?</p>
+</div>
+                  </div>
+              }
+                      
+                          
+                            
                         </div>
                       
                         {/* ADD YOUR COMMENTS */}

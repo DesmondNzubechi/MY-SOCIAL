@@ -17,19 +17,33 @@ import { FaSearch } from "react-icons/fa";
 import { IoMdLogOut } from "react-icons/io";
 import { TbSocial } from "react-icons/tb";
 import { AllThePost } from "./allPosts/allPost";
+import { allPostInfo } from "./allPosts/allPost";
 export default function Home() {
   //const loggedInUser = userAuth();
   const allPost = AllThePost();
   const [showFullPost, setShowFullPost] = useState<boolean>(false)
   const [showPublishPost, setPublishPost] = useState<string>('hidden')
+  const [fullPostdata, setFullPostData] = useState<allPostInfo>({
+    postImg: '',
+    postsContent: '',
+    postId:'',
+    postsDate: '',
+    authorId: '',
+    authorName: '',
+    authorPics: '',
+    postComment: [],
+    postLike: 0,
+    postRepost: 0
+  })
  
+  console.log(fullPostdata)
   const showFullPostFn = () => {
 setShowFullPost(true)
   }
 
   return (
     <main className="flex min-h-screen pt-[100px] py-[20px] bg-slate-50 flex-col items-center  ">
-   { showFullPost &&  <FullPost setShowFullPost={setShowFullPost} />}
+   { showFullPost &&  <FullPost data={fullPostdata} setShowFullPost={setShowFullPost} />}
      <PublishAPost displayPro={showPublishPost} setPublishPost={setPublishPost} />
       <div className="bg-white flex items-center justify-between gap-2 fixed px-[20px] py-[10px] z-[100] right-0 left-0 top-0 shadow border-b">
         <div className="flex items-center bg-blue-500 text-white py-[5px] px-[10px] rounded">
@@ -75,15 +89,32 @@ setShowFullPost(true)
             allPost.map(post => {
               return    <div key={post.postId} className="shadow-xl border bg-white  p-2 gap-[20px] rounded-[10px] flex-col flex">
               <div className="flex gap-1 flex-row items-center">
-                  <h1 className="font-bold flex items-center ">  {post.authorPics !== '' ? <Image src={post.authorPics} height={50} width={50} className="rounded-full " alt="post pic" /> :  <FaUserCircle className="text-[30px] bg-slate-50 rounded-full capitalise shadow-2xl " />}@{post.authorName}</h1> <span className="text-slate-500 ">posted this</span> <GoDotFill/> <p className="text-slate-500 text-[10px]">{post.postsDate}</p>
+                  <h1 className="font-bold flex  capitalize items-center ">  {post.authorPics !== '' ? <Image src={post.authorPics} height={50} width={50} className="rounded-full " alt="post pic" /> :  <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />}@{post.authorName}</h1> <span className="text-slate-500 ">posted this</span> <GoDotFill/> <p className="text-slate-500 text-[10px]">{post.postsDate}</p>
               </div>
               <div className="">
                   <p>{post.postsContent}</p>
-              <button onClick={showFullPostFn} type="button" className="font-bold">See More...</button>
+                  <button
+                    onClick={() => {
+                      showFullPostFn();
+                      setFullPostData({
+                        postImg: post.postImg,
+                        postsContent: post.postsContent,
+                        postId:post.postId,
+                        postsDate: post.postsDate,
+                        authorId: post.authorId,
+                        authorName: post.authorName,
+                        authorPics: post.authorPics,
+                        postComment: post.postComment,
+                        postLike: post.postLike,
+                        postRepost:post.postRepost
+                      })
+                    }}
+                    type="button"
+                    className="font-bold">See More...</button>
               </div>
               <Image src={post.postImg} width={500} height={300} className="rounded-[10px] " alt="post pic" />
               <div className="flex items-center border-t border-b py-[5px] justify-around">
-                <div onClick={showFullPostFn} className=" border-r flex items-center cursor-pointer p-[5px] gap-x-[5px] "><FaCommentAlt className="text-[20px] "/> <p className="text-slate-500">{post.postComment} Comments</p></div>
+                <div onClick={showFullPostFn} className=" border-r flex items-center cursor-pointer p-[5px] gap-x-[5px] "><FaCommentAlt className="text-[20px] "/> <p className="text-slate-500">{post.postComment.length} Comments</p></div>
                 <div className=" flex items-center p-[5px] cursor-pointer gap-x-[5px] "><SlLike className="text-[20px] "/> <p className="text-slate-500">{post.postLike} Likes</p></div>
                 <div className=" flex items-center p-[5px] cursor-pointer gap-x-[5px] border-l "><BiRepost className="text-[20px] " /><p className="text-slate-500">{post.postRepost} Repost</p></div>
               </div>
