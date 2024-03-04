@@ -5,11 +5,6 @@ import Link from "next/link";
 import CoverPics from '../public/codes.jpg'
 import { userAuth } from "./components/auths/auth";
 import { FaUserCircle } from "react-icons/fa";
-import { FaPlus } from "react-icons/fa";
-import { FaHeart } from "react-icons/fa";
-import { FcAddImage } from "react-icons/fc";
-import { IoLocationSharp } from "react-icons/io5";
-import { IoIosTime } from "react-icons/io";
 import { GoDotFill } from "react-icons/go";
 import { FaCommentAlt } from "react-icons/fa";
 import { SlLike } from "react-icons/sl";
@@ -21,9 +16,10 @@ import { MdVideoLibrary } from "react-icons/md";
 import { FaSearch } from "react-icons/fa";
 import { IoMdLogOut } from "react-icons/io";
 import { TbSocial } from "react-icons/tb";
-
+import { AllThePost } from "./allPosts/allPost";
 export default function Home() {
   //const loggedInUser = userAuth();
+  const allPost = AllThePost();
   const [showFullPost, setShowFullPost] = useState<boolean>(false)
   const [showPublishPost, setPublishPost] = useState<string>('hidden')
  
@@ -75,6 +71,31 @@ setShowFullPost(true)
               <button className="bg-sky-500 text-slate-50 p-2 rounded">Publish Post</button>
             </div>
           </div>
+          {
+            allPost.map(post => {
+              return    <div key={post.postId} className="shadow-xl border bg-white  p-2 gap-[20px] rounded-[10px] flex-col flex">
+              <div className="flex gap-1 flex-row items-center">
+                  <h1 className="font-bold flex items-center ">  {post.authorPics !== '' ? <Image src={post.authorPics} height={50} width={50} className="rounded-full " alt="post pic" /> :  <FaUserCircle className="text-[30px] bg-slate-50 rounded-full capitalise shadow-2xl " />}@{post.authorName}</h1> <span className="text-slate-500 ">posted this</span> <GoDotFill/> <p className="text-slate-500 text-[10px]">{post.postsDate}</p>
+              </div>
+              <div className="">
+                  <p>{post.postsContent}</p>
+              <button onClick={showFullPostFn} type="button" className="font-bold">See More...</button>
+              </div>
+              <Image src={post.postImg} width={500} height={300} className="rounded-[10px] " alt="post pic" />
+              <div className="flex items-center border-t border-b py-[5px] justify-around">
+                <div onClick={showFullPostFn} className=" border-r flex items-center cursor-pointer p-[5px] gap-x-[5px] "><FaCommentAlt className="text-[20px] "/> <p className="text-slate-500">{post.postComment} Comments</p></div>
+                <div className=" flex items-center p-[5px] cursor-pointer gap-x-[5px] "><SlLike className="text-[20px] "/> <p className="text-slate-500">{post.postLike} Likes</p></div>
+                <div className=" flex items-center p-[5px] cursor-pointer gap-x-[5px] border-l "><BiRepost className="text-[20px] " /><p className="text-slate-500">{post.postRepost} Repost</p></div>
+              </div>
+            
+                <div className="py-[10px] w-full bg-slate-50 flex items-center justify-around px-[20px] gap-1">
+                  <input type="text" placeholder="Input your comment" className="w-full outline-none bg-transparent" />
+                  <button type="button" className="bg-sky-500 p-2 rounded text-slate-50">Comment</button>
+                </div>
+             
+            </div>
+            })
+          }
           <div className="shadow-xl border bg-white  p-2 gap-[20px] rounded-[10px] flex-col flex">
             <div className="flex gap-1 flex-row items-center">
               <h1 className="font-bold flex items-center ">  <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />@Nzubechukwu(B2R)</h1> <span className="text-slate-500 ">posted this</span> <GoDotFill/> <p className="text-slate-500 text-[10px]">2nd March 2024</p>

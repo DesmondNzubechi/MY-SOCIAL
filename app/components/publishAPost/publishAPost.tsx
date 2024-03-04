@@ -1,9 +1,24 @@
 import { FcAddImage } from "react-icons/fc";
 import { useEffect, useState } from "react";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { storage } from "../config/firebase";
+import { db, storage } from "../config/firebase";
 import Image from "next/image";
+import { v4 as uuid } from 'uuid';
+import { doc, setDoc } from "firebase/firestore";
+import { userAuth } from "../auths/auth";
 export const PublishAPost = ({ displayPro, setPublishPost }: { displayPro: string; setPublishPost: React.Dispatch<React.SetStateAction<string>> }) => {
+
+  const currentDate: Date = new Date();
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    weekday: 'long', // or 'short', 'narrow', or undefined
+};
+
+  const loggedInUser = userAuth();
+const fullDate: string = currentDate.toLocaleString(undefined, options);
+
 
     interface PostInfo {
         imageInfo: any,
@@ -20,16 +35,47 @@ export const PublishAPost = ({ displayPro, setPublishPost }: { displayPro: strin
         imageInfo:'',
         postContent: "",
         postId: "",
-        postDate: "",
+        postDate: fullDate,
         authorName: "",
         authorId: "",
     })
+  
+  console.log(thePost)
+
+  const publishPostFn = async () => {
+    if (!loggedInUser) {
+      alert('Kindly login before you make any post');
+      return;
+    }
+    if (thePost.postContent === '') {
+      alert('Please input post content');
+      return;
+    }
+    const postRef = doc(db, 'posts', uuid())
+    try {
+      await setDoc(postRef, {
+        postImg: thePost.imageInfo,
+        postsContent: thePost.postContent,
+        postId: uuid(),
+        postsDate: fullDate,
+        authorId: loggedInUser.uid,
+        authorName: loggedInUser.displayName,
+        authorPics: loggedInUser.photoURL,
+        postComment: [],
+        postLike: 0,
+        postRepost: 0
+      })
+      alert('succes')
+    } catch (error) {
+      alert(error)
+    }
+  }
 
     const uploadPostImg = async () => {
         const imgRef = ref(storage, 'PostImgs');
         try {
             const imgName = ref(imgRef, postImg.name);
-            const uploadPhoto = await uploadBytes(imgName, thePost.imageInfo);
+            const uploadPhoto = await uploadBytes(imgName, postImg);
             const downloadURL = await getDownloadURL(uploadPhoto.ref);
             setThePost({...thePost, imageInfo: downloadURL})
 alert("success")
@@ -54,7 +100,7 @@ alert("success")
         <div className="flex flex-col bg-white rounded shadow-xl border p-1 gap-1 ">
           <label htmlFor="userName" className="font-bold">Post contents</label>
           <hr />
-          <textarea  className="bg-transparent min-w-[300px] min-h-[200px] outline-none" placeholder="Type your post contents here"></textarea>
+          <textarea onChange={(e) => setThePost({...thePost, postContent: e.target.value})}  className="bg-transparent min-w-[300px] min-h-[200px] outline-none" placeholder="Type your post contents here"></textarea>
         </div>
                 <div className="flex items-center">
                    {thePost.imageInfo && <Image width={50} height={50} src={thePost.imageInfo} className="w-[50px] h-[50px] rounded-[20px]" alt="post image" />}
@@ -66,7 +112,7 @@ alert("success")
                                   </label>
        </div>
       </form>
-      <button className="bg-slate-900  py-[15px]  w-[50%] text-[20px] text-slate-50 rounded ">Publish</button>
+      <button onClick={publishPostFn} className="bg-slate-900  py-[15px]  w-[50%] text-[20px] text-slate-50 rounded ">Publish</button>
 </div>
   </div>
 }
