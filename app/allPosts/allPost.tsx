@@ -15,7 +15,8 @@ export interface allPostInfo {
     authorPics: string,
     postComment: any[],
     postLike: number,
-    postRepost: number
+    postRepost: number,
+    id: string,
 }
 export const AllThePost = () => {
  
@@ -26,7 +27,7 @@ export const AllThePost = () => {
         const postCollection = collection(db, 'posts');
         try {
             const Unsub = onSnapshot(postCollection, (postSnapshot) => {
-                const allPost: allPostInfo[] = postSnapshot.docs.map((doc: DocumentSnapshot<DocumentData>) => doc.data() as allPostInfo);
+                const allPost: allPostInfo[] = postSnapshot.docs.map((doc: DocumentSnapshot<DocumentData>) => ({...doc.data(), id: doc.id}) as allPostInfo);
                 setAllThePost(allPost)
             })
 

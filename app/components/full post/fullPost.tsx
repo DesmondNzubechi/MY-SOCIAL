@@ -7,8 +7,42 @@ import { BiRepost } from "react-icons/bi";
 import { GoDotFill } from "react-icons/go";
 import { allPostInfo } from "@/app/allPosts/allPost";
 import Image from "next/image";
-export const FullPost = ({ setShowFullPost, data }: {setShowFullPost: React.Dispatch<React.SetStateAction<boolean>>, data: allPostInfo}) => {
-  
+import { fullDate } from "../publishAPost/publishAPost";
+import { useState } from "react";
+import { userAuth } from "../auths/auth";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "../config/firebase";
+export const FullPost = ({ setShowFullPost, data }: { setShowFullPost: React.Dispatch<React.SetStateAction<boolean>>, data: allPostInfo }) => {
+  const loggedInUser = userAuth();
+  const [commentInput, setCommentInput] = useState<string>('');
+  console.log("comment", commentInput)
+  console.log("post id", data.id)
+  const addComment = async () => {
+    if (!loggedInUser) {
+      alert('Kindly login');
+      return;
+    }
+    if (commentInput === '') {
+      alert('kindly input you comment');
+      return;
+    }
+   
+    try {
+      const commentRef = doc(db, 'posts', data?.id);
+      await updateDoc(commentRef, {
+        postComment: [{
+          commentDate: 'ggf',
+          commenterName: loggedInUser?.displayName,
+          commenterPic: loggedInUser?.photoURL,
+          commentContent: commentInput
+        }, ...data.postComment]
+      })
+      alert('success');
+    } catch (error) {
+      alert(error)
+    }
+  }
+
     return (
         <div>
         <div className={`fixed  flex flex-col justify-center items-center top-0 bottom-0 left-0 right-0 h-full w-full bg-Tp z-[1000]`}>
@@ -33,15 +67,18 @@ export const FullPost = ({ setShowFullPost, data }: {setShowFullPost: React.Disp
                 <h1 className="font-bold text-slate-700 text-[30px] my-[20px] border-b w-fit">Comments section</h1>
                 {data.postComment.length == 0 ?
                   <h1 className="capitalize text-slate-500 text-[20px] text-center ">There is no comment under this post. be the first person to comment</h1> : 
-                  <div className="flex flex-start gap-1">
-                  <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />
-                  <div className="flex flex-col gap-1 bg-slate-200 rounded-bl-[20px]  rounded-r-[20px] p-3">
-              <div className="flex gap-1 flex-row items-center">
-    <h1 className="font-bold flex items-center "> @Nzubechukwu</h1> <span className="text-slate-500 text-[10px] ">Commented</span> <GoDotFill/> <p className="text-slate-500 text-[10px]">2nd March 2024</p>
+                  data.postComment?.map(comments => {
+                    return  <div className="flex flex-start gap-1">
+                    <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />
+                    <div className="flex flex-col gap-1 bg-slate-200 rounded-bl-[20px]  rounded-r-[20px] p-3">
+                <div className="flex gap-1 flex-row items-center">
+      <h1 className="font-bold flex items-center "> @Nzubechukwu</h1> <span className="text-slate-500 text-[10px] ">Commented</span> <GoDotFill/> <p className="text-slate-500 text-[10px]">2nd March 2024</p>
+    </div>
+    <p>What are you talking about exactly?</p>
   </div>
-  <p>What are you talking about exactly?</p>
-</div>
-                  </div>
+                    </div>
+                  })
+                 
               }
                       
                           
@@ -51,8 +88,8 @@ export const FullPost = ({ setShowFullPost, data }: {setShowFullPost: React.Disp
                         {/* ADD YOUR COMMENTS */}
                         <div className="bg-slate-50 bottom-0 md:left-[24%] md:right-[24%] fixed left-0 right-0 border-t md:bottom-[20px] p-2">
                         <div className="py-[10px] w-full bg-white flex items-center justify-around px-[20px] gap-1">
-                <input type="text" placeholder="Input your comment" className="w-full outline-none bg-transparent" />
-                <button type="button" className="bg-sky-500 p-2 rounded text-slate-50">Comment</button>
+                <input type="text" onChange={(e) => setCommentInput(e.target.value)} placeholder="Input your comment" className="w-full outline-none bg-transparent" />
+                <button onClick={addComment} type="button" className="bg-sky-500 p-2 rounded text-slate-50">Comment</button>
                             </div>
                       </div>
                         </div>

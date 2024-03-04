@@ -6,18 +6,30 @@ import Image from "next/image";
 import { v4 as uuid } from 'uuid';
 import { doc, setDoc } from "firebase/firestore";
 import { userAuth } from "../auths/auth";
-export const PublishAPost = ({ displayPro, setPublishPost }: { displayPro: string; setPublishPost: React.Dispatch<React.SetStateAction<string>> }) => {
 
-  const currentDate: Date = new Date();
-  const options: Intl.DateTimeFormatOptions = {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    weekday: 'long', // or 'short', 'narrow', or undefined
+const currentDate: Date = new Date();
+const options: Intl.DateTimeFormatOptions = {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  weekday: 'long', // or 'short', 'narrow', or undefined
 };
 
+
+export const fullDate: string = currentDate.toLocaleString(undefined, options);
+
+export const PublishAPost = ({ displayPro, setPublishPost }: { displayPro: string; setPublishPost: React.Dispatch<React.SetStateAction<string>> }) => {
   const loggedInUser = userAuth();
-const fullDate: string = currentDate.toLocaleString(undefined, options);
+//   const currentDate: Date = new Date();
+//   const options: Intl.DateTimeFormatOptions = {
+//     year: 'numeric',
+//     month: 'long',
+//     day: 'numeric',
+//     weekday: 'long', // or 'short', 'narrow', or undefined
+// };
+
+//   const loggedInUser = userAuth();
+// const fullDate: string = currentDate.toLocaleString(undefined, options);
 
 
     interface PostInfo {

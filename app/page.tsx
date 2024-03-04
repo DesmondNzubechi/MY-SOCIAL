@@ -33,7 +33,8 @@ export default function Home() {
     authorPics: '',
     postComment: [],
     postLike: 0,
-    postRepost: 0
+    postRepost: 0,
+    id: ''
   })
  
   console.log(fullPostdata)
@@ -106,7 +107,8 @@ setShowFullPost(true)
                         authorPics: post.authorPics,
                         postComment: post.postComment,
                         postLike: post.postLike,
-                        postRepost:post.postRepost
+                        postRepost:post.postRepost,
+                        id:post.id,
                       })
                     }}
                     type="button"
