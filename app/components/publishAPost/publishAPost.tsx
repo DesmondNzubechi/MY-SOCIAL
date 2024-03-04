@@ -1,6 +1,6 @@
 import { FcAddImage } from "react-icons/fc";
 import { useEffect, useState } from "react";
-import { ref, uploadBytes } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../config/firebase";
 export const PublishAPost = ({ displayPro, setPublishPost }: { displayPro: string; setPublishPost: React.Dispatch<React.SetStateAction<string>> }) => {
 
@@ -27,8 +27,11 @@ export const PublishAPost = ({ displayPro, setPublishPost }: { displayPro: strin
     const uploadPostImg = async () => {
         const imgRef = ref(storage, 'PostImgs');
         try {
-            const imgName = ref(imgRef, thePost.imageInfo.name);
+            const imgName = ref(imgRef, postImg.name);
             const uploadPhoto = await uploadBytes(imgName, thePost.imageInfo);
+            const downloadURL = await getDownloadURL(uploadPhoto.ref);
+            setThePost({...thePost, imageInfo: downloadURL})
+
         } catch (error) {
             
         }
@@ -51,8 +54,8 @@ export const PublishAPost = ({ displayPro, setPublishPost }: { displayPro: strin
           <textarea  className="bg-transparent min-w-[300px] min-h-[200px] outline-none" placeholder="Type your post contents here"></textarea>
         </div>
                 <div>
-                <input type="file" onChange={(e) => {
-                                     // setDp(e.target.files?.[0])
+                <input accept="image" type="file" onChange={(e) => {
+                                    setPostImg(e.target.files?.[0])
                                   }} name="image" className="hidden" id="image" />
                                   <label htmlFor="image" className=" bg-slate-50 rounded-full text-[50px]   " >
                                      <FcAddImage className="bg-slate-"/>
