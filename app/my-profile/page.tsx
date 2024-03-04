@@ -17,10 +17,16 @@ import { BiRepost } from "react-icons/bi";
 import { FullPost } from "../components/full post/fullPost";
 
 export default function MyProfile() {
+  const [showFullPost, setShowFullPost] = useState<boolean>(false)
+  const [showPublishPost, setPublishPost] = useState<string>('hidden')
+ 
+  const showFullPostFn = () => {
+setShowFullPost(true)
+  }
   //const loggedInUser = userAuth();
   return (
     <main className="flex min-h-screen py-[20px] flex-col items-center  ">
-      <FullPost/>
+    { showFullPost && <FullPost  setShowFullPost={setShowFullPost}/>}
       <div className="relative max-w-[500px] px-[20px]">
         <Image alt="cover pics" src={CoverPics} className="rounded w-full" height={200} />
         <input type="file" onChange={(e) => {

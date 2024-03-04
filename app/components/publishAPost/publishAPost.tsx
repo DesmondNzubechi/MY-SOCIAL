@@ -1,6 +1,42 @@
 import { FcAddImage } from "react-icons/fc";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { ref, uploadBytes } from "firebase/storage";
+import { storage } from "../config/firebase";
 export const PublishAPost = ({ displayPro, setPublishPost }: { displayPro: string; setPublishPost: React.Dispatch<React.SetStateAction<string>> }) => {
+
+    interface PostInfo {
+        imageInfo: any,
+        postContent: string,
+        postId: string,
+        postDate: string,
+        authorName: string,
+        authorId: string,
+    }
+
+    const [postImg, setPostImg] = useState<any>(null);
+
+    const [thePost, setThePost] = useState<PostInfo>({
+        imageInfo:'',
+        postContent: "",
+        postId: "",
+        postDate: "",
+        authorName: "",
+        authorId: "",
+    })
+
+    const uploadPostImg = async () => {
+        const imgRef = ref(storage, 'PostImgs');
+        try {
+            const imgName = ref(imgRef, thePost.imageInfo.name);
+            const uploadPhoto = await uploadBytes(imgName, thePost.imageInfo);
+        } catch (error) {
+            
+        }
+    }
+
+    useEffect(() => {
+
+    })
     
     return <div className={` ${displayPro} fixed flex flex-col justify-center items-center top-0 bottom-0 left-0 right-0 h-full w-full bg-Tp z-[1000]`}>
     <div className="bg-slate-50 overflow-y-auto md:w-[700px] w-full md:h-[90vh] h-full p-4 md:rounded-[10px]  ">

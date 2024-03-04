@@ -24,16 +24,16 @@ import { TbSocial } from "react-icons/tb";
 
 export default function Home() {
   //const loggedInUser = userAuth();
-  const [showFullPost, setShowFullPost] = useState<string>('block')
+  const [showFullPost, setShowFullPost] = useState<boolean>(false)
   const [showPublishPost, setPublishPost] = useState<string>('hidden')
  
   const showFullPostFn = () => {
-setShowFullPost('block')
+setShowFullPost(true)
   }
 
   return (
     <main className="flex min-h-screen pt-[100px] py-[20px] bg-slate-50 flex-col items-center  ">
-      <FullPost displayFullPost={showFullPost} setShowFullPost={setShowFullPost} />
+   { showFullPost &&  <FullPost setShowFullPost={setShowFullPost} />}
      <PublishAPost displayPro={showPublishPost} setPublishPost={setPublishPost} />
       <div className="bg-white flex items-center justify-between gap-2 fixed px-[20px] py-[10px] z-[100] right-0 left-0 top-0 shadow border-b">
         <div className="flex items-center bg-blue-500 text-white py-[5px] px-[10px] rounded">
