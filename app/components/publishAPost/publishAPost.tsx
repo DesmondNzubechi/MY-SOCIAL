@@ -2,6 +2,7 @@ import { FcAddImage } from "react-icons/fc";
 import { useEffect, useState } from "react";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../config/firebase";
+import Image from "next/image";
 export const PublishAPost = ({ displayPro, setPublishPost }: { displayPro: string; setPublishPost: React.Dispatch<React.SetStateAction<string>> }) => {
 
     interface PostInfo {
@@ -31,15 +32,17 @@ export const PublishAPost = ({ displayPro, setPublishPost }: { displayPro: strin
             const uploadPhoto = await uploadBytes(imgName, thePost.imageInfo);
             const downloadURL = await getDownloadURL(uploadPhoto.ref);
             setThePost({...thePost, imageInfo: downloadURL})
-
+alert("success")
         } catch (error) {
-            
+           alert(error) 
         }
     }
 
     useEffect(() => {
-
-    })
+        if (postImg !== null) {
+            uploadPostImg();
+}
+    }, [postImg])
     
     return <div className={` ${displayPro} fixed flex flex-col justify-center items-center top-0 bottom-0 left-0 right-0 h-full w-full bg-Tp z-[1000]`}>
     <div className="bg-slate-50 overflow-y-auto md:w-[700px] w-full md:h-[90vh] h-full p-4 md:rounded-[10px]  ">
@@ -53,7 +56,8 @@ export const PublishAPost = ({ displayPro, setPublishPost }: { displayPro: strin
           <hr />
           <textarea  className="bg-transparent min-w-[300px] min-h-[200px] outline-none" placeholder="Type your post contents here"></textarea>
         </div>
-                <div>
+                <div className="flex items-center">
+                   {thePost.imageInfo && <Image width={50} height={50} src={thePost.imageInfo} className="w-[50px] h-[50px] rounded-[20px]" alt="post image" />}
                 <input accept="image" type="file" onChange={(e) => {
                                     setPostImg(e.target.files?.[0])
                                   }} name="image" className="hidden" id="image" />
