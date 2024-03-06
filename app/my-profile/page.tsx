@@ -15,17 +15,23 @@ import { FaCommentAlt } from "react-icons/fa";
 import { SlLike } from "react-icons/sl";
 import { BiRepost } from "react-icons/bi";
 import { FullPost } from "../components/full post/fullPost";
-
+import { SideBar } from "../components/sidebar/sidebar";
+import { EditProfile } from "../components/editProfile/editProfile";
+import { PublishAPost } from "../components/publishAPost/publishAPost";
 export default function MyProfile() {
   const [showFullPost, setShowFullPost] = useState<boolean>(false)
   const [showPublishPost, setPublishPost] = useState<string>('hidden')
- 
+  const [showEditProfile, setShowEditProfile] = useState<boolean>(false);
+  
   const showFullPostFn = () => {
 setShowFullPost(true)
   }
   //const loggedInUser = userAuth();
   return (
     <main className="flex min-h-screen py-[20px] flex-col items-center  ">
+      <SideBar setPublishPost={setPublishPost}/>
+      <PublishAPost displayPro={showPublishPost} setPublishPost={setPublishPost} />
+    { showEditProfile && <EditProfile setShowEditProfile={setShowEditProfile} />}
     { showFullPost && <FullPost  setShowFullPost={setShowFullPost}/>}
       <div className="relative max-w-[500px] px-[20px]">
         <Image alt="cover pics" src={CoverPics} className="rounded w-full" height={200} />
@@ -47,7 +53,7 @@ setShowFullPost(true)
                                   </label>
                                  </div>
         </div>
-        <button className="absolute top-[300px] right-[30px] active:bg-slate-200 shadow-2xl border p-2 rounded-[5px] text-slate-700 text-[20px] ">Edit Profile</button>
+        <button onClick={() => showEditProfile ? setShowEditProfile(false) : setShowEditProfile(true) } className="absolute top-[300px] right-[30px] active:bg-slate-200 shadow-2xl border p-2 rounded-[5px] text-slate-700 text-[20px] ">Edit Profile</button>
         <div className="pt-[180px] flex flex-col gap-y-[20px]">
           <div>
             <h1 className="font-bold text-[20px] text-slate-900 capitalize">Desmond Nzubechukwu</h1>
@@ -60,6 +66,11 @@ setShowFullPost(true)
             <span className="flex items-center gap-1 text-slate-500"><FaHeart  className="text-[20px]"/> <p className="capitalize">Coding</p></span>
             <span className="flex items-center gap-1 text-slate-500"><IoLocationSharp /> <p className="capitalize">Nigeria</p></span>
 <span className="flex items-center gap-1 text-slate-500"><IoIosTime /> <p className="capitalize">Joined March 2024</p></span>
+          </div>
+
+          <div className="flex mt-[20px] items-center border rounded justify-around ">
+            <button className="bg-slate-900 text-slate-50 text-[20px] uppercase font-bold w-full py-[10px]">My Post</button>
+            <button className="w-full py-[10px] text-[20px] uppercase font-bold">Repost</button>
           </div>
         </div>
 

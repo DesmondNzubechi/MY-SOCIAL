@@ -18,6 +18,7 @@ import { IoMdLogOut } from "react-icons/io";
 import { TbSocial } from "react-icons/tb";
 import { AllThePost } from "./allPosts/allPost";
 import { allPostInfo } from "./allPosts/allPost";
+import { SideBar } from "./components/sidebar/sidebar";
 export default function Home() {
   //const loggedInUser = userAuth();
   const allPost = AllThePost();
@@ -44,7 +45,7 @@ setShowFullPost(true)
 
   return (
     <main className="flex min-h-screen pt-[100px] py-[20px] bg-slate-50 flex-col items-center  ">
-   { showFullPost &&  <FullPost data={fullPostdata} setShowFullPost={setShowFullPost} />}
+   { showFullPost &&  <FullPost postComment={fullPostdata.postComment} data={fullPostdata} setShowFullPost={setShowFullPost} />}
      <PublishAPost displayPro={showPublishPost} setPublishPost={setPublishPost} />
       <div className="bg-white flex items-center justify-between gap-2 fixed px-[20px] py-[10px] z-[100] right-0 left-0 top-0 shadow border-b">
         <div className="flex items-center bg-blue-500 text-white py-[5px] px-[10px] rounded">
@@ -58,20 +59,7 @@ setShowFullPost(true)
       <div className="grid md:grid-cols-6 px-[30px] relative">
       <div></div>
         {/* SIDE BAR */}
-        <div className="md:col-span-2  bg-white shadow-2xl fixed z-[100] gap-2 top-[100px] w-[300px]  w-[30%]  md:right-[50px] right-[20px] rounded-[20px] p-2 py-[20px] hidden md:flex flex-col justify-center">
-          <ul className="flex flex-col gap-3 items-center ">
-            <div className="flex flex-col border  rounded-[10px] py-[10px] px-[20px] items-center">
-              <FaUserCircle className="text-[70px] bg-slate-50 rounded-full  " />
-              <h1 className="text-[20px] font-bold">@Unknown Man</h1>
-              <Link className="bg-sky-500  w-full text-center text-slate-50 rounded p-1" href='/my-profile'>Complet Profile</Link>
-            </div>
-          <Link href='/' className="text-slate-700 text-[20px] capitalize ">Home</Link>
-            <Link href='/users' className="text-slate-700 text-[20px] capitalize ">Friends</Link>
-            <Link href='/chat' className="text-slate-700 text-[20px] capitalize ">Chats</Link>
-            <Link href='' className="text-slate-700 text-[20px] capitalize ">Make a post</Link>
-            <button className="flex text-[20px] mt-[20px] items-center"><IoMdLogOut /> <span className="text-slate-500">Logout</span></button>
-          </ul>
-        </div>
+       <SideBar setPublishPost={setPublishPost}/>
      
         <div className="md:col-span-3 flex max-w-[500px] flex-col gap-5">
           <div onClick={() => setPublishPost('block')} className="flex flex-col cursor-pointer gap-y-2 bg-white p-4 rounded">
@@ -105,7 +93,7 @@ setShowFullPost(true)
                         authorId: post.authorId,
                         authorName: post.authorName,
                         authorPics: post.authorPics,
-                        postComment: post.postComment,
+                        postComment: [...post.postComment],
                         postLike: post.postLike,
                         postRepost:post.postRepost,
                         id:post.id,
