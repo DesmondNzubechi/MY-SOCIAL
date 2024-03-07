@@ -19,6 +19,10 @@ import { TbSocial } from "react-icons/tb";
 import { AllThePost } from "./allPosts/allPost";
 import { allPostInfo } from "./allPosts/allPost";
 import { SideBar } from "./components/sidebar/sidebar";
+import { fullDate } from "./components/publishAPost/publishAPost";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "./components/config/firebase";
+
 export default function Home() {
   //const loggedInUser = userAuth();
   const allPost = AllThePost();
@@ -43,7 +47,85 @@ export default function Home() {
 setShowFullPost(true)
   }
 
+   const loggedInUser = userAuth();
+  const [commentInput, setCommentInput] = useState<string>('');
+  console.log("comment", commentInput)
+  console.log("post id", fullPostdata.id)
+
+  // const addComment = async () => {
+  //   if (!loggedInUser) {
+  //     alert('Kindly login');
+  //     return;
+  //   }
+  //   if (commentInput === '') {
+  //     alert('kindly input you comment');
+  //     return;
+  //   }
+   
+  //   try {
+  //     const commentRef = doc(db, 'posts', data?.id);
+  //     await updateDoc(commentRef, {
+  //       postComment: [{
+  //         commentDate: 'ggf',
+  //         commenterName: loggedInUser?.displayName,
+  //         commenterPic: loggedInUser?.photoURL,
+  //         commentContent: commentInput
+  //       }, ...data.postComment]
+  //     })
+  //     alert('success');
+  //   } catch (error) {
+  //     alert(error)
+  //   }
+  // }
+
+  const addComment = async () => {
+    if (!loggedInUser) {
+      alert('Kindly login');
+      return;
+    }
+    if (commentInput === '') {
+      alert('Kindly input your comment');
+      return;
+    }
+  
+    try {
+      const commentRef = doc(db, 'posts', fullPostdata?.id);
+      
+      // Check if data.postComment is an array
+      const updatedComments = Array.isArray(fullPostdata.postComment) 
+        ? [{ commentDate: 'ggf', commenterName: loggedInUser?.displayName, commenterPic: loggedInUser?.photoURL, commentContent: commentInput }, ...fullPostdata.postComment]
+        : [{ commentDate: 'ggf', commenterName: loggedInUser?.displayName, commenterPic: loggedInUser?.photoURL, commentContent: commentInput }];
+  
+      await updateDoc(commentRef, {
+        postComment: updatedComments
+      });
+  
+      alert('Success');
+    } catch (error) {
+      alert(error);
+    }
+  }
+  
+
+  const likePost = async (post:allPostInfo) => {
+    const postRef = doc(db, 'posts', post.id)
+try {
+  updateDoc(postRef, {
+    postLike: post.postLike + 1
+  })
+  alert('success')
+} catch (error) {
+  alert(error)
+}
+  }
+
+  const Repost = async () => {
+    
+  }
+
   return (
+    <>
+      
     <main className="flex min-h-screen pt-[100px] py-[20px] bg-slate-50 flex-col items-center  ">
    { showFullPost &&  <FullPost postComment={fullPostdata.postComment} data={fullPostdata} setShowFullPost={setShowFullPost} />}
      <PublishAPost displayPro={showPublishPost} setPublishPost={setPublishPost} />
@@ -105,7 +187,7 @@ setShowFullPost(true)
               <Image src={post.postImg} width={500} height={300} className="rounded-[10px] " alt="post pic" />
               <div className="flex items-center border-t border-b py-[5px] justify-around">
                 <div onClick={showFullPostFn} className=" border-r flex items-center cursor-pointer p-[5px] gap-x-[5px] "><FaCommentAlt className="text-[20px] "/> <p className="text-slate-500">{post.postComment.length} Comments</p></div>
-                <div className=" flex items-center p-[5px] cursor-pointer gap-x-[5px] "><SlLike className="text-[20px] "/> <p className="text-slate-500">{post.postLike} Likes</p></div>
+                <div onClick={() => likePost(post)} className=" flex items-center p-[5px] cursor-pointer gap-x-[5px] "><SlLike className="text-[20px] "/> <p className="text-slate-500">{post.postLike} Likes</p></div>
                 <div className=" flex items-center p-[5px] cursor-pointer gap-x-[5px] border-l "><BiRepost className="text-[20px] " /><p className="text-slate-500">{post.postRepost} Repost</p></div>
               </div>
             
@@ -140,6 +222,7 @@ setShowFullPost(true)
           </div>
         </div>
         </div>
-    </main>
+      </main>
+      </>
   );
 }
