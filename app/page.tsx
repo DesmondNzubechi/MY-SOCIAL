@@ -20,9 +20,9 @@ import { AllThePost } from "./allPosts/allPost";
 import { allPostInfo } from "./allPosts/allPost";
 import { SideBar } from "./components/sidebar/sidebar";
 import { fullDate } from "./components/publishAPost/publishAPost";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "./components/config/firebase";
-
+import { v4 as uuid } from "uuid";
 export default function Home() {
   //const loggedInUser = userAuth();
   const allPost = AllThePost();
@@ -110,7 +110,7 @@ setShowFullPost(true)
   const likePost = async (post:allPostInfo) => {
     const postRef = doc(db, 'posts', post.id)
 try {
-  updateDoc(postRef, {
+ await updateDoc(postRef, {
     postLike: post.postLike + 1
   })
   alert('success')
@@ -119,8 +119,26 @@ try {
 }
   }
 
-  const Repost = async () => {
-    
+  const Repost = async (post: allPostInfo) => {
+    const postRef = doc(db, 'posts', uuid())
+try {
+  await setDoc(postRef, {
+    postImg: post.postImg,
+    postsContent:post.postsContent,
+    postId: uuid(),
+    postsDate: post.postsDate,
+    authorId: post.authorId,
+    authorName: post.authorName,
+    authorPics: post.authorPics,
+    postComment: post.postComment,
+    postLike: post.postLike,
+    postRepost: post.postRepost,
+    reposterName: loggedInUser?.displayName,
+    respotDate: fullDate,
+  })
+} catch (error) {
+  
+}
   }
 
   return (
