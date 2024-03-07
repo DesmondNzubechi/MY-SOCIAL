@@ -176,7 +176,7 @@ try {
           </div>
           {
             allPost.map(post => {
-              return    <div key={post.postId} className="shadow-xl border bg-white  p-2 gap-[20px] rounded-[10px] flex-col flex">
+              return    <div key={post.postId} className="shadow-xl border bg-white relative  p-2 gap-[20px] rounded-[10px] flex-col flex">
               <div className="flex gap-1 flex-row items-center">
                   <h1 className="font-bold flex  capitalize items-center ">  {post.authorPics !== '' ? <Image src={post.authorPics} height={50} width={50} className="rounded-full " alt="post pic" /> :  <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />}@{post.authorName}</h1> <span className="text-slate-500 ">posted this</span> <GoDotFill/> <p className="text-slate-500 text-[10px]">{post.postsDate}</p>
               </div>
@@ -206,7 +206,11 @@ try {
               <div className="flex items-center border-t border-b py-[5px] justify-around">
                 <div onClick={showFullPostFn} className=" border-r flex items-center cursor-pointer p-[5px] gap-x-[5px] "><FaCommentAlt className="text-[20px] "/> <p className="text-slate-500">{post.postComment.length} Comments</p></div>
                 <div onClick={() => likePost(post)} className=" flex items-center p-[5px] cursor-pointer gap-x-[5px] "><SlLike className="text-[20px] "/> <p className="text-slate-500">{post.postLike} Likes</p></div>
-                <div className=" flex items-center p-[5px] cursor-pointer gap-x-[5px] border-l "><BiRepost className="text-[20px] " /><p className="text-slate-500">{post.postRepost} Repost</p></div>
+                  <div className=" flex items-center p-[5px] cursor-pointer gap-x-[5px] border-l "><BiRepost className="text-[20px] " /><p className="text-slate-500">{post.postRepost} Repost</p></div>
+                  <div className="absolute flex flex-col gap-5 items-start eounde shadow-2xl bg-slate-700 bottom-[135px] p-[10px] right-0 ">
+                    <button className="text-slate-50 text-[20px] font-medium">Repost</button>
+                    <button className="text-slate-50 text-[20px] font-medium">Quote Repost</button>
+                  </div>
               </div>
             
                 <div className="py-[10px] w-full bg-slate-50 flex items-center justify-around px-[20px] gap-1">
