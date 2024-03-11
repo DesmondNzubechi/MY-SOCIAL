@@ -14,8 +14,8 @@ export interface allPostInfo {
     authorName: string,
     authorPics: string,
     postComment: any[],
-    postLike: number,
-    postRepost: number,
+    postLike: any[],
+    postRepost: any[],
     id: string,
 }
 export const AllThePost = () => {

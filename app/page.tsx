@@ -38,8 +38,8 @@ export default function Home() {
     authorName: '',
     authorPics: '',
     postComment: [],
-    postLike: 0,
-    postRepost: 0,
+    postLike: [],
+    postRepost: [],
     id: ''
   })
  
@@ -110,10 +110,19 @@ setShowFullPost(true)
 
   const likePost = async (post:allPostInfo) => {
     const postRef = doc(db, 'posts', post.id)
-try {
- await updateDoc(postRef, {
-    postLike: post.postLike + 1
-  })
+    try {
+      const likeStatus = post.postLike.find(like => like.likeId === loggedInUser?.uid);
+      const addLike = post.postLike.filter(like => like.likeId !== loggedInUser?.uid)
+     
+        if (likeStatus) {
+          await updateDoc(postRef, {
+            postLike: [...addLike]
+          })
+        } else {
+          await updateDoc(postRef, {
+            postLike: [...post.postLike, {likeId: loggedInUser?.uid, likeName: loggedInUser?.displayName}]
+          })
+        }
   alert('success')
 } catch (error) {
   alert(error)
@@ -206,8 +215,9 @@ try {
               <Image src={post.postImg} width={500} height={300} className="rounded-[10px] " alt="post pic" />
               <div className="flex items-center border-t border-b py-[5px] justify-around">
                 <div onClick={showFullPostFn} className=" border-r flex items-center cursor-pointer p-[5px] gap-x-[5px] "><FaCommentAlt className="text-[20px] "/> <p className="text-slate-500">{post.postComment.length} Comments</p></div>
-                <div onClick={() => likePost(post)} className=" flex items-center p-[5px] cursor-pointer gap-x-[5px] "><SlLike className="text-[20px] "/> <p className="text-slate-500">{post.postLike} Likes</p></div>
-                  <div className=" flex items-center p-[5px] cursor-pointer gap-x-[5px] border-l "><BiRepost className="text-[20px] " /><p className="text-slate-500">{post.postRepost} Repost</p></div>
+                  <div onClick={() => likePost(post)} className={` flex items-center p-[5px] cursor-pointer gap-x-[5px] ${post.postLike.find(like => like.likeId === loggedInUser?.uid) ? 'text-sky-700 ' : 'text-slate-500'}  `}><SlLike className="text-[20px] " /> <p
+                    className={post.postLike.find(like => like.likeId === loggedInUser?.uid) ? 'text-sky-700 ' : 'text-slate-500' }>{post.postLike.length} Likes</p></div>
+                  <div className=" flex items-center p-[5px] cursor-pointer gap-x-[5px] border-l "><BiRepost className="text-[20px] " /><p className="text-slate-500">{post.postRepost.length} Repost</p></div>
                   {showRepost && <div className="absolute flex flex-col gap-5 items-start rounded shadow-2xl bg-slate-700 bottom-[135px]  right-0 ">
                     <button className=" bg-slate-100 p-[5px] text-slate-900 text-[20px] font-medium">Repost</button>
                     <button className="text-slate-50 text-[20px] p-[5px] font-medium">Quote </button>
