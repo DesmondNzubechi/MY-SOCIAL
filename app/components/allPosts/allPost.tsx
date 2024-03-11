@@ -2,7 +2,7 @@
 
 import { collection, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { db } from "../components/config/firebase";
+import { db } from "../config/firebase";
 import { DocumentData, DocumentSnapshot } from "firebase/firestore";
 
 export interface allPostInfo {
