@@ -79,33 +79,33 @@ setShowFullPost(true)
   //   }
   // }
 
-  const addComment = async () => {
-    if (!loggedInUser) {
-      alert('Kindly login');
-      return;
-    }
-    if (commentInput === '') {
-      alert('Kindly input your comment');
-      return;
-    }
+  // const addComment = async () => {
+  //   if (!loggedInUser) {
+  //     alert('Kindly login');
+  //     return;
+  //   }
+  //   if (commentInput === '') {
+  //     alert('Kindly input your comment');
+  //     return;
+  //   }
   
-    try {
-      const commentRef = doc(db, 'posts', fullPostdata?.id);
+  //   try {
+  //     const commentRef = doc(db, 'posts', fullPostdata?.id);
       
-      // Check if data.postComment is an array
-      const updatedComments = Array.isArray(fullPostdata.postComment) 
-        ? [{ commentDate: 'ggf', commenterName: loggedInUser?.displayName, commenterPic: loggedInUser?.photoURL, commentContent: commentInput }, ...fullPostdata.postComment]
-        : [{ commentDate: 'ggf', commenterName: loggedInUser?.displayName, commenterPic: loggedInUser?.photoURL, commentContent: commentInput }];
+  //     // Check if data.postComment is an array
+  //     const updatedComments = Array.isArray(fullPostdata.postComment) 
+  //       ? [{ commentDate: 'ggf', commenterName: loggedInUser?.displayName, commenterPic: loggedInUser?.photoURL, commentContent: commentInput }, ...fullPostdata.postComment]
+  //       : [{ commentDate: 'ggf', commenterName: loggedInUser?.displayName, commenterPic: loggedInUser?.photoURL, commentContent: commentInput }];
   
-      await updateDoc(commentRef, {
-        postComment: updatedComments
-      });
+  //     await updateDoc(commentRef, {
+  //       postComment: updatedComments
+  //     });
   
-      alert('Success');
-    } catch (error) {
-      alert(error);
-    }
-  }
+  //     alert('Success');
+  //   } catch (error) {
+  //     alert(error);
+  //   }
+  // }
   
 
   const likePost = async (post:allPostInfo) => {
@@ -145,11 +145,42 @@ try {
     postRepost: post.postRepost,
     reposterName: loggedInUser?.displayName,
     respotDate: fullDate,
+    reposterId: loggedInUser?.uid
   })
 } catch (error) {
   
 }
   }
+
+
+  
+  const addCommentfn = async (post: allPostInfo) => {
+    if (!loggedInUser) {
+      alert('Kindly login');
+      return;
+    }
+    if (commentInput === '') {
+      alert('Kindly input your comment');
+      return;
+    }
+  
+    try {
+      const commentRef = doc(db, 'posts', post?.id);
+      
+      // Check if post.postComment is an array
+      const updatedComments = Array.isArray(post.postComment) 
+        ? [{ commentDate: fullDate, commenterName: loggedInUser?.displayName, commenterPic: loggedInUser?.photoURL, commentContent: commentInput }, ...post.postComment]
+        : [{ commentDate: fullDate, commenterName: loggedInUser?.displayName, commenterPic: loggedInUser?.photoURL, commentContent: commentInput }];
+  
+      await updateDoc(commentRef, {
+        postComment: updatedComments
+      });
+      alert('Success');
+    } catch (error) {
+      alert(error);
+    }
+  }
+  
 
   return (
     <>
@@ -217,7 +248,7 @@ try {
                 <div onClick={showFullPostFn} className=" border-r flex items-center cursor-pointer p-[5px] gap-x-[5px] "><FaCommentAlt className="text-[20px] "/> <p className="text-slate-500">{post.postComment.length} Comments</p></div>
                   <div onClick={() => likePost(post)} className={` flex items-center p-[5px] cursor-pointer gap-x-[5px] ${post.postLike.find(like => like.likeId === loggedInUser?.uid) ? 'text-sky-700 ' : 'text-slate-500'}  `}><SlLike className="text-[20px] " /> <p
                     className={post.postLike.find(like => like.likeId === loggedInUser?.uid) ? 'text-sky-700 ' : 'text-slate-500' }>{post.postLike.length} Likes</p></div>
-                  <div className=" flex items-center p-[5px] cursor-pointer gap-x-[5px] border-l "><BiRepost className="text-[20px] " /><p className="text-slate-500">{post.postRepost.length} Repost</p></div>
+                  <div onClick={() => showRepost? setShowRepost(false) : setShowRepost(true)} className=" flex items-center p-[5px] cursor-pointer gap-x-[5px] border-l "><BiRepost className="text-[20px] " /><p className="text-slate-500">{post.postRepost.length} Repost</p></div>
                   {showRepost && <div className="absolute flex flex-col gap-5 items-start rounded shadow-2xl bg-slate-700 bottom-[135px]  right-0 ">
                     <button className=" bg-slate-100 p-[5px] text-slate-900 text-[20px] font-medium">Repost</button>
                     <button className="text-slate-50 text-[20px] p-[5px] font-medium">Quote </button>
@@ -225,8 +256,8 @@ try {
               </div>
             
                 <div className="py-[10px] w-full bg-slate-50 flex items-center justify-around px-[20px] gap-1">
-                  <input type="text" placeholder="Input your comment" className="w-full outline-none bg-transparent" />
-                  <button type="button" className="bg-sky-500 p-2 rounded text-slate-50">Comment</button>
+                  <input onChange={(e) => setCommentInput(e.target.value)} type="text" placeholder="Input your comment" className="w-full outline-none bg-transparent" />
+                  <button onClick={() => addCommentfn(post)} type="button" className="bg-sky-500 p-2 rounded text-slate-50">Comment</button>
                 </div>
              
             </div>
@@ -249,7 +280,7 @@ try {
           
               <div className="py-[10px] w-full bg-slate-50 flex items-center justify-around px-[20px] gap-1">
                 <input type="text" placeholder="Input your comment" className="w-full outline-none bg-transparent" />
-                <button type="button" className="bg-sky-500 p-2 rounded text-slate-50">Comment</button>
+                <button  type="button" className="bg-sky-500 p-2 rounded text-slate-50">Comment</button>
               </div>
            
           </div>

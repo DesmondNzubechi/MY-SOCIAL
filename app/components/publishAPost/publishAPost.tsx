@@ -74,8 +74,8 @@ export const PublishAPost = ({ displayPro, setPublishPost }: { displayPro: strin
         authorName: loggedInUser.displayName,
         authorPics: loggedInUser.photoURL,
         postComment: [],
-        postLike: 0,
-        postRepost: 0
+        postLike: [],
+        postRepost: []
       })
       alert('succes')
     } catch (error) {
