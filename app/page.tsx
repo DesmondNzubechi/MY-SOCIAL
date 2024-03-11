@@ -23,6 +23,8 @@ import { fullDate } from "./components/publishAPost/publishAPost";
 import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "./components/config/firebase";
 import { v4 as uuid } from "uuid";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/ReactToastify.css";
 export default function Home() {
   //const loggedInUser = userAuth();
   const allPost = AllThePost();
@@ -118,12 +120,15 @@ setShowFullPost(true)
           await updateDoc(postRef, {
             postLike: [...addLike]
           })
+          const notification = () => toast("You unliked this post");
+          notification();
         } else {
           await updateDoc(postRef, {
             postLike: [...post.postLike, {likeId: loggedInUser?.uid, likeName: loggedInUser?.displayName}]
           })
+          const notification = () => toast("You liked this post");
+          notification();
         }
-  alert('success')
 } catch (error) {
   alert(error)
 }
@@ -286,6 +291,7 @@ try {
           </div>
         </div>
         </div>
+        <ToastContainer autoClose={2000} />
       </main>
       </>
   );
