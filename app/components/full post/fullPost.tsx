@@ -8,15 +8,29 @@ import { GoDotFill } from "react-icons/go";
 import { allPostInfo } from "@/app/components/allPosts/allPost";
 import Image from "next/image";
 import { fullDate } from "../publishAPost/publishAPost";
-import { useState } from "react";
+import React, { useState } from "react";
 import { userAuth } from "../auths/auth";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
-export const FullPost = ({ setShowFullPost, data, postComment }: { setShowFullPost: React.Dispatch<React.SetStateAction<boolean>>, data: allPostInfo, postComment: any[] }) => {
+import { useEffect } from "react";
+export const FullPost = ({ setShowFullPost, data, postComment, setFullPostData }: { setShowFullPost: React.Dispatch<React.SetStateAction<boolean>>, data: allPostInfo, postComment: any[], setFullPostData: React.Dispatch<React.SetStateAction<allPostInfo>> }) => {
   const loggedInUser = userAuth();
   const [commentInput, setCommentInput] = useState<string>('');
   console.log("comment", commentInput)
   console.log("post id", data.id)
+
+  
+  // Add useEffect to handle overflow when the component mounts and unmounts
+  useEffect(() => {
+    // On component mount
+    document.body.style.overflow = 'hidden';
+
+    // On component unmount
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, []);
+
 
   // const addComment = async () => {
   //   if (!loggedInUser) {
@@ -59,13 +73,14 @@ export const FullPost = ({ setShowFullPost, data, postComment }: { setShowFullPo
       
       // Check if data.postComment is an array
       const updatedComments = Array.isArray(data.postComment) 
-        ? [{ commentDate: 'ggf', commenterName: loggedInUser?.displayName, commenterPic: loggedInUser?.photoURL, commentContent: commentInput }, ...data.postComment]
-        : [{ commentDate: 'ggf', commenterName: loggedInUser?.displayName, commenterPic: loggedInUser?.photoURL, commentContent: commentInput }];
+        ? [{ commentDate: fullDate, commenterName: loggedInUser?.displayName, commenterPic: loggedInUser?.photoURL, commentContent: commentInput }, ...data.postComment]
+        : [{ commentDate: fullDate, commenterName: loggedInUser?.displayName, commenterPic: loggedInUser?.photoURL, commentContent: commentInput }];
   
       await updateDoc(commentRef, {
         postComment: updatedComments
       });
   
+      setFullPostData({...data, postComment: [{ commentDate: fullDate, commenterName: loggedInUser?.displayName, commenterPic: loggedInUser?.photoURL, commentContent: commentInput }, ...data.postComment]})
       alert('Success');
     } catch (error) {
       alert(error);
@@ -88,20 +103,20 @@ export const FullPost = ({ setShowFullPost, data, postComment }: { setShowFullPo
             </div>
             <Image src={data.postImg} height={400} width={500} className="w-full  " alt="post pic" />
             <div className="flex items-center border-t border-b bg-slate-50 py-[10px] justify-around">
-              <div className=" flex items-center p-[5px] gap-x-[5px] rounded"><FaCommentAlt className="text-[20px] "/> <p className="text-slate-500">{data.postComment} Comments</p></div>
-              <div className=" flex items-center p-[5px] gap-x-[5px] rounded"><SlLike className="text-[20px] "/> <p className="text-slate-500">{data.postComment} Likes</p></div>
+              <div className=" flex items-center p-[5px] gap-x-[5px] rounded"><FaCommentAlt className="text-[20px] "/> <p className="text-slate-500">{data.postComment.length} Comments</p></div>
+              <div className=" flex items-center p-[5px] gap-x-[5px] rounded"><SlLike className="text-[20px] "/> <p className="text-slate-500">{data.postLike.length} Likes</p></div>
               <div className=" flex items-center p-[5px] gap-x-[5px] rounded"><BiRepost className="text-[20px] " /><p className="text-slate-500">{data.postRepost} Repost</p></div>
                         </div>
                         {/* COMMENTS UNDER POST */}
                         <div className="flex flex-col gap-5">
                 <h1 className="font-bold text-slate-700 text-[30px] my-[20px] border-b w-fit">Comments section</h1>
-                {/* {postComment.length == 0 ? <h1 className="capitalize text-slate-500 text-[20px] text-center ">There is no comment under this post. be the first person to comment</h1>: 
+              {postComment.length == 0 ? <h1 className="capitalize text-slate-500 text-[20px] text-center ">There is no comment under this post. be the first person to comment</h1>: 
                   postComment?.map((comment, index) => {
                     const { commenterName, commentDate, commentContent, commenterPic } = comment;
                     console.log("comments data", comment)
                     return  <div key={index} className="flex flex-start gap-1">
                     <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />
-                    <div className="flex flex-col gap-1 bg-slate-200 rounded-bl-[20px]  rounded-r-[20px] p-3">
+                    <div clasName='flex flex-col gap-1 bg-slate-200 rounded-bl-[20px]  rounded-r-[20px] p-3'>
                 <div className="flex gap-1 flex-row items-center">
                           <h1 className="font-bold flex items-center "> @{commenterName}</h1> <span className="text-slate-500 text-[10px] ">Commented</span> <GoDotFill/> <p className="text-slate-500 text-[10px]">{commentDate}</p>
     </div>
@@ -110,7 +125,7 @@ export const FullPost = ({ setShowFullPost, data, postComment }: { setShowFullPo
                     </div>
                   })
                  
-              } */}
+              }
                       
                           
                             

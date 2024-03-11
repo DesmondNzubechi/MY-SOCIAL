@@ -155,7 +155,7 @@ try {
     <>
       
     <main className="flex min-h-screen pt-[100px] py-[20px] bg-slate-50 flex-col items-center  ">
-   { showFullPost &&  <FullPost postComment={fullPostdata.postComment} data={fullPostdata} setShowFullPost={setShowFullPost} />}
+   { showFullPost &&  <FullPost postComment={fullPostdata.postComment} data={fullPostdata} setFullPostData={setFullPostData} setShowFullPost={setShowFullPost} />}
      <PublishAPost displayPro={showPublishPost} setPublishPost={setPublishPost} />
       <div className="bg-white flex items-center justify-between gap-2 fixed px-[20px] py-[10px] z-[100] right-0 left-0 top-0 shadow border-b">
         <div className="flex items-center bg-blue-500 text-white py-[5px] px-[10px] rounded">
