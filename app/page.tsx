@@ -28,6 +28,7 @@ export default function Home() {
   const allPost = AllThePost();
   const [showFullPost, setShowFullPost] = useState<boolean>(false)
   const [showPublishPost, setPublishPost] = useState<string>('hidden')
+  const [showRepost, setShowRepost] = useState<boolean>(false)
   const [fullPostdata, setFullPostData] = useState<allPostInfo>({
     postImg: '',
     postsContent: '',
@@ -207,10 +208,10 @@ try {
                 <div onClick={showFullPostFn} className=" border-r flex items-center cursor-pointer p-[5px] gap-x-[5px] "><FaCommentAlt className="text-[20px] "/> <p className="text-slate-500">{post.postComment.length} Comments</p></div>
                 <div onClick={() => likePost(post)} className=" flex items-center p-[5px] cursor-pointer gap-x-[5px] "><SlLike className="text-[20px] "/> <p className="text-slate-500">{post.postLike} Likes</p></div>
                   <div className=" flex items-center p-[5px] cursor-pointer gap-x-[5px] border-l "><BiRepost className="text-[20px] " /><p className="text-slate-500">{post.postRepost} Repost</p></div>
-                  <div className="absolute flex flex-col gap-5 items-start eounde shadow-2xl bg-slate-700 bottom-[135px] p-[10px] right-0 ">
-                    <button className="text-slate-50 text-[20px] font-medium">Repost</button>
-                    <button className="text-slate-50 text-[20px] font-medium">Quote Repost</button>
-                  </div>
+                  {showRepost && <div className="absolute flex flex-col gap-5 items-start rounded shadow-2xl bg-slate-700 bottom-[135px]  right-0 ">
+                    <button className=" bg-slate-100 p-[5px] text-slate-900 text-[20px] font-medium">Repost</button>
+                    <button className="text-slate-50 text-[20px] p-[5px] font-medium">Quote </button>
+                  </div>}
               </div>
             
                 <div className="py-[10px] w-full bg-slate-50 flex items-center justify-around px-[20px] gap-1">
