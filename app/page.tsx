@@ -110,7 +110,12 @@ setShowFullPost(true)
   // }
   
 
-  const likePost = async (post:allPostInfo) => {
+  const likePost = async (post: allPostInfo) => {
+    if (!loggedInUser) {
+      const notification = () => toast("Kindly login before you can like this post");
+      notification();
+      return;
+    }
     const postRef = doc(db, 'posts', post.id)
     try {
       const likeStatus = post.postLike.find(like => like.likeId === loggedInUser?.uid);
@@ -130,7 +135,7 @@ setShowFullPost(true)
           notification();
         }
 } catch (error) {
-  alert(error)
+  console.log(error)
 }
   }
 
@@ -161,11 +166,13 @@ try {
   
   const addCommentfn = async (post: allPostInfo) => {
     if (!loggedInUser) {
-      alert('Kindly login');
+      const notification = () => toast("Kindly login before you can comment on this post");
+          notification();
       return;
     }
     if (commentInput === '') {
-      alert('Kindly input your comment');
+      const notification = () => toast('Kindly input your comment');
+      notification();
       return;
     }
   
@@ -180,9 +187,11 @@ try {
       await updateDoc(commentRef, {
         postComment: updatedComments
       });
-      alert('Success');
+      const notification = () => toast("You commented to this post")
+      notification();
     } catch (error) {
-      alert(error);
+      const notification = () => toast("An error occured")
+      notification();
     }
   }
   
