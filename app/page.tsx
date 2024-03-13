@@ -230,32 +230,35 @@ try {
             </div>
           </div>
           {
-            allPost.map(post => {
+              allPost.map(post => {
+                const postContents = post.postsContent.split(' ');
+                const tobeDisplayed = postContents.slice(0, 20).join(' ');
               return    <div key={post.postId} className="shadow-xl border bg-white relative  p-2 gap-[20px] rounded-[10px] flex-col flex">
               <div className="flex gap-1 flex-row items-center">
                   <h1 className="font-bold flex  capitalize items-center ">  {post.authorPics !== '' ? <Image src={post.authorPics} height={50} width={50} className="rounded-full " alt="post pic" /> :  <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />}@{post.authorName}</h1> <span className="text-slate-500 ">posted this</span> <GoDotFill/> <p className="text-slate-500 text-[10px]">{post.postsDate}</p>
               </div>
               <div className="">
-                  <p>{post.postsContent}</p>
-                  <button
-                    onClick={() => {
-                      showFullPostFn();
-                      setFullPostData({
-                        postImg: post.postImg,
-                        postsContent: post.postsContent,
-                        postId:post.postId,
-                        postsDate: post.postsDate,
-                        authorId: post.authorId,
-                        authorName: post.authorName,
-                        authorPics: post.authorPics,
-                        postComment: [...post.postComment],
-                        postLike: post.postLike,
-                        postRepost:post.postRepost,
-                        id:post.id,
-                      })
-                    }}
-                    type="button"
-                    className="font-bold">See More...</button>
+                  <p>{ tobeDisplayed }</p>
+                {postContents.length > 20 && <button
+                  onClick={() => {
+                    showFullPostFn();
+                    setFullPostData({
+                      postImg: post.postImg,
+                      postsContent: post.postsContent,
+                      postId:post.postId,
+                      postsDate: post.postsDate,
+                      authorId: post.authorId,
+                      authorName: post.authorName,
+                      authorPics: post.authorPics,
+                      postComment: [...post.postComment],
+                      postLike: post.postLike,
+                      postRepost:post.postRepost,
+                      id:post.id,
+                    })
+                  }}
+                  type="button"
+                  className="font-bold">See More...
+                </button>}
               </div>
               <Image src={post.postImg} width={500} height={300} className="rounded-[10px] " alt="post pic" />
               <div className="flex items-center border-t border-b py-[5px] justify-around">
