@@ -25,12 +25,14 @@ import { db } from "./components/config/firebase";
 import { v4 as uuid } from "uuid";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/ReactToastify.css";
+import { QuoteREpost } from "./components/quoteRepost/quoteRepost";
 export default function Home() {
   //const loggedInUser = userAuth();
   const allPost = AllThePost();
   const [showFullPost, setShowFullPost] = useState<boolean>(false)
   const [showPublishPost, setPublishPost] = useState<string>('hidden')
-  const [showRepost, setShowRepost] = useState<boolean>(false)
+  const [showRepost, setShowRepost] = useState<boolean>(false);
+  const [showQuoteRepost, setShowQuoteRepost] = useState<boolean>(false);
   const [fullPostdata, setFullPostData] = useState<allPostInfo>({
     postImg: '',
     postsContent: '',
@@ -55,60 +57,6 @@ setShowFullPost(true)
   console.log("comment", commentInput)
   console.log("post id", fullPostdata.id)
 
-  // const addComment = async () => {
-  //   if (!loggedInUser) {
-  //     alert('Kindly login');
-  //     return;
-  //   }
-  //   if (commentInput === '') {
-  //     alert('kindly input you comment');
-  //     return;
-  //   }
-   
-  //   try {
-  //     const commentRef = doc(db, 'posts', data?.id);
-  //     await updateDoc(commentRef, {
-  //       postComment: [{
-  //         commentDate: 'ggf',
-  //         commenterName: loggedInUser?.displayName,
-  //         commenterPic: loggedInUser?.photoURL,
-  //         commentContent: commentInput
-  //       }, ...data.postComment]
-  //     })
-  //     alert('success');
-  //   } catch (error) {
-  //     alert(error)
-  //   }
-  // }
-
-  // const addComment = async () => {
-  //   if (!loggedInUser) {
-  //     alert('Kindly login');
-  //     return;
-  //   }
-  //   if (commentInput === '') {
-  //     alert('Kindly input your comment');
-  //     return;
-  //   }
-  
-  //   try {
-  //     const commentRef = doc(db, 'posts', fullPostdata?.id);
-      
-  //     // Check if data.postComment is an array
-  //     const updatedComments = Array.isArray(fullPostdata.postComment) 
-  //       ? [{ commentDate: 'ggf', commenterName: loggedInUser?.displayName, commenterPic: loggedInUser?.photoURL, commentContent: commentInput }, ...fullPostdata.postComment]
-  //       : [{ commentDate: 'ggf', commenterName: loggedInUser?.displayName, commenterPic: loggedInUser?.photoURL, commentContent: commentInput }];
-  
-  //     await updateDoc(commentRef, {
-  //       postComment: updatedComments
-  //     });
-  
-  //     alert('Success');
-  //   } catch (error) {
-  //     alert(error);
-  //   }
-  // }
-  
 
   const likePost = async (post: allPostInfo) => {
     if (!loggedInUser) {
@@ -199,7 +147,8 @@ try {
   return (
     <>
       
-    <main className="flex min-h-screen pt-[100px] py-[20px] bg-slate-50 flex-col items-center  ">
+      <main className="flex min-h-screen pt-[100px] py-[20px] bg-slate-50 flex-col items-center  ">
+        {showQuoteRepost && <QuoteREpost data={fullPostdata} setShowQuoteRepost={setShowQuoteRepost} />}
    { showFullPost &&  <FullPost postComment={fullPostdata.postComment} data={fullPostdata} setFullPostData={setFullPostData} setShowFullPost={setShowFullPost} />}
      <PublishAPost displayPro={showPublishPost} setPublishPost={setPublishPost} />
       <div className="bg-white flex items-center justify-between gap-2 fixed px-[20px] py-[10px] z-[100] right-0 left-0 top-0 shadow border-b">
@@ -267,7 +216,24 @@ try {
                     className={post.postLike.find(like => like.likeId === loggedInUser?.uid) ? 'text-sky-700 ' : 'text-slate-500' }>{post.postLike.length} Likes</p></div>
                   <div onClick={() => showRepost? setShowRepost(false) : setShowRepost(true)} className=" flex items-center p-[5px] cursor-pointer gap-x-[5px] border-l "><BiRepost className="text-[20px] " /><p className="text-slate-500">{post.postRepost.length} Repost</p></div>
                   {showRepost && <div className="absolute flex flex-col gap-5 items-start rounded shadow-2xl bg-slate-700 bottom-[135px]  right-0 ">
-                    <button className=" bg-slate-100 p-[5px] text-slate-900 text-[20px] font-medium">Repost</button>
+                    <button
+                      onClick={() => {
+                        setFullPostData({
+                          postImg: post.postImg,
+                          postsContent: post.postsContent,
+                          postId:post.postId,
+                          postsDate: post.postsDate,
+                          authorId: post.authorId,
+                          authorName: post.authorName,
+                          authorPics: post.authorPics,
+                          postComment: [...post.postComment],
+                          postLike: post.postLike,
+                          postRepost:post.postRepost,
+                          id:post.id,
+                        })
+                      }}
+                      className=" bg-slate-100 p-[5px] text-slate-900 text-[20px] font-medium">Repost
+                    </button>
                     <button className="text-slate-50 text-[20px] p-[5px] font-medium">Quote </button>
                   </div>}
               </div>

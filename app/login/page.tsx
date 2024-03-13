@@ -40,7 +40,7 @@ export default function Login() {
     }
   }
   return (
-      <>{ user? redirect('/chat') :
+      <>{ user? redirect('/') :
         <div className="flex min-h-screen flex-col items-center justify-center p-24">
     <form className="grid  gap-5 items-center justify-center rounded shadow-2xl bg-slate-900 py-[30px] px-[30px]" action="">
         <h1 className="font-bold uppercase text-white text-center  text-[40px] ">Myu Chat</h1>
