@@ -218,6 +218,7 @@ try {
                   {showRepost && <div className="absolute flex flex-col gap-5 items-start rounded shadow-2xl bg-slate-700 bottom-[135px]  right-0 ">
                     <button
                       onClick={() => {
+                        setShowQuoteRepost(true);
                         setFullPostData({
                           postImg: post.postImg,
                           postsContent: post.postsContent,
