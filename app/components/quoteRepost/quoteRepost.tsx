@@ -1,18 +1,16 @@
 "use client"
 import { FaUserCircle } from "react-icons/fa";
-import CoverPics from '../../../public/codes.jpg';
-import { FaCommentAlt } from "react-icons/fa";
-import { SlLike } from "react-icons/sl";
-import { BiRepost } from "react-icons/bi";
+
 import { GoDotFill } from "react-icons/go";
 import { allPostInfo } from "@/app/components/allPosts/allPost";
 import Image from "next/image";
 import { fullDate } from "../publishAPost/publishAPost";
 import React, { useState } from "react";
 import { userAuth } from "../auths/auth";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
 import { useEffect } from "react";
+import { v4 as uuid } from "uuid";
 
 
 
@@ -51,6 +49,16 @@ export const QuoteREpost = ({ setShowQuoteRepost, data }: { setShowQuoteRepost: 
     };
   }, []);
 
+  const Repost = async () => {
+    const postRef = doc(db, 'posts',  uuid())
+try {
+  await setDoc(postRef, {
+    
+  })
+} catch (error) {
+  
+}
+  }
 
     return (
         <div>
@@ -70,11 +78,7 @@ export const QuoteREpost = ({ setShowQuoteRepost, data }: { setShowQuoteRepost: 
             
             </div>
             <Image src={data.postImg} height={400} width={500} className="w-full  " alt="post pic" />
-            <div className="flex items-center border-t border-b bg-slate-50 py-[10px] justify-around">
-              <div className=" flex items-center p-[5px] gap-x-[5px] rounded"><FaCommentAlt className="text-[20px] "/> <p className="text-slate-500">{data.postComment.length} Comments</p></div>
-              <div className=" flex items-center p-[5px] gap-x-[5px] rounded"><SlLike className="text-[20px] "/> <p className="text-slate-500">{data.postLike.length} Likes</p></div>
-              <div className=" flex items-center p-[5px] gap-x-[5px] rounded"><BiRepost className="text-[20px] " /><p className="text-slate-500">{data.postRepost} Repost</p></div>
-                        </div>
+          
                         </div>
                         </div>
 </div>

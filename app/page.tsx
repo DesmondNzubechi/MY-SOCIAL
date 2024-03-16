@@ -26,6 +26,7 @@ import { v4 as uuid } from "uuid";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/ReactToastify.css";
 import { QuoteREpost } from "./components/quoteRepost/quoteRepost";
+import { FaEdit } from "react-icons/fa";
 export default function Home() {
   //const loggedInUser = userAuth();
   const allPost = AllThePost();
@@ -214,10 +215,9 @@ try {
                   <div onClick={() => likePost(post)} className={` flex items-center p-[5px] cursor-pointer gap-x-[5px] ${post.postLike.find(like => like.likeId === loggedInUser?.uid) ? 'text-sky-700 ' : 'text-slate-500'}  `}><SlLike className="text-[20px] " /> <p
                     className={post.postLike.find(like => like.likeId === loggedInUser?.uid) ? 'text-sky-700 ' : 'text-slate-500' }>{post.postLike.length} Likes</p></div>
                   <div onClick={() => showRepost? setShowRepost(false) : setShowRepost(true)} className=" flex items-center p-[5px] cursor-pointer gap-x-[5px] border-l "><BiRepost className="text-[20px] " /><p className="text-slate-500">{post.postRepost.length} Repost</p></div>
-                  {showRepost && <div className="absolute flex flex-col gap-5 items-start rounded shadow-2xl bg-slate-700 bottom-[135px]  right-0 ">
+                  {showRepost && <div className="absolute flex flex-col bg-slate-50 gap-2 p-2 items-start rounded border  bottom-[135px]  right-0 ">
                     <button
                       onClick={() => {
-                        setShowQuoteRepost(true);
                         setFullPostData({
                           postImg: post.postImg,
                           postsContent: post.postsContent,
@@ -232,9 +232,24 @@ try {
                           id:post.id,
                         })
                       }}
-                      className=" bg-slate-100 p-[5px] text-slate-900 text-[20px] font-medium">Repost
+                      className=" text-slate-700 text-[15px] flex flex-row items-center gap-x-1"><BiRepost className="text-[20px] "/> Instant Repost
                     </button>
-                    <button className="text-slate-50 text-[20px] p-[5px] font-medium">Quote </button>
+                    <button  onClick={() => {
+                        setShowQuoteRepost(true);
+                        setFullPostData({
+                          postImg: post.postImg,
+                          postsContent: post.postsContent,
+                          postId:post.postId,
+                          postsDate: post.postsDate,
+                          authorId: post.authorId,
+                          authorName: post.authorName,
+                          authorPics: post.authorPics,
+                          postComment: [...post.postComment],
+                          postLike: post.postLike,
+                          postRepost:post.postRepost,
+                          id:post.id,
+                        })
+                      }} className="text-slate-700 text-[15px]  flex flex-row items-center gap-x-1"><FaEdit className="text-[20px] "/> Repost with you thought</button>
                   </div>}
               </div>
             
