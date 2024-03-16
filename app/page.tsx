@@ -89,6 +89,11 @@ setShowFullPost(true)
   }
 
   const Repost = async (post: allPostInfo) => {
+    if (!loggedInUser) {
+      const notification = () => toast('Kindly login before you can repost');
+      notification();
+      return;
+    }
     const postRef = doc(db, 'posts', uuid())
 try {
   await setDoc(postRef, {
@@ -106,8 +111,11 @@ try {
     respotDate: fullDate,
     reposterId: loggedInUser?.uid
   })
+  const notification = () => toast('succesfully reposted');
+  notification();
+  setShowRepost(false);
 } catch (error) {
-  
+  alert("an error occured")
 }
   }
 
@@ -182,7 +190,14 @@ try {
               allPost.map(post => {
                 const postContents = post.postsContent.split(' ');
                 const tobeDisplayed = postContents.slice(0, 20).join(' ');
-              return    <div key={post.postId} className="shadow-xl border bg-white relative  p-2 gap-[20px] rounded-[10px] flex-col flex">
+                return <div key={post.postId} className="shadow-xl border bg-white relative  p-2 gap-[20px] rounded-[10px] flex-col flex">
+               {/* post?.reposterName &&  <div className="bg-slate-100 p-2">
+              <div className="flex gap-1 flex-row items-center">
+              <h1 className="font-bold flex items-center ">  <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />@Nzubechukwu(B2R)</h1> <span className="text-slate-500 ">Reposted</span>
+              </div>
+              <p className="text-slate-700 text-[15px] mb-[10px]">Recursion and the Call Stack ✅What is Recursion? Recursion is a programming paradigm where a function solves a problem by breaking it</p>
+              
+              </div>*/}
               <div className="flex gap-1 flex-row items-center">
                   <h1 className="font-bold flex  capitalize items-center ">  {post.authorPics !== '' ? <Image src={post.authorPics} height={50} width={50} className="rounded-full " alt="post pic" /> :  <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />}@{post.authorName}</h1> <span className="text-slate-500 ">posted this</span> <GoDotFill/> <p className="text-slate-500 text-[10px]">{post.postsDate}</p>
               </div>
@@ -218,19 +233,7 @@ try {
                   {showRepost && <div className="absolute flex flex-col bg-slate-50 gap-2 p-2 items-start rounded border  bottom-[135px]  right-0 ">
                     <button
                       onClick={() => {
-                        setFullPostData({
-                          postImg: post.postImg,
-                          postsContent: post.postsContent,
-                          postId:post.postId,
-                          postsDate: post.postsDate,
-                          authorId: post.authorId,
-                          authorName: post.authorName,
-                          authorPics: post.authorPics,
-                          postComment: [...post.postComment],
-                          postLike: post.postLike,
-                          postRepost:post.postRepost,
-                          id:post.id,
-                        })
+                       Repost(post)
                       }}
                       className=" text-slate-700 text-[15px] flex flex-row items-center gap-x-1"><BiRepost className="text-[20px] "/> Instant Repost
                     </button>
