@@ -54,9 +54,14 @@ export default function Home() {
       })
       await setDoc(doc(db, "users", res.user.uid), {
         userID: res.user.uid,
-        username: res.user.displayName,
+        fullname: res.user.displayName,
         useremail: res.user.email,
-        userPic: res.user.photoURL
+        userPic: res.user.photoURL,
+        username: '',
+        bio: '',
+        location: '',
+        favourite: ''
+
       });
 
       await setDoc(doc(db, "UserChats", res.user.uid), {})

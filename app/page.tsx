@@ -142,7 +142,6 @@ try {
       notification();
     }
   }
-  
 
   return (
     <>
@@ -247,8 +246,16 @@ try {
             </div>
             })
           }
-          <div className="shadow-xl border bg-white  p-2 gap-[20px] rounded-[10px] flex-col flex">
-            <div className="flex gap-1 flex-row items-center">
+            <div className="shadow-xl border bg-white  gap-[20px] rounded-[10px] flex-col flex">
+              <div className="bg-slate-100 p-2">
+              <div className="flex gap-1 flex-row items-center">
+              <h1 className="font-bold flex items-center ">  <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />@Nzubechukwu(B2R)</h1> <span className="text-slate-500 ">Reposted</span>
+              </div>
+              {/* <p className="text-slate-700 text-[15px] mb-[10px]">Recursion and the Call Stack ✅What is Recursion? Recursion is a programming paradigm where a function solves a problem by breaking it</p>
+              */}
+              </div>
+              <div className="flex flex-col p-2">
+            <div className="flex gap-1  flex-row items-center">
               <h1 className="font-bold flex items-center ">  <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />@Nzubechukwu(B2R)</h1> <span className="text-slate-500 ">posted this</span> <GoDotFill/> <p className="text-slate-500 text-[10px]">2nd March 2024</p>
             </div>
             <div className="">
@@ -261,7 +268,7 @@ try {
               <div className=" flex items-center p-[5px] cursor-pointer gap-x-[5px] "><SlLike className="text-[20px] "/> <p className="text-slate-500">50 Likes</p></div>
               <div className=" flex items-center p-[5px] cursor-pointer gap-x-[5px] border-l "><BiRepost className="text-[20px] " /><p className="text-slate-500">10 Repost</p></div>
             </div>
-          
+          </div>
               <div className="py-[10px] w-full bg-slate-50 flex items-center justify-around px-[20px] gap-1">
                 <input type="text" placeholder="Input your comment" className="w-full outline-none bg-transparent" />
                 <button  type="button" className="bg-sky-500 p-2 rounded text-slate-50">Comment</button>

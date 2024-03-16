@@ -56,8 +56,8 @@ export const QuoteREpost = ({ setShowQuoteRepost, data }: { setShowQuoteRepost: 
         <div>
         <div className={`fixed  flex flex-col justify-center items-center top-0 bottom-0 left-0 right-0 h-full w-full bg-Tp z-[1000]`}>
           <div className="bg-slate-50 relative overflow-y-auto md:w-[700px] w-full md:h-[90vh] p-4   ">
-            <div className="py-[20px] px-[20px] border rounded-[20px] mt-[30px] flex item-center gap-x-5">
-              <input placeholder="Quote repost..." className="bg-transparent p-[5px] text-[20px]  w-full outline-none" type="text" />
+            <div className="py-[20px] px-[20px] border rounded-[20px] mt-[40px] flex item-center gap-x-5">
+              <input placeholder="Add Quote" className="bg-transparent p-[5px] text-[20px]  w-full outline-none" type="text" />
              <button className="bg-sky-500 text-slate-50 p-2 rounded">Repost</button>
             </div>
         <h1 onClick={() => setShowQuoteRepost(false)} className="uppercase text-white absolute z-[10] right-[5px] top-[10px] bg-slate-900 focus:bg-slate-500 cursor-pointer text-[20px] px-[12px] rounded-full py-[4px] ">X</h1>
