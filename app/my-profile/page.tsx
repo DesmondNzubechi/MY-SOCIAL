@@ -21,6 +21,15 @@ import { PublishAPost } from "../components/publishAPost/publishAPost";
 import { AllUser } from "../components/allUser/allUser";
 import { AllThePost } from "../components/allPosts/allPost";
 import { allPostInfo } from "../components/allPosts/allPost";
+import { doc, updateDoc, setDoc } from "firebase/firestore";
+import { fullDate } from "../components/publishAPost/publishAPost";
+import { db } from "../components/config/firebase";
+import { v4 as uuid } from "uuid";
+import { ToastContainer, toast } from "react-toastify";
+import { FaEdit } from "react-icons/fa";
+import 'react-toastify/ReactToastify.css';
+import { PublishAPostSideBar } from "../components/publishAPostSidebar/publishAPostSideBar";
+
 export default function MyProfile() {
   const allUser = AllUser();
   const loggedInUser = userAuth();
@@ -28,8 +37,11 @@ export default function MyProfile() {
   const [showFullPost, setShowFullPost] = useState<boolean>(false)
   const [showPublishPost, setPublishPost] = useState<string>('hidden')
   const [showEditProfile, setShowEditProfile] = useState<boolean>(false);
-  const [userInfo, setUserInfo] = useState<any>(null);
+  const [userInfo, setUserInfo] = useState<any>({});
   const [userPost, setUserPost] = useState<any[]>([]);
+  const [showRepost, setShowRepost] = useState<boolean>(false);
+  const [showQuoteRepost, setShowQuoteRepost] = useState<boolean>(false);
+
   const [fullPostdata, setFullPostData] = useState<allPostInfo>({
     postImg: '',
     postsContent: '',
@@ -43,27 +55,136 @@ export default function MyProfile() {
     postRepost: [],
     id: ''
   })
-  console.log("user info" , userInfo)
+  console.log("user info", allUser)
+  console.log("log in useer", loggedInUser)
   const fetchUserInfos = () => {
-    const userPersonalInfo = allUser.find((me: any) => me.userID === loggedInUser?.uid)
+   // const userPersonalInfo = allUser.find((me: any) => me.userID == loggedInUser?.uid)
     const userPost = allPost.filter((post: any) => {
-      return post.posterId === loggedInUser?.uid
-      || post.reposterId === loggedInUser?.uid
+      return post.authorId == loggedInUser?.uid
+      || post.reposterId == loggedInUser?.uid
     })
-    setUserInfo(userPersonalInfo);
+   // setUserInfo({...userPersonalInfo});
     setUserPost(userPost)
   }
 
   useEffect(() => {
+    if (!loggedInUser) {
+      return
+    }
+
+    
+
     fetchUserInfos();
   }, [loggedInUser])
 
+  console.log("user post", userPost)
   const showFullPostFn = () => {
 setShowFullPost(true)
   }
   
+  const [commentInput, setCommentInput] = useState<string>('');
+  console.log("comment", commentInput)
+  console.log("post id", fullPostdata.id)
+
+
+  const likePost = async (post: allPostInfo) => {
+    if (!loggedInUser) {
+      const notification = () => toast("Kindly login before you can like this post");
+      notification();
+      return;
+    }
+    const postRef = doc(db, 'posts', post.id)
+    try {
+      const likeStatus = post.postLike.find(like => like.likeId === loggedInUser?.uid);
+      const addLike = post.postLike.filter(like => like.likeId !== loggedInUser?.uid)
+     
+        if (likeStatus) {
+          await updateDoc(postRef, {
+            postLike: [...addLike]
+          })
+          const notification = () => toast("You unliked this post");
+          notification();
+        } else {
+          await updateDoc(postRef, {
+            postLike: [...post.postLike, {likeId: loggedInUser?.uid, likeName: loggedInUser?.displayName}]
+          })
+          const notification = () => toast("You liked this post");
+          notification();
+        }
+} catch (error) {
+  console.log(error)
+}
+  }
+
+  const Repost = async (post: allPostInfo) => {
+    if (!loggedInUser) {
+      const notification = () => toast('Kindly login before you can repost');
+      notification();
+      return;
+    }
+    const postRef = doc(db, 'posts', uuid())
+try {
+  await setDoc(postRef, {
+    postImg: post.postImg,
+    postsContent:post.postsContent,
+    postId: uuid(),
+    postsDate: post.postsDate,
+    authorId: post.authorId,
+    authorName: post.authorName,
+    authorPics: post.authorPics,
+    postComment: [],
+    postLike: [],
+    postRepost: post.postRepost,
+    reposterName: loggedInUser?.displayName,
+    reposterPics: loggedInUser?.photoURL,
+    respotDate: fullDate,
+    reposterId: loggedInUser?.uid
+  })
+  const notification = () => toast('succesfully reposted');
+  notification();
+  setShowRepost(false);
+} catch (error) {
+  alert("an error occured")
+}
+  }
+
+
+  
+  const addCommentfn = async (post: allPostInfo) => {
+    if (!loggedInUser) {
+      const notification = () => toast("Kindly login before you can comment on this post");
+          notification();
+      return;
+    }
+    if (commentInput === '') {
+      const notification = () => toast('Kindly input your comment');
+      notification();
+      return;
+    }
+  
+    try {
+      const commentRef = doc(db, 'posts', post?.id);
+      
+      // Check if post.postComment is an array
+      const updatedComments = Array.isArray(post.postComment) 
+        ? [{ commentDate: fullDate, commenterName: loggedInUser?.displayName, commenterPic: loggedInUser?.photoURL, commentContent: commentInput }, ...post.postComment]
+        : [{ commentDate: fullDate, commenterName: loggedInUser?.displayName, commenterPic: loggedInUser?.photoURL, commentContent: commentInput }];
+  
+      await updateDoc(commentRef, {
+        postComment: updatedComments
+      });
+      const notification = () => toast("You commented to this post")
+      notification();
+    } catch (error) {
+      const notification = () => toast("An error occured")
+      notification();
+    }
+  }
+
+
   return (
     <main className="flex min-h-screen py-[20px] flex-col items-center  ">
+      <PublishAPostSideBar/>
       <SideBar setPublishPost={setPublishPost}/>
       <PublishAPost displayPro={showPublishPost} setPublishPost={setPublishPost} />
     { showEditProfile && <EditProfile setShowEditProfile={setShowEditProfile} />}
@@ -103,37 +224,78 @@ setShowFullPost(true)
 <span className="flex items-center gap-1 text-slate-500"><IoIosTime /> <p className="capitalize">Joined March 2024</p></span>
           </div>
 
-          <div className="flex mt-[20px] items-center border rounded justify-around ">
+          {/* <div className="flex mt-[20px] items-center border rounded justify-around ">
             <button className="bg-slate-900 text-slate-50 text-[20px] uppercase font-bold w-full py-[10px]">My Post</button>
             <button className="w-full py-[10px] text-[20px] uppercase font-bold">Repost</button>
-          </div>
+          </div> */}
         </div>
-
-       
-        <div className="py-[50px] ">
-          <div className="shadow-xl border  p-2 gap-[20px] rounded-[10px] flex-col flex">
-            <div className="flex gap-1 flex-row items-center">
-              <h1 className="font-bold flex items-center ">  <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />@Nzubechukwu(B2R)</h1> <span className="text-slate-500 ">posted this</span> <GoDotFill/> <p className="text-slate-500 text-[10px]">2nd March 2024</p>
-            </div>
-            <div className="">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-            <button type="button" className="font-bold">See More...</button>
-            </div>
-            <Image src={CoverPics} className="rounded-[10px] " alt="post pic" />
-            <div className="flex items-center border-t border-b py-[5px] justify-around">
-              <div className=" border-r flex items-center p-[5px] gap-x-[5px] "><FaCommentAlt className="text-[20px] "/> <p className="text-slate-500">20 Comments</p></div>
-              <div className=" flex items-center p-[5px] gap-x-[5px] "><SlLike className="text-[20px] "/> <p className="text-slate-500">50 Likes</p></div>
-              <div className=" flex items-center p-[5px] gap-x-[5px] border-l "><BiRepost className="text-[20px] " /><p className="text-slate-500">10 Repost</p></div>
-            </div>
-          
-              <div className="py-[10px] w-full bg-slate-50 flex items-center justify-around px-[20px] gap-1">
-                <input type="text" placeholder="Input your comment" className="w-full outline-none bg-transparent" />
-                <button type="button" className="bg-sky-500 p-2 rounded text-slate-50">Comment</button>
+        <div className="flex flex-col py-[50px] gap-5">
+    
+        {
+              allPost.map((post) => {
+                const postContents = post.postsContent.split(' ');
+                const tobeDisplayed = postContents.slice(0, 20).join(' ');
+                return <div key={post.id} className="shadow-xl border bg-white relative  gap-[20px] rounded-[10px] flex-col flex">
+             {  post?.reposterName &&  <div className="bg-slate-100 p-2">
+              <div className="flex gap-1 flex-row items-center">
+              <h1 className="font-bold flex  capitalize items-center ">  {(post.reposterPics !== '' || post.reposterPics) ? <Image src={post.reposterPics} height={50} width={50} className="rounded-full " alt="post pic" /> :  <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />}@{post.reposterName}</h1> <span className="text-slate-500 ">Reposted</span> <GoDotFill/> <p className="text-slate-500 text-[10px]">{post.respotDate}</p>
               </div>
-           
-          </div>
-        </div>
-     </div>
+                    <p className="text-slate-700 text-[15px] mb-[10px]">{post.repostThought}</p>
+              
+                  </div>}
+                  <div className="flex flex-col gap-[20px] p-2">
+              <div className="flex gap-1  flex-row items-center">
+                  <h1 className="font-bold flex  capitalize items-center ">  {post.authorPics !== '' ? <Image src={post.authorPics} height={50} width={50} className="rounded-full " alt="post pic" /> :  <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />}@{post.authorName}</h1> <span className="text-slate-500 ">posted this</span> <GoDotFill/> <p className="text-slate-500 text-[10px]">{post.postsDate}</p>
+              </div>
+              <div className="">
+                  <p>{ tobeDisplayed }</p>
+                {postContents.length > 20 && <button
+                  onClick={() => {
+                    showFullPostFn();
+                    setFullPostData({...post})
+                  }}
+                  type="button"
+                  className="font-bold">See More...
+                </button>}
+              </div>
+              <Image src={post.postImg} width={500} height={300} className="rounded-[10px] " alt="post pic" />
+              <div className="flex items-center border-t border-b py-[5px] justify-around">
+                <div  onClick={() => {
+                    showFullPostFn();
+                    setFullPostData({...post})
+                  }} className=" border-r flex items-center cursor-pointer p-[5px] gap-x-[5px] "><FaCommentAlt className="text-[20px] "/> <p className="text-slate-500">{post.postComment.length} Comments</p></div>
+                  <div onClick={() => likePost(post)} className={` flex items-center p-[5px] cursor-pointer gap-x-[5px] ${post.postLike.find((like: any) => like.likeId === loggedInUser?.uid) ? 'text-sky-700 ' : 'text-slate-500'}  `}><SlLike className="text-[20px] " /> <p
+                    className={post.postLike.find((like: any) => like.likeId === loggedInUser?.uid) ? 'text-sky-700 ' : 'text-slate-500' }>{post.postLike.length} Likes</p></div>
+                  <div onClick={() => showRepost? setShowRepost(false) : setShowRepost(true)} className=" flex items-center p-[5px] cursor-pointer gap-x-[5px] border-l "><BiRepost className="text-[20px] " /><p className="text-slate-500">{post?.postRepost?.length} Repost</p></div>
+                  {showRepost && <div className="absolute flex flex-col bg-slate-50 gap-2 p-2 items-start rounded border  bottom-[135px]  right-0 ">
+                    <button
+                      onClick={() => {
+                       Repost(post)
+                      }}
+                      className=" text-slate-700 text-[15px] flex flex-row items-center gap-x-1"><BiRepost className="text-[20px] "/> Instant Repost
+                    </button>
+                    <button  onClick={() => {
+                        setShowQuoteRepost(true);
+                        setFullPostData({...post})
+                      }} className="text-slate-700 text-[15px]  flex flex-row items-center gap-x-1"><FaEdit className="text-[20px] "/> Repost with you thought</button>
+                  </div>}
+              </div>
+            
+                <div className="py-[10px] w-full bg-slate-50 flex items-center justify-around px-[20px] gap-1">
+                  <input onChange={(e) => setCommentInput(e.target.value)} type="text" placeholder="Input your comment" className="w-full outline-none bg-transparent" />
+                      <button onClick={() => {
+                        addCommentfn(post);
+                          showFullPostFn();
+                          setFullPostData({...post})
+                      }} type="button" className="bg-sky-500 p-2 rounded text-slate-50">Comment</button>
+                </div>
+                </div>
+            </div>
+            })
+          }   
+</div>
+      </div>
+     
     </main>
   );
 }

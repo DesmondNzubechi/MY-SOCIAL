@@ -27,6 +27,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/ReactToastify.css";
 import { QuoteREpost } from "./components/quoteRepost/quoteRepost";
 import { FaEdit } from "react-icons/fa";
+import { PublishAPostSideBar } from "./components/publishAPostSidebar/publishAPostSideBar";
 //import { postCard } from "./components/postCard/postCard";
 export default function Home() {
   //const loggedInUser = userAuth();
@@ -174,7 +175,7 @@ try {
       <div></div>
         {/* SIDE BAR */}
        <SideBar setPublishPost={setPublishPost}/>
-     
+    
         <div className="md:col-span-3 flex max-w-[500px] flex-col gap-5">
           <div onClick={() => setPublishPost('block')} className="flex flex-col cursor-pointer gap-y-2 bg-white p-4 rounded">
             <div className="flex flex-row gap-x-[20px] items-center">
@@ -210,19 +211,7 @@ try {
                 {postContents.length > 20 && <button
                   onClick={() => {
                     showFullPostFn();
-                    setFullPostData({
-                      postImg: post.postImg,
-                      postsContent: post.postsContent,
-                      postId:post.postId,
-                      postsDate: post.postsDate,
-                      authorId: post.authorId,
-                      authorName: post.authorName,
-                      authorPics: post.authorPics,
-                      postComment: [...post.postComment],
-                      postLike: post.postLike,
-                      postRepost:post.postRepost,
-                      id:post.id,
-                    })
+                    setFullPostData({...post})
                   }}
                   type="button"
                   className="font-bold">See More...
@@ -230,7 +219,10 @@ try {
               </div>
               <Image src={post.postImg} width={500} height={300} className="rounded-[10px] " alt="post pic" />
               <div className="flex items-center border-t border-b py-[5px] justify-around">
-                <div onClick={showFullPostFn} className=" border-r flex items-center cursor-pointer p-[5px] gap-x-[5px] "><FaCommentAlt className="text-[20px] "/> <p className="text-slate-500">{post.postComment.length} Comments</p></div>
+                <div  onClick={() => {
+                    showFullPostFn();
+                    setFullPostData({...post})
+                  }} className=" border-r flex items-center cursor-pointer p-[5px] gap-x-[5px] "><FaCommentAlt className="text-[20px] "/> <p className="text-slate-500">{post.postComment.length} Comments</p></div>
                   <div onClick={() => likePost(post)} className={` flex items-center p-[5px] cursor-pointer gap-x-[5px] ${post.postLike.find((like: any) => like.likeId === loggedInUser?.uid) ? 'text-sky-700 ' : 'text-slate-500'}  `}><SlLike className="text-[20px] " /> <p
                     className={post.postLike.find((like: any) => like.likeId === loggedInUser?.uid) ? 'text-sky-700 ' : 'text-slate-500' }>{post.postLike.length} Likes</p></div>
                   <div onClick={() => showRepost? setShowRepost(false) : setShowRepost(true)} className=" flex items-center p-[5px] cursor-pointer gap-x-[5px] border-l "><BiRepost className="text-[20px] " /><p className="text-slate-500">{post?.postRepost?.length} Repost</p></div>
@@ -243,26 +235,18 @@ try {
                     </button>
                     <button  onClick={() => {
                         setShowQuoteRepost(true);
-                        setFullPostData({
-                          postImg: post.postImg,
-                          postsContent: post.postsContent,
-                          postId:post.postId,
-                          postsDate: post.postsDate,
-                          authorId: post.authorId,
-                          authorName: post.authorName,
-                          authorPics: post.authorPics,
-                          postComment: [...post.postComment],
-                          postLike: post.postLike,
-                          postRepost:post.postRepost,
-                          id:post.id,
-                        })
+                        setFullPostData({...post})
                       }} className="text-slate-700 text-[15px]  flex flex-row items-center gap-x-1"><FaEdit className="text-[20px] "/> Repost with you thought</button>
                   </div>}
               </div>
             
                 <div className="py-[10px] w-full bg-slate-50 flex items-center justify-around px-[20px] gap-1">
                   <input onChange={(e) => setCommentInput(e.target.value)} type="text" placeholder="Input your comment" className="w-full outline-none bg-transparent" />
-                  <button onClick={() => addCommentfn(post)} type="button" className="bg-sky-500 p-2 rounded text-slate-50">Comment</button>
+                      <button onClick={() => {
+                        addCommentfn(post);
+                          showFullPostFn();
+                          setFullPostData({...post})
+                      }} type="button" className="bg-sky-500 p-2 rounded text-slate-50">Comment</button>
                 </div>
                 </div>
             </div>
