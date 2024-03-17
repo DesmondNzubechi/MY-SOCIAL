@@ -11,6 +11,7 @@ import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
 import { useEffect } from "react";
 import { v4 as uuid } from "uuid";
+import { toast } from "react-toastify";
 
 
 
@@ -34,15 +35,14 @@ export interface Quote {
 
 export const QuoteREpost = ({ setShowQuoteRepost, data }: { setShowQuoteRepost: React.Dispatch<React.SetStateAction<boolean>>, data: allPostInfo}) => {
   const loggedInUser = userAuth();
-  const [commentInput, setCommentInput] = useState<string>('');
-  console.log("comment", commentInput)
+  const [repostThought, setRepostThought] = useState<string>('');
+
 
   
   // Add useEffect to handle overflow when the component mounts and unmounts
   useEffect(() => {
     // On component mount
     document.body.style.overflow = 'hidden';
-
     // On component unmount
     return () => {
       document.body.style.overflow = 'auto';
@@ -50,11 +50,33 @@ export const QuoteREpost = ({ setShowQuoteRepost, data }: { setShowQuoteRepost: 
   }, []);
 
   const Repost = async () => {
+    if (!repostThought) {
+      const notification = () => toast("Please add your thought before you repost");
+      notification();
+      return;
+    }
     const postRef = doc(db, 'posts',  uuid())
 try {
   await setDoc(postRef, {
-    
-  })
+    postImg: data.postImg,
+    postsContent: data.postsContent,
+    postId: data.postId,
+    postsDate: data.postsDate,
+    authorId: data.authorId,
+    authorName: data.authorName,
+    authorPics: data.authorPics,
+    postComment: data.postComment,
+    postLike: data.postLike,
+    postRepost: data.postRepost,
+    reposterName: loggedInUser?.displayName,
+    respotDate: fullDate,
+    reposterId: loggedInUser?.uid,
+    repostThought: repostThought,
+    repostId: uuid()
+  });
+  const notification = () => toast("Reposted succesfully⭐");
+  notification();
+  setShowQuoteRepost(false)
 } catch (error) {
   
 }
@@ -65,8 +87,8 @@ try {
         <div className={`fixed  flex flex-col justify-center items-center top-0 bottom-0 left-0 right-0 h-full w-full bg-Tp z-[1000]`}>
           <div className="bg-slate-50 relative overflow-y-auto md:w-[700px] w-full md:h-[90vh] p-4   ">
             <div className="py-[20px] px-[20px] border rounded-[20px] mt-[40px] flex item-center gap-x-5">
-              <input placeholder="Add Quote" className="bg-transparent p-[5px] text-[20px]  w-full outline-none" type="text" />
-             <button className="bg-sky-500 text-slate-50 p-2 rounded">Repost</button>
+              <input onChange={(e) => setRepostThought(e.target.value)} placeholder="Add Quote" className="bg-transparent p-[5px] text-[20px]  w-full outline-none" type="text" />
+             <button type="button" onClick={Repost} className="bg-sky-500 text-slate-50 p-2 rounded">Repost</button>
             </div>
         <h1 onClick={() => setShowQuoteRepost(false)} className="uppercase text-white absolute z-[10] right-[5px] top-[10px] bg-slate-900 focus:bg-slate-500 cursor-pointer text-[20px] px-[12px] rounded-full py-[4px] ">X</h1>
           <div className=" p-2 gap-[20px] relative pb-[70px] flex-col flex">

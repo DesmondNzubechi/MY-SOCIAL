@@ -21,7 +21,7 @@ export interface allPostInfo {
 export const AllThePost = () => {
  
 
-    const [allThePost, setAllThePost] = useState<allPostInfo[]>([]);
+    const [allThePost, setAllThePost] = useState<allPostInfo[] | any[]>([]);
 
     useEffect(() => {
         const postCollection = collection(db, 'posts');
