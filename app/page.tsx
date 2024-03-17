@@ -28,9 +28,13 @@ import "react-toastify/ReactToastify.css";
 import { QuoteREpost } from "./components/quoteRepost/quoteRepost";
 import { FaEdit } from "react-icons/fa";
 import { PublishAPostSideBar } from "./components/publishAPostSidebar/publishAPostSideBar";
+import { PostSkeleton } from "./components/SkeletonLoader/postSkeleton";
+import { SideBarSkeleton } from "./components/SkeletonLoader/SidebarSkeleton";
+import { PublishAPostSideBarSkeleton } from "./components/SkeletonLoader/PublishApostSkeleton";
 //import { postCard } from "./components/postCard/postCard";
 export default function Home() {
   //const loggedInUser = userAuth();
+  const skeletonLoader = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   const allPost = AllThePost();
   const [showFullPost, setShowFullPost] = useState<boolean>(false)
   const [showPublishPost, setPublishPost] = useState<string>('hidden')
@@ -172,12 +176,14 @@ try {
       
       </div>
       <div className="grid md:grid-cols-6 px-[30px] relative">
-      <div></div>
-        {/* SIDE BAR */}
-       <SideBar setPublishPost={setPublishPost}/>
+          <div></div>
+          <div></div>
+          {/* SIDE BAR */}
+        {allPost.length == 0? <PublishAPostSideBarSkeleton/> :  <PublishAPostSideBar/>}
+      {allPost.length == 0? <SideBarSkeleton/> : <SideBar setPublishPost={setPublishPost}/>}
     
-        <div className="md:col-span-3 flex max-w-[500px] flex-col gap-5">
-          <div onClick={() => setPublishPost('block')} className="flex flex-col cursor-pointer gap-y-2 bg-white p-4 rounded">
+        <div className="md:col-span-2 flex max-w-[500px] flex-col gap-5">
+          <div onClick={() => setPublishPost('block')} className="md:hidden flex flex-col cursor-pointer gap-y-2 bg-white p-4 rounded">
             <div className="flex flex-row gap-x-[20px] items-center">
               <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />
               <div className="text-slate-500 p-3 border w-full rounded-[10px]">Write a post here...</div>
@@ -189,9 +195,10 @@ try {
               <button className="bg-sky-500 text-slate-50 p-2 rounded">Publish Post</button>
             </div>
             </div>
-           
+            
+            {allPost.length == 0 && skeletonLoader.map(skel => <PostSkeleton />)}
           {
-              allPost.map((post) => {
+              allPost && allPost.map((post) => {
                 const postContents = post.postsContent.split(' ');
                 const tobeDisplayed = postContents.slice(0, 20).join(' ');
                 return <div key={post.id} className="shadow-xl border bg-white relative  gap-[20px] rounded-[10px] flex-col flex">
@@ -222,10 +229,10 @@ try {
                 <div  onClick={() => {
                     showFullPostFn();
                     setFullPostData({...post})
-                  }} className=" border-r flex items-center cursor-pointer p-[5px] gap-x-[5px] "><FaCommentAlt className="text-[20px] "/> <p className="text-slate-500">{post.postComment.length} Comments</p></div>
+                  }} className="  flex items-center cursor-pointer p-[5px] gap-x-[5px] "><FaCommentAlt className="text-[20px] "/> <p className="text-slate-500">{post.postComment.length} Comments</p></div>
                   <div onClick={() => likePost(post)} className={` flex items-center p-[5px] cursor-pointer gap-x-[5px] ${post.postLike.find((like: any) => like.likeId === loggedInUser?.uid) ? 'text-sky-700 ' : 'text-slate-500'}  `}><SlLike className="text-[20px] " /> <p
                     className={post.postLike.find((like: any) => like.likeId === loggedInUser?.uid) ? 'text-sky-700 ' : 'text-slate-500' }>{post.postLike.length} Likes</p></div>
-                  <div onClick={() => showRepost? setShowRepost(false) : setShowRepost(true)} className=" flex items-center p-[5px] cursor-pointer gap-x-[5px] border-l "><BiRepost className="text-[20px] " /><p className="text-slate-500">{post?.postRepost?.length} Repost</p></div>
+                  <div onClick={() => showRepost? setShowRepost(false) : setShowRepost(true)} className=" flex items-center p-[5px] cursor-pointer gap-x-[5px]  "><BiRepost className="text-[20px] " /><p className="text-slate-500">{post?.postRepost?.length} Repost</p></div>
                   {showRepost && <div className="absolute flex flex-col bg-slate-50 gap-2 p-2 items-start rounded border  bottom-[135px]  right-0 ">
                     <button
                       onClick={() => {
@@ -244,7 +251,7 @@ try {
                   <input onChange={(e) => setCommentInput(e.target.value)} type="text" placeholder="Input your comment" className="w-full outline-none bg-transparent" />
                       <button onClick={() => {
                         addCommentfn(post);
-                          showFullPostFn();
+                         // showFullPostFn();
                           setFullPostData({...post})
                       }} type="button" className="bg-sky-500 p-2 rounded text-slate-50">Comment</button>
                 </div>
@@ -252,35 +259,7 @@ try {
             </div>
             })
           }
-            <div className="shadow-xl border bg-white  gap-[20px] rounded-[10px] flex-col flex">
-              <div className="bg-slate-100 p-2">
-              <div className="flex gap-1 flex-row items-center">
-              <h1 className="font-bold flex items-center ">  <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />@Nzubechukwu(B2R)</h1> <span className="text-slate-500 ">Reposted</span>
-              </div>
-              {/* <p className="text-slate-700 text-[15px] mb-[10px]">Recursion and the Call Stack ✅What is Recursion? Recursion is a programming paradigm where a function solves a problem by breaking it</p>
-              */}
-              </div>
-              <div className="flex flex-col p-2">
-            <div className="flex gap-1  flex-row items-center">
-              <h1 className="font-bold flex items-center ">  <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />@Nzubechukwu(B2R)</h1> <span className="text-slate-500 ">posted this</span> <GoDotFill/> <p className="text-slate-500 text-[10px]">2nd March 2024</p>
-            </div>
-            <div className="">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-            <button onClick={showFullPostFn} type="button" className="font-bold">See More...</button>
-            </div>
-            <Image src={CoverPics} className="rounded-[10px] " alt="post pic" />
-            <div className="flex items-center border-t border-b py-[5px] justify-around">
-              <div onClick={showFullPostFn} className=" border-r flex items-center cursor-pointer p-[5px] gap-x-[5px] "><FaCommentAlt className="text-[20px] "/> <p className="text-slate-500">20 Comments</p></div>
-              <div className=" flex items-center p-[5px] cursor-pointer gap-x-[5px] "><SlLike className="text-[20px] "/> <p className="text-slate-500">50 Likes</p></div>
-              <div className=" flex items-center p-[5px] cursor-pointer gap-x-[5px] border-l "><BiRepost className="text-[20px] " /><p className="text-slate-500">10 Repost</p></div>
-            </div>
-          </div>
-              <div className="py-[10px] w-full bg-slate-50 flex items-center justify-around px-[20px] gap-1">
-                <input type="text" placeholder="Input your comment" className="w-full outline-none bg-transparent" />
-                <button  type="button" className="bg-sky-500 p-2 rounded text-slate-50">Comment</button>
-              </div>
            
-          </div>
         </div>
         </div>
         <ToastContainer autoClose={2000} />

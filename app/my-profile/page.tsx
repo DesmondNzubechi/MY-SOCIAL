@@ -183,7 +183,7 @@ try {
 
 
   return (
-    <main className="flex min-h-screen py-[20px] flex-col items-center  ">
+    <main className="flex min-h-screen bg-slate-50 py-[20px] flex-col items-center  ">
       <PublishAPostSideBar/>
       <SideBar setPublishPost={setPublishPost}/>
       <PublishAPost displayPro={showPublishPost} setPublishPost={setPublishPost} />
