@@ -116,7 +116,7 @@ export const FullPost = ({ setShowFullPost, data, postComment, setFullPostData }
                     console.log("comments data", comment)
                     return  <div key={index} className="flex flex-start gap-1">
                     <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />
-                    <div clasName='flex flex-col gap-1 bg-slate-200 rounded-bl-[20px]  rounded-r-[20px] p-3'>
+                    <div className='flex flex-col gap-1 bg-slate-200 rounded-bl-[20px]  rounded-r-[20px] p-3'>
                 <div className="flex gap-1 flex-row items-center">
                           <h1 className="font-bold flex items-center "> @{commenterName}</h1> <span className="text-slate-500 text-[10px] ">Commented</span> <GoDotFill/> <p className="text-slate-500 text-[10px]">{commentDate}</p>
     </div>
@@ -126,11 +126,8 @@ export const FullPost = ({ setShowFullPost, data, postComment, setFullPostData }
                   })
                  
               }
-                      
-                          
-                            
+       
                         </div>
-                      
                         {/* ADD YOUR COMMENTS */}
                         <div className="bg-slate-50 bottom-0 md:left-[24%] md:right-[24%] fixed left-0 right-0 border-t md:bottom-[20px] p-2">
                         <div className="py-[10px] w-full bg-white flex items-center justify-around px-[20px] gap-1">

@@ -69,6 +69,7 @@ try {
     postLike: data.postLike,
     postRepost: data.postRepost,
     reposterName: loggedInUser?.displayName,
+    reposterPics: loggedInUser?.photoURL,
     respotDate: fullDate,
     reposterId: loggedInUser?.uid,
     repostThought: repostThought,

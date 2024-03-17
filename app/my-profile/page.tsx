@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import CoverPics from '../../public/codes.jpg'
 import { userAuth } from "../components/auths/auth";
@@ -18,21 +18,56 @@ import { FullPost } from "../components/full post/fullPost";
 import { SideBar } from "../components/sidebar/sidebar";
 import { EditProfile } from "../components/editProfile/editProfile";
 import { PublishAPost } from "../components/publishAPost/publishAPost";
+import { AllUser } from "../components/allUser/allUser";
+import { AllThePost } from "../components/allPosts/allPost";
+import { allPostInfo } from "../components/allPosts/allPost";
 export default function MyProfile() {
+  const allUser = AllUser();
+  const loggedInUser = userAuth();
+  const allPost = AllThePost();
   const [showFullPost, setShowFullPost] = useState<boolean>(false)
   const [showPublishPost, setPublishPost] = useState<string>('hidden')
   const [showEditProfile, setShowEditProfile] = useState<boolean>(false);
-  
+  const [userInfo, setUserInfo] = useState<any>(null);
+  const [userPost, setUserPost] = useState<any[]>([]);
+  const [fullPostdata, setFullPostData] = useState<allPostInfo>({
+    postImg: '',
+    postsContent: '',
+    postId:'',
+    postsDate: '',
+    authorId: '',
+    authorName: '',
+    authorPics: '',
+    postComment: [],
+    postLike: [],
+    postRepost: [],
+    id: ''
+  })
+  console.log("user info" , userInfo)
+  const fetchUserInfos = () => {
+    const userPersonalInfo = allUser.find((me: any) => me.userID === loggedInUser?.uid)
+    const userPost = allPost.filter((post: any) => {
+      return post.posterId === loggedInUser?.uid
+      || post.reposterId === loggedInUser?.uid
+    })
+    setUserInfo(userPersonalInfo);
+    setUserPost(userPost)
+  }
+
+  useEffect(() => {
+    fetchUserInfos();
+  }, [loggedInUser])
+
   const showFullPostFn = () => {
 setShowFullPost(true)
   }
-  //const loggedInUser = userAuth();
+  
   return (
     <main className="flex min-h-screen py-[20px] flex-col items-center  ">
       <SideBar setPublishPost={setPublishPost}/>
       <PublishAPost displayPro={showPublishPost} setPublishPost={setPublishPost} />
     { showEditProfile && <EditProfile setShowEditProfile={setShowEditProfile} />}
-    { showFullPost && <FullPost  setShowFullPost={setShowFullPost}/>}
+    { showFullPost &&  <FullPost postComment={fullPostdata.postComment} data={fullPostdata} setFullPostData={setFullPostData} setShowFullPost={setShowFullPost} />}
       <div className="relative max-w-[500px] px-[20px]">
         <Image alt="cover pics" src={CoverPics} className="rounded w-full" height={200} />
         <input type="file" onChange={(e) => {
@@ -56,7 +91,7 @@ setShowFullPost(true)
         <button onClick={() => showEditProfile ? setShowEditProfile(false) : setShowEditProfile(true) } className="absolute top-[300px] right-[30px] active:bg-slate-200 shadow-2xl border p-2 rounded-[5px] text-slate-700 text-[20px] ">Edit Profile</button>
         <div className="pt-[180px] flex flex-col gap-y-[20px]">
           <div>
-            <h1 className="font-bold text-[20px] text-slate-900 capitalize">Desmond Nzubechukwu</h1>
+            <h1 className="font-bold text-[20px] text-slate-900 capitalize">{userInfo?.username}</h1>
             <p className="font-[500] text-slate-500">@Nzubechukwu(B2R)</p>
           </div>
           <div>

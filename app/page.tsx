@@ -105,10 +105,11 @@ try {
     authorId: post.authorId,
     authorName: post.authorName,
     authorPics: post.authorPics,
-    postComment: post.postComment,
-    postLike: post.postLike,
+    postComment: [],
+    postLike: [],
     postRepost: post.postRepost,
     reposterName: loggedInUser?.displayName,
+    reposterPics: loggedInUser?.photoURL,
     respotDate: fullDate,
     reposterId: loggedInUser?.uid
   })
@@ -195,7 +196,7 @@ try {
                 return <div key={post.id} className="shadow-xl border bg-white relative  gap-[20px] rounded-[10px] flex-col flex">
              {  post?.reposterName &&  <div className="bg-slate-100 p-2">
               <div className="flex gap-1 flex-row items-center">
-              <h1 className="font-bold flex  capitalize items-center ">  {post.reposterPics  ? <Image src={post.ReposterPics} height={50} width={50} className="rounded-full " alt="post pic" /> :  <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />}@{post.reposterName}</h1> <span className="text-slate-500 ">Reposted</span> <GoDotFill/> <p className="text-slate-500 text-[10px]">{post.respotDate}</p>
+              <h1 className="font-bold flex  capitalize items-center ">  {(post.reposterPics !== '' || post.reposterPics) ? <Image src={post.reposterPics} height={50} width={50} className="rounded-full " alt="post pic" /> :  <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />}@{post.reposterName}</h1> <span className="text-slate-500 ">Reposted</span> <GoDotFill/> <p className="text-slate-500 text-[10px]">{post.respotDate}</p>
               </div>
                     <p className="text-slate-700 text-[15px] mb-[10px]">{post.repostThought}</p>
               
