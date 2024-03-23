@@ -41,7 +41,7 @@ export default function MyProfile() {
   const [userPost, setUserPost] = useState<any[]>([]);
   const [showRepost, setShowRepost] = useState<boolean>(false);
   const [showQuoteRepost, setShowQuoteRepost] = useState<boolean>(false);
-
+  const [myPost, setMyPost] = useState<any[]>([]);
   const [fullPostdata, setFullPostData] = useState<allPostInfo>({
     postImg: '',
     postsContent: '',
@@ -181,7 +181,17 @@ try {
     }
   }
 
+  const getMyPost = () => {
+    const filterPost = allPost.filter(post => {
+      return post.authorId === loggedInUser?.uid
+    })
+    setMyPost(filterPost);
+  }
 
+  useEffect(() => {
+    getMyPost();
+  }, [allPost, loggedInUser])
+console.log("all post", myPost)
   return (
     <main className="flex min-h-screen bg-slate-50 py-[20px] flex-col items-center  ">
       <PublishAPostSideBar/>
@@ -232,7 +242,7 @@ try {
         <div className="flex flex-col py-[50px] gap-5">
     
         {
-              allPost.map((post) => {
+              myPost.map((post) => {
                 const postContents = post.postsContent.split(' ');
                 const tobeDisplayed = postContents.slice(0, 20).join(' ');
                 return <div key={post.id} className="shadow-xl border bg-white relative  gap-[20px] rounded-[10px] flex-col flex">

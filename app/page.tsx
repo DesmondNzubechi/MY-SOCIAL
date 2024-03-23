@@ -13,8 +13,6 @@ import { FullPost } from "./components/full post/fullPost";
 import { PublishAPost } from "./components/publishAPost/publishAPost";
 import { IoMdPhotos } from "react-icons/io";
 import { MdVideoLibrary } from "react-icons/md";
-import { FaSearch } from "react-icons/fa";
-import { IoMdLogOut } from "react-icons/io";
 import { TbSocial } from "react-icons/tb";
 import { AllThePost } from "./components/allPosts/allPost";
 import { allPostInfo } from "./components/allPosts/allPost";
@@ -34,7 +32,7 @@ import { PublishAPostSideBarSkeleton } from "./components/SkeletonLoader/Publish
 //import { postCard } from "./components/postCard/postCard";
 export default function Home() {
   //const loggedInUser = userAuth();
-  const skeletonLoader = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  const skeletonLoader = [1, 2, 3, 4, 5]
   const allPost = AllThePost();
   const [showFullPost, setShowFullPost] = useState<boolean>(false)
   const [showPublishPost, setPublishPost] = useState<string>('hidden')
@@ -196,9 +194,9 @@ try {
             </div>
             </div>
             
-            {allPost.length == 0 && skeletonLoader.map(skel => <PostSkeleton />)}
+            {allPost.length === 0 && skeletonLoader.map(skel => <PostSkeleton />)}
           {
-              allPost && allPost.map((post) => {
+             allPost.map((post) => {
                 const postContents = post.postsContent.split(' ');
                 const tobeDisplayed = postContents.slice(0, 20).join(' ');
                 return <div key={post.id} className="shadow-xl border bg-white relative  gap-[20px] rounded-[10px] flex-col flex">
