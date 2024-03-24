@@ -57,6 +57,7 @@ export default function Home() {
         fullname: res.user.displayName,
         useremail: res.user.email,
         userPic: res.user.photoURL,
+        coverPic: '',
         username: '',
         bio: '',
         location: '',
@@ -72,61 +73,9 @@ router.push('/')
   }
   const user = userAuth();
 
-//   const startChat = async (theUserID: string) => {
-//     try {
-//         // Iterate through all users
-//         for (const user of allTheUsers) {
-//             // Skip the current user
-//             if (user.userID === currentUser.userID) {
-//                 continue;
-//             }
-
-//             // Combine user IDs
-//             const combinedId =
-//                 currentUser.userID > user.userID
-//                     ? currentUser.userID + user.userID
-//                     : user.userID + currentUser.userID;
-
-//             // Assuming 'db' is your Firestore database reference
-//             const docRef = doc(db, "chats", combinedId);
-//             const res = await getDoc(docRef);
-
-//             // Check if the document exists, and create if not
-//             if (!res.exists()) {
-//                 await setDoc(docRef, { message: [] });
-//             }
-
-//             // Update UserChats for the current user
-//             await updateDoc(doc(db, 'UserChats', currentUser.userID), {
-//                 [combinedId + ".userInfo"]: {
-//                     userID: user.userID,
-//                     username: user.username,
-//                     userPic: user.userPic,
-//                 },
-//                 lastMessage: '',
-//                 [combinedId + ".date"]: serverTimestamp(),
-//             });
-
-//             // Update UserChats for the other user
-//             await updateDoc(doc(db, 'UserChats', user.userID), {
-//                 [combinedId + ".userInfo"]: {
-//                     userID: currentUser.userID,
-//                     username: currentUser.username,
-//                     userPic: currentUser.userPic,
-//                 },
-//                 lastMessage: '',
-//                 [combinedId + ".date"]: serverTimestamp(),
-//             });
-//         }
-//     } catch (error) {
-//         alert(error);
-//     }
-// };
-
-
   console.log(userDetails);
   return (
-      user ? redirect('/') :
+      user ? redirect('/my-profile') :
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
       <form className="grid md:grid-cols-2 gap-5 items-center justify-center rounded shadow-2xl bg-slate-900 py-[30px] px-[30px]" action="">
         <h1 className="font-bold uppercase text-white text-center md:col-span-2 text-[40px] ">Myu Chat</h1>

@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import CoverPics from '../../public/codes.jpg'
+import CoverPics from '../../public/cover pic.png'
 import { userAuth } from "../components/auths/auth";
 import { FaUserCircle } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
@@ -29,6 +29,24 @@ import { ToastContainer, toast } from "react-toastify";
 import { FaEdit } from "react-icons/fa";
 import 'react-toastify/ReactToastify.css';
 import { PublishAPostSideBar } from "../components/publishAPostSidebar/publishAPostSideBar";
+import { ProfileSkeleton } from "../components/SkeletonLoader/ProfileSkeleton";
+import { SideBarSkeleton } from "../components/SkeletonLoader/SidebarSkeleton";
+import { PublishAPostSideBarSkeleton } from "../components/SkeletonLoader/PublishApostSkeleton";
+import { PostSkeleton } from "../components/SkeletonLoader/postSkeleton";
+import { redirect, useRouter } from "next/navigation";
+
+interface personalInfo {
+    userID: string,
+    fullname: string,
+    useremail: string,
+    userPic: string,
+    coverPic: string,
+    username: string,
+    bio: string,
+    location: string,
+    favourite: string
+
+  }
 
 export default function MyProfile() {
   const allUser = AllUser();
@@ -42,6 +60,17 @@ export default function MyProfile() {
   const [showRepost, setShowRepost] = useState<boolean>(false);
   const [showQuoteRepost, setShowQuoteRepost] = useState<boolean>(false);
   const [myPost, setMyPost] = useState<any[]>([]);
+  const [userPersonalInfo, setUserPersonalInfo] = useState<personalInfo>({
+    userID: "",
+    fullname: "",
+    useremail: "",
+    userPic:"",
+    coverPic: "",
+    username: "",
+    bio: "",
+    location: "",
+    favourite: ""
+  })
   const [fullPostdata, setFullPostData] = useState<allPostInfo>({
     postImg: '',
     postsContent: '',
@@ -57,7 +86,7 @@ export default function MyProfile() {
   })
   console.log("user info", allUser)
   console.log("log in useer", loggedInUser)
-  const fetchUserInfos = () => {
+  const fetchUserPost = () => {
    // const userPersonalInfo = allUser.find((me: any) => me.userID == loggedInUser?.uid)
     const userPost = allPost.filter((post: any) => {
       return post.authorId == loggedInUser?.uid
@@ -67,14 +96,18 @@ export default function MyProfile() {
     setUserPost(userPost)
   }
 
+  //const router = useRouter()
+
+  const fetchUserpersonalInfo = () => {
+    const userInfo = allUser.find((user: personalInfo) => {
+      return user.userID === loggedInUser?.uid
+    })
+setUserPersonalInfo(userInfo)
+  }
+
   useEffect(() => {
-    if (!loggedInUser) {
-      return
-    }
-
-    
-
-    fetchUserInfos();
+  fetchUserpersonalInfo()
+    fetchUserPost();
   }, [loggedInUser])
 
   console.log("user post", userPost)
@@ -121,7 +154,7 @@ setShowFullPost(true)
       const notification = () => toast('Kindly login before you can repost');
       notification();
       return;
-    }
+    } 
     const postRef = doc(db, 'posts', uuid())
 try {
   await setDoc(postRef, {
@@ -165,7 +198,7 @@ try {
     try {
       const commentRef = doc(db, 'posts', post?.id);
       
-      // Check if post.postComment is an array
+     
       const updatedComments = Array.isArray(post.postComment) 
         ? [{ commentDate: fullDate, commenterName: loggedInUser?.displayName, commenterPic: loggedInUser?.photoURL, commentContent: commentInput }, ...post.postComment]
         : [{ commentDate: fullDate, commenterName: loggedInUser?.displayName, commenterPic: loggedInUser?.photoURL, commentContent: commentInput }];
@@ -191,15 +224,31 @@ try {
   useEffect(() => {
     getMyPost();
   }, [allPost, loggedInUser])
-console.log("all post", myPost)
+  console.log("all post", userPersonalInfo)
+  
+  // const checkIfUserIsLoggedin = () = {
+  //   setTimeout(() => {
+  //     redirect('/login')
+  //   }, 5000);
+  // }
+
+  useEffect(() => {
+   if (!loggedInUser) {
+      const timeoutId = setTimeout(() => {
+        redirect("/login");
+      }, 5000);
+      return () => clearTimeout(timeoutId);
+    }
+  }, []);
+
   return (
     <main className="flex min-h-screen bg-slate-50 py-[20px] flex-col items-center  ">
-      <PublishAPostSideBar/>
-      <SideBar setPublishPost={setPublishPost}/>
+      {!loggedInUser? <PublishAPostSideBarSkeleton/> :  <PublishAPostSideBar/>}
+      {!loggedInUser? <SideBarSkeleton/> : <SideBar setPublishPost={setPublishPost}/>}
       <PublishAPost displayPro={showPublishPost} setPublishPost={setPublishPost} />
     { showEditProfile && <EditProfile setShowEditProfile={setShowEditProfile} />}
-    { showFullPost &&  <FullPost postComment={fullPostdata.postComment} data={fullPostdata} setFullPostData={setFullPostData} setShowFullPost={setShowFullPost} />}
-      <div className="relative max-w-[500px] px-[20px]">
+      {showFullPost && <FullPost postComment={fullPostdata.postComment} data={fullPostdata} setFullPostData={setFullPostData} setShowFullPost={setShowFullPost} />}
+     {!loggedInUser? <ProfileSkeleton/> : <div className="relative max-w-[500px] px-[20px]">
         <Image alt="cover pics" src={CoverPics} className="rounded w-full" height={200} />
         <input type="file" onChange={(e) => {
                                      // setDp(e.target.files?.[0])
@@ -222,7 +271,7 @@ console.log("all post", myPost)
         <button onClick={() => showEditProfile ? setShowEditProfile(false) : setShowEditProfile(true) } className="absolute top-[300px] right-[30px] active:bg-slate-200 shadow-2xl border p-2 rounded-[5px] text-slate-700 text-[20px] ">Edit Profile</button>
         <div className="pt-[180px] flex flex-col gap-y-[20px]">
           <div>
-            <h1 className="font-bold text-[20px] text-slate-900 capitalize">{userInfo?.username}</h1>
+            <h1 className="font-bold text-[20px] text-slate-900 capitalize">{loggedInUser.displayName}</h1>
             <p className="font-[500] text-slate-500">@Nzubechukwu(B2R)</p>
           </div>
           <div>
@@ -304,7 +353,7 @@ console.log("all post", myPost)
             })
           }   
 </div>
-      </div>
+      </div>}
      
     </main>
   );
