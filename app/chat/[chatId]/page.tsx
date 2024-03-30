@@ -165,7 +165,7 @@ const [currentChat, setCurrentChat] = useState<any>([])
                         <div className="flex items-center  w-full self-start justify-center gap-5 ">
                             <div className="flex self-start flex-col gap-2">
                                 <div className="items-center flex relative">
-                                {user?.photoURL? <Image alt={user?.displayName} width={50} height={30} className="rounded-full h-[50px]" src={user?.photoURL} /> :
+                                {user?.photoURL? <Image alt={`${user?.displayName}`} width={50} height={30} className="rounded-full h-[50px]" src={user?.photoURL} /> :
                             <FaUserCircle className="text-[50px] " />}
                                 <input type="file" onChange={(e) => {
                                     setDp(e.target.files?.[0])

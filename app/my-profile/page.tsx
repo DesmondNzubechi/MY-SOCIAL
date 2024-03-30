@@ -34,6 +34,7 @@ import { SideBarSkeleton } from "../components/SkeletonLoader/SidebarSkeleton";
 import { PublishAPostSideBarSkeleton } from "../components/SkeletonLoader/PublishApostSkeleton";
 import { PostSkeleton } from "../components/SkeletonLoader/postSkeleton";
 import { redirect, useRouter } from "next/navigation";
+import { updateProfile } from "firebase/auth";
 
 interface personalInfo {
     userID: string,
@@ -224,13 +225,15 @@ try {
   useEffect(() => {
     getMyPost();
   }, [allPost, loggedInUser])
-  console.log("all post", userPersonalInfo)
+  console.log("all post", myPost)
+
   
   // const checkIfUserIsLoggedin = () = {
   //   setTimeout(() => {
   //     redirect('/login')
   //   }, 5000);
   // }
+
 
   useEffect(() => {
    if (!loggedInUser) {

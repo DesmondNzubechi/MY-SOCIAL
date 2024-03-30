@@ -62,7 +62,7 @@ setShowFullPost(true)
   console.log("comment", commentInput)
   console.log("post id", fullPostdata.id)
 
-
+console.log("Log in useer", loggedInUser)
   const likePost = async (post: allPostInfo) => {
     if (!loggedInUser) {
       const notification = () => toast("Kindly login before you can like this post");
@@ -94,7 +94,7 @@ setShowFullPost(true)
 
   const Repost = async (post: allPostInfo) => {
     if (!loggedInUser) {
-      const notification = () => toast('Kindly login before you can repost');
+      const notification = () => toast.info('Kindly login before you can repost');
       notification();
       return;
     }
@@ -103,24 +103,27 @@ try {
   await setDoc(postRef, {
     postImg: post.postImg,
     postsContent:post.postsContent,
-    postId: uuid(),
+    postId: post.postId,
     postsDate: post.postsDate,
     authorId: post.authorId,
     authorName: post.authorName,
     authorPics: post.authorPics,
-    postComment: [],
-    postLike: [],
+    postComment: post.postComment,
+    postLike: post.postLike,
     postRepost: post.postRepost,
-    reposterName: loggedInUser?.displayName,
-    reposterPics: loggedInUser?.photoURL,
+    reposterName: loggedInUser.displayName,
+    reposterPics: loggedInUser.photoURL === null? "" : loggedInUser.photoURL,
     respotDate: fullDate,
-    reposterId: loggedInUser?.uid
+    reposterId: loggedInUser.uid
   })
-  const notification = () => toast('succesfully reposted');
+  const notification = () => toast.info('succesfully reposted');
   notification();
   setShowRepost(false);
 } catch (error) {
-  alert("an error occured")
+  const errorNotification = () => toast.error("An error occured. Please Try again", {
+    hideProgressBar: true,
+ })
+  errorNotification();
 }
   }
 
@@ -202,9 +205,9 @@ try {
                 return <div key={post.id} className="shadow-xl border bg-white relative  gap-[20px] rounded-[10px] flex-col flex">
              {  post?.reposterName &&  <div className="bg-slate-100 p-2">
               <div className="flex gap-1 flex-row items-center">
-              <h1 className="font-bold flex  capitalize items-center ">  {(post.reposterPics !== '' || post.reposterPics) ? <Image src={post.reposterPics} height={50} width={50} className="rounded-full " alt="post pic" /> :  <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />}@{post.reposterName}</h1> <span className="text-slate-500 ">Reposted</span> <GoDotFill/> <p className="text-slate-500 text-[10px]">{post.respotDate}</p>
+              <h1 className="font-bold flex  capitalize items-center ">  {(post?.reposterPics !== '' || post?.reposterPics) ? <Image src={post?.reposterPics} height={50} width={50} className="rounded-full " alt="post pic" /> :  <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />}@{post.reposterName}</h1> <span className="text-slate-500 ">Reposted</span> <GoDotFill/> <p className="text-slate-500 text-[10px]">{post.respotDate}</p>
               </div>
-                    <p className="text-slate-700 text-[15px] mb-[10px]">{post.repostThought}</p>
+                    <p className="text-slate-700 text-[15px] mb-[10px]">{post?.repostThought}</p>
               
                   </div>}
                   <div className="flex flex-col gap-[20px] p-2">
@@ -222,14 +225,14 @@ try {
                   className="font-bold">See More...
                 </button>}
               </div>
-              <Image src={post.postImg} width={500} height={300} className="rounded-[10px] " alt="post pic" />
+              <Image src={post?.postImg} width={500} height={300} className="rounded-[10px] " alt="post pic" />
               <div className="flex items-center border-t border-b py-[5px] justify-around">
                 <div  onClick={() => {
                     showFullPostFn();
                     setFullPostData({...post})
                   }} className="  flex items-center cursor-pointer p-[5px] gap-x-[5px] "><FaCommentAlt className="text-[20px] "/> <p className="text-slate-500">{post.postComment.length} Comments</p></div>
                   <div onClick={() => likePost(post)} className={` flex items-center p-[5px] cursor-pointer gap-x-[5px] ${post.postLike.find((like: any) => like.likeId === loggedInUser?.uid) ? 'text-sky-700 ' : 'text-slate-500'}  `}><SlLike className="text-[20px] " /> <p
-                    className={post.postLike.find((like: any) => like.likeId === loggedInUser?.uid) ? 'text-sky-700 ' : 'text-slate-500' }>{post.postLike.length} Likes</p></div>
+                    className={post.postLike.find((like: any) => like.likeId === loggedInUser?.uid) ? 'text-sky-700 ' : 'text-slate-500' }>{post?.postLike.length} Likes</p></div>
                   <div onClick={() => showRepost? setShowRepost(false) : setShowRepost(true)} className=" flex items-center p-[5px] cursor-pointer gap-x-[5px]  "><BiRepost className="text-[20px] " /><p className="text-slate-500">{post?.postRepost?.length} Repost</p></div>
                   {showRepost && <div className="absolute flex flex-col bg-slate-50 gap-2 p-2 items-start rounded border  bottom-[135px]  right-0 ">
                     <button
