@@ -61,7 +61,7 @@ export default function Home() {
         username: '',
         bio: '',
         location: '',
-        favourite: ''
+        favorite: ''
 
       });
 
