@@ -21,7 +21,7 @@ import { PublishAPost } from "../../components/publishAPost/publishAPost";
 import { AllUser } from "../../components/allUser/allUser";
 import { AllThePost } from "../../components/allPosts/allPost";
 import { allPostInfo } from "../../components/allPosts/allPost";
-import { doc, updateDoc, setDoc } from "firebase/firestore";
+import { doc, updateDoc, setDoc, collection, onSnapshot } from "firebase/firestore";
 import { fullDate } from "../../components/publishAPost/publishAPost";
 import { db } from "../../components/config/firebase";
 import { v4 as uuid } from "uuid";
@@ -45,7 +45,7 @@ interface personalInfo {
     username: string,
     bio: string,
     location: string,
-    favourite: string
+    favorite: string
 
   }
 
@@ -70,7 +70,7 @@ export default function UserProfile({params}: {params: {userProfile: string}}) {
     username: "",
     bio: "",
     location: "",
-    favourite: ""
+    favorite: ""
   })
   const [fullPostdata, setFullPostData] = useState<allPostInfo>({
     postImg: '',
@@ -90,35 +90,36 @@ export default function UserProfile({params}: {params: {userProfile: string}}) {
   const fetchUserPost = () => {
    // const userPersonalInfo = allUser.find((me: any) => me.userID == loggedInUser?.uid)
     const userPost = allPost.filter((post: any) => {
-      return post.authorId == loggedInUser?.uid
-      || post.reposterId == loggedInUser?.uid
+      return post.authorId == params.userProfile
+      || post.reposterId == params.userProfile
     })
    // setUserInfo({...userPersonalInfo});
     setUserPost(userPost)
   }
 
+   //console.log("the params", params.userProfile)
   //const router = useRouter()
 
-  const fetchUserpersonalInfo = () => {
-    const userInfo = allUser.find((user: personalInfo) => {
-      return user.userID === loggedInUser?.uid
-    })
-setUserPersonalInfo(userInfo)
-  }
+//   const fetchUserpersonalInfo = () => {
+//     const userInfo = allUser.find((user: personalInfo) => {
+//       return user.userID === loggedInUser?.uid
+//     })
+// setUserPersonalInfo(userInfo)
+//   }
 
-  useEffect(() => {
-  fetchUserpersonalInfo()
-    fetchUserPost();
-  }, [loggedInUser])
+//   useEffect(() => {
+//   fetchUserpersonalInfo()
+//     fetchUserPost();
+//   }, [loggedInUser])
 
-  console.log("user post", userPost)
+//   console.log("user post", userPost)
   const showFullPostFn = () => {
 setShowFullPost(true)
   }
   
   const [commentInput, setCommentInput] = useState<string>('');
-  console.log("comment", commentInput)
-  console.log("post id", fullPostdata.id)
+//   console.log("comment", commentInput)
+//   console.log("post id", fullPostdata.id)
 
 
   const likePost = async (post: allPostInfo) => {
@@ -227,13 +228,6 @@ try {
   }, [allPost, loggedInUser])
   console.log("all post", myPost)
 
-  
-  // const checkIfUserIsLoggedin = () = {
-  //   setTimeout(() => {
-  //     redirect('/login')
-  //   }, 5000);
-  // }
-
 
   useEffect(() => {
    if (!loggedInUser) {
@@ -243,15 +237,29 @@ try {
       return () => clearTimeout(timeoutId);
     }
   }, []);
+    
+    const fetchUserProfile = async () => {
+        const userRef = doc(db, "users", params.userProfile)
+
+        const userSnapShot = onSnapshot(userRef, (userSnap) => {
+            const user = userSnap.data()
+setUserInfo(user)
+        })
+        return () => userSnapShot()
+    }
+
+    useEffect(() => {
+fetchUserProfile()
+    }, [params.userProfile])
 
   return (
     <main className="flex min-h-screen bg-slate-50 py-[20px] flex-col items-center  ">
-      {!loggedInUser? <PublishAPostSideBarSkeleton/> :  <PublishAPostSideBar/>}
-      {!loggedInUser? <SideBarSkeleton/> : <SideBar setPublishPost={setPublishPost}/>}
+      {!userPersonalInfo? <PublishAPostSideBarSkeleton/> :  <PublishAPostSideBar/>}
+      {!userPersonalInfo? <SideBarSkeleton/> : <SideBar setPublishPost={setPublishPost}/>}
       <PublishAPost displayPro={showPublishPost} setPublishPost={setPublishPost} />
     { showEditProfile && <EditProfile setShowEditProfile={setShowEditProfile} />}
       {showFullPost && <FullPost postComment={fullPostdata.postComment} data={fullPostdata} setFullPostData={setFullPostData} setShowFullPost={setShowFullPost} />}
-     {!loggedInUser? <ProfileSkeleton/> : <div className="relative max-w-[500px] px-[20px]">
+     {!userPersonalInfo? <ProfileSkeleton/> : <div className="relative max-w-[500px] px-[20px]">
         <Image alt="cover pics" src={CoverPics} className="rounded w-full" height={200} />
         <input type="file" onChange={(e) => {
                                      // setDp(e.target.files?.[0])
@@ -274,7 +282,7 @@ try {
         <button onClick={() => showEditProfile ? setShowEditProfile(false) : setShowEditProfile(true) } className="absolute top-[300px] right-[30px] active:bg-slate-200 shadow-2xl border p-2 rounded-[5px] text-slate-700 text-[20px] ">Edit Profile</button>
         <div className="pt-[180px] flex flex-col gap-y-[20px]">
           <div>
-            <h1 className="font-bold text-[20px] text-slate-900 capitalize">{loggedInUser.displayName}</h1>
+            <h1 className="font-bold text-[20px] text-slate-900 capitalize">{userPersonalInfo.username}</h1>
             <p className="font-[500] text-slate-500">@Nzubechukwu(B2R)</p>
           </div>
           <div>

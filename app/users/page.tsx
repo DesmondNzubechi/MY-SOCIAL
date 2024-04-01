@@ -80,7 +80,7 @@ export default function Home() {
                       <div className="flex flex-col gap-y-[20px]">
                           {
                               allTheUsers.map((users: any) => {
-                                  return <Link href={`users/${users.username}`} className="shadow hover:bg-white rounded p-2">
+                                  return <Link href={`users/${users.userID}`} className="shadow hover:bg-white rounded p-2">
                                       <div>
                                       <div className="flex gap-1  flex-row items-start">
                                               {users?.userPic !== ('' || null) ? <Image src={users?.userPic} height={50} width={50} className="rounded-full " alt="post pic" /> : <FaUserCircle className="text-[50px] bg-slate-50 rounded-full shadow-2xl " />}
