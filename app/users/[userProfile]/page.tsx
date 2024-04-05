@@ -216,17 +216,17 @@ try {
     }
   }
 
-  const getMyPost = () => {
+  const getUserPost = () => {
     const filterPost = allPost.filter((post: any) => {
-      return post.authorId === loggedInUser?.uid
+      return post.authorId === params.userProfile
     })
     setMyPost(filterPost);
   }
 
   useEffect(() => {
-    getMyPost();
+    getUserPost();
   }, [allPost, loggedInUser])
-  console.log("all post", myPost)
+  console.log("all post", allPost)
 
 
   useEffect(() => {
@@ -249,8 +249,15 @@ setUserInfo(user)
     }
 
     useEffect(() => {
-fetchUserProfile()
-    }, [params.userProfile])
+      const userRef = doc(db, "users", params.userProfile)
+
+      const userSnapShot = onSnapshot(userRef, (userSnap) => {
+          const user = userSnap.data()
+        setUserInfo(user)
+       // console.log("usersss", user)
+      })
+      return () => userSnapShot()
+    }, [])
 
   return (
     <main className="flex min-h-screen bg-slate-50 py-[20px] flex-col items-center  ">
@@ -261,25 +268,15 @@ fetchUserProfile()
       {showFullPost && <FullPost postComment={fullPostdata.postComment} data={fullPostdata} setFullPostData={setFullPostData} setShowFullPost={setShowFullPost} />}
      {!userPersonalInfo? <ProfileSkeleton/> : <div className="relative max-w-[500px] px-[20px]">
         <Image alt="cover pics" src={CoverPics} className="rounded w-full" height={200} />
-        <input type="file" onChange={(e) => {
-                                     // setDp(e.target.files?.[0])
-                                  }} name="image" className="hidden" id="image" />
-                                  <label htmlFor="image" className="absolute bg-slate-50 rounded-full text-[30px] p-1 top-[70px] right-[50px] " >
-                                     <FaPlus className="bg-slate-"/>
-                                  </label>
+       
         <div className="absolute top-[200px] ">
         <div className="items-center flex relative">
                               
                               <FaUserCircle className="text-[200px] bg-slate-50 rounded-full shadow-2xl " />
-                                  <input type="file" onChange={(e) => {
-                                     // setDp(e.target.files?.[0])
-                                  }} name="image" className="hidden" id="image" />
-                                  <label htmlFor="image" className="absolute text-[50px] bottom-[10px] left-[150px] " >
-                                      <FcAddImage className="bg-slate-"/>
-                                  </label>
+                                
                                  </div>
         </div>
-        <button onClick={() => showEditProfile ? setShowEditProfile(false) : setShowEditProfile(true) } className="absolute top-[300px] right-[30px] active:bg-slate-200 shadow-2xl border p-2 rounded-[5px] text-slate-700 text-[20px] ">Edit Profile</button>
+        <button onClick={() => showEditProfile ? setShowEditProfile(false) : setShowEditProfile(true) } className="absolute top-[300px] right-[30px] active:bg-slate-200 shadow-2xl border p-2 rounded-[5px] text-slate-700 text-[20px] ">Send Message</button>
         <div className="pt-[180px] flex flex-col gap-y-[20px]">
           <div>
             <h1 className="font-bold text-[20px] text-slate-900 capitalize">{userPersonalInfo.username}</h1>
@@ -293,11 +290,6 @@ fetchUserProfile()
             <span className="flex items-center gap-1 text-slate-500"><IoLocationSharp /> <p className="capitalize">Nigeria</p></span>
 <span className="flex items-center gap-1 text-slate-500"><IoIosTime /> <p className="capitalize">Joined March 2024</p></span>
           </div>
-
-          {/* <div className="flex mt-[20px] items-center border rounded justify-around ">
-            <button className="bg-slate-900 text-slate-50 text-[20px] uppercase font-bold w-full py-[10px]">My Post</button>
-            <button className="w-full py-[10px] text-[20px] uppercase font-bold">Repost</button>
-          </div> */}
         </div>
         <div className="flex flex-col py-[50px] gap-5">
     
