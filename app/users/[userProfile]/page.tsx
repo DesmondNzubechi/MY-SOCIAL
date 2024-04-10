@@ -223,6 +223,17 @@ try {
     setMyPost(filterPost);
   }
 
+  const getUserProfile = () => {
+    const findUser = allUser.find((profile: any) => {
+      return profile.userID === params.userProfile
+    })
+    setUserPersonalInfo(findUser);
+  }
+
+  useEffect(() => {
+    getUserProfile();
+  }, [allPost, loggedInUser])
+
   useEffect(() => {
     getUserPost();
   }, [allPost, loggedInUser])
@@ -238,26 +249,26 @@ try {
     }
   }, []);
     
-    const fetchUserProfile = async () => {
-        const userRef = doc(db, "users", params.userProfile)
+//     const fetchUserProfile = async () => {
+//         const userRef = doc(db, "users", params.userProfile)
 
-        const userSnapShot = onSnapshot(userRef, (userSnap) => {
-            const user = userSnap.data()
-setUserInfo(user)
-        })
-        return () => userSnapShot()
-    }
+//         const userSnapShot = onSnapshot(userRef, (userSnap) => {
+//             const user = userSnap.data()
+// setUserInfo(user)
+//         })
+//         return () => userSnapShot()
+//     }
 
-    useEffect(() => {
-      const userRef = doc(db, "users", params.userProfile)
+    // useEffect(() => {
+    //   const userRef = doc(db, "users", params.userProfile)
 
-      const userSnapShot = onSnapshot(userRef, (userSnap) => {
-          const user = userSnap.data()
-        setUserInfo(user)
-       // console.log("usersss", user)
-      })
-      return () => userSnapShot()
-    }, [])
+    //   const userSnapShot = onSnapshot(userRef, (userSnap) => {
+    //       const user = userSnap.data()
+    //     setUserInfo(user)
+    //    // console.log("usersss", user)
+    //   })
+    //   return () => userSnapShot()
+    // }, [])
 
   return (
     <main className="flex min-h-screen bg-slate-50 py-[20px] flex-col items-center  ">
@@ -280,7 +291,7 @@ setUserInfo(user)
         <div className="pt-[180px] flex flex-col gap-y-[20px]">
           <div>
             <h1 className="font-bold text-[20px] text-slate-900 capitalize">{userPersonalInfo.username}</h1>
-            <p className="font-[500] text-slate-500">@Nzubechukwu(B2R)</p>
+            <p className="font-[500] text-slate-500">@{userPersonalInfo.username.split(" ").slice(0, 1)}</p>
           </div>
           <div>
             <p>Frontend Software Developer | reactJs | NextJs | JavaScript | Typescript | Firebase | Tailwindcss | Crafting Value & Solutions | Sharing Insights in Software Development</p>
