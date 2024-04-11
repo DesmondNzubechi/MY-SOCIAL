@@ -24,45 +24,42 @@ interface userInfo  {
     userPic: string
 }
 
+interface messageInfo {
+    senderId: string | undefined,
+    senderName: string | undefined | null,
+    messagTitle: string,
+    time: any,
+   
+}
+interface User {
+    userID: string;
+    username: string;
+    userPic: string;
+}
 const User = ({ params }: { params: { chatId: string } }) => {
 
     const { chatId } = params; // Access the correct parameter name
     const user = userAuth();
     const allUser = AllUser();
+    const [currentUser, setCurrentUser] = useState<User | any>({});
+    const lastMessageRef = useRef<HTMLDivElement | null>(null);
+    const [currentChat, setCurrentChat] = useState<any>([])
     const [userInfoState, setUserInfoState] = useState<userInfo>({
         userID: '',
         username: '',
         useremail: '',
         userPic: '',
     });
+const [message, setMesage] = useState<messageInfo>({
+    senderId: '',
+    senderName: '',
+    messagTitle: '',
+  time:  null
+})
 
-    
 
-    interface messageInfo {
-        senderId: string | undefined,
-        senderName: string | undefined | null,
-        messagTitle: string,
-        time: any,
-       
-    }
-    interface User {
-        userID: string;
-        username: string;
-        userPic: string;
-    }
 
-const [currentChat, setCurrentChat] = useState<any>([])
-
-    const [message, setMesage] = useState<messageInfo>({
-        senderId: '',
-        senderName: '',
-        messagTitle: '',
-      time:  null
-    })
-
-    const [currentUser, setCurrentUser] = useState<User | any>({});
-    const lastMessageRef = useRef<HTMLDivElement | null>(null);
-    
+ 
     useEffect(() => {
         if (lastMessageRef.current) {
             lastMessageRef.current.scrollIntoView({behavior: "smooth"})
@@ -84,19 +81,19 @@ const [currentChat, setCurrentChat] = useState<any>([])
       filterUser()
     }, [chatId, allUser])
     
-    useEffect(() => {
-        if (user) {
-            const ChatRef = collection(db, "chats");
-            const unsub = onSnapshot(ChatRef, (ChatSnapshot) => {
-                const allChats = ChatSnapshot.docs.map(doc => doc.data());
-                // const filterCurrentUserChat = allChats.filter(chat => {
-                //     return chat.id.includes(user?.uid)
-                // })
-            })
-            return () => unsub()
-        }
+    // useEffect(() => {
+    //     if (user) {
+    //         const ChatRef = collection(db, "chats");
+    //         const unsub = onSnapshot(ChatRef, (ChatSnapshot) => {
+    //             const allChats = ChatSnapshot.docs.map(doc => doc.data());
+    //             // const filterCurrentUserChat = allChats.filter(chat => {
+    //             //     return chat.id.includes(user?.uid)
+    //             // })
+    //         })
+    //         return () => unsub()
+    //     }
        
-    }, [user])
+    // }, [user])
 
     useEffect(() => {
         const getCurrentUser = () => {
@@ -111,18 +108,17 @@ const [currentChat, setCurrentChat] = useState<any>([])
        
     }, [allUser])
 
-    useEffect(() => {
-        const userStore = collection(db, 'chats');
-        const unsub = onSnapshot(userStore, (snapshot) => {
-            const allTheUser = snapshot.docs.map(doc => doc.data());
-            //setAllTheUsers(allTheUser)
-            console.log("chat collections", allTheUser)
+    // useEffect(() => {
+    //     const userStore = collection(db, 'chats');
+    //     const unsub = onSnapshot(userStore, (snapshot) => {
+    //         const allTheUser = snapshot.docs.map(doc => doc.data());
+    //         console.log("chat collections", allTheUser)
 
-        })
-        return () => {
-            unsub()
-        }
-    }, [])
+    //     })
+    //     return () => {
+    //         unsub()
+    //     }
+    // }, [])
 
     useEffect(() => {
         const chatStore = doc(db, 'chats', combinedId);
