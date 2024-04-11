@@ -6,7 +6,7 @@ import { updateProfile } from "firebase/auth";
 export const userAuth = () => {
     const [user, setUser] = useState<User | null>(null);
 
-    useEffect(() => {
+    useEffect(() => { 
         // Check if we are on the client side before using hooks
         if (typeof window !== 'undefined') {
             const unsubscribe = auth.onAuthStateChanged((authUser) => {

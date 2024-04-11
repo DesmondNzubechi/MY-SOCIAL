@@ -39,8 +39,8 @@ const User = ({ params }: { params: { chatId: string } }) => {
     
 
     interface messageInfo {
-        senderId: string,
-        senderName: string,
+        senderId: string | undefined,
+        senderName: string | undefined | null,
         messagTitle: string,
         time: any,
        
@@ -62,7 +62,7 @@ const [currentChat, setCurrentChat] = useState<any>([])
             lastMessageRef.current.scrollIntoView({behavior: "smooth"})
         }
     }, [currentChat.message])
-
+    console.log("user information", user);
     
     const combinedId = user?.uid > params.chatId ?
         user?.uid + params.chatId :
@@ -255,7 +255,7 @@ const [currentChat, setCurrentChat] = useState<any>([])
                         setMesage({
                             messagTitle: e.target.value,
                             senderId: user?.uid,
-                            senderName: user.displayName,
+                            senderName: user?.displayName,
                             time: 'january',
                         })
                     }} name="" placeholder="Write you message here" className=" py-[10px] text-[20px] bg-transparent outline-none  w-full rounded " id="" />

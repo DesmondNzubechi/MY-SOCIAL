@@ -23,7 +23,7 @@ import { AllThePost } from "../components/allPosts/allPost";
 import { allPostInfo } from "../components/allPosts/allPost";
 import { doc, updateDoc, setDoc } from "firebase/firestore";
 import { fullDate } from "../components/publishAPost/publishAPost";
-import { db } from "../components/config/firebase";
+import { db, storage } from "../components/config/firebase";
 import { v4 as uuid } from "uuid";
 import { ToastContainer, toast } from "react-toastify";
 import { FaEdit } from "react-icons/fa";
@@ -35,6 +35,7 @@ import { PublishAPostSideBarSkeleton } from "../components/SkeletonLoader/Publis
 import { PostSkeleton } from "../components/SkeletonLoader/postSkeleton";
 import { redirect, useRouter } from "next/navigation";
 import { updateProfile } from "firebase/auth";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 interface personalInfo {
     userID: string,
@@ -61,6 +62,8 @@ export default function MyProfile() {
   const [showRepost, setShowRepost] = useState<boolean>(false);
   const [showQuoteRepost, setShowQuoteRepost] = useState<boolean>(false);
   const [myPost, setMyPost] = useState<any[]>([]);
+  const [dp, setDp] = useState<File | any>(null);
+  const [userCoverPics, setUserCoverPics] = useState<File | any>(null);
   const [userPersonalInfo, setUserPersonalInfo] = useState<personalInfo>({
     userID: "",
     fullname: "",
@@ -99,17 +102,17 @@ export default function MyProfile() {
 
   //const router = useRouter()
 
-  const fetchUserpersonalInfo = () => {
-    const userInfo = allUser.find((user: personalInfo) => {
-      return user.userID === loggedInUser?.uid
+  const getUserProfile = () => {
+    const findUser = allUser.find((profile: any) => {
+      return profile.userID === loggedInUser?.uid
     })
-setUserPersonalInfo(userInfo)
+    setUserPersonalInfo(findUser);
   }
 
   useEffect(() => {
-  fetchUserpersonalInfo()
-    fetchUserPost();
-  }, [loggedInUser])
+    getUserProfile();
+  }, [allPost, loggedInUser])
+
 
   console.log("user post", userPost)
   const showFullPostFn = () => {
@@ -244,6 +247,59 @@ try {
     }
   }, []);
 
+  console.log("looooogggg", loggedInUser)
+
+  const updateDp = async () => {
+    const dpRef = ref(storage, 'dp');
+    try {
+        const dpName = ref(dpRef, userPersonalInfo.username)
+        const uploadDp = await uploadBytes(dpName, dp);
+        const dpUrl = await getDownloadURL(uploadDp.ref);
+        await updateProfile(loggedInUser, {
+          photoURL: dpUrl
+        })
+
+        await updateDoc(doc(db, 'users', userPersonalInfo.userID), {
+         userPic: dpUrl   
+        })
+        alert("success");
+    } catch (error) {
+       alert(error) 
+    }
+  }
+  
+  const updateCoverPics = async () => {
+    const dpRef = ref(storage, 'user cover pictures');
+    try {
+        const dpName = ref(dpRef, `${userPersonalInfo.username} cover pics`)
+        const uploadDp = await uploadBytes(dpName, userCoverPics);
+        const dpUrl = await getDownloadURL(uploadDp.ref);
+
+        await updateDoc(doc(db, 'users', userPersonalInfo.userID), {
+         coverPic: dpUrl   
+        })
+        alert("success");
+    } catch (error) {
+       alert(error) 
+    }
+}
+
+useEffect(() => {
+  if (userCoverPics !== null) {
+      updateCoverPics()
+  }
+
+}, [userCoverPics])
+  
+useEffect(() => {
+    if (dp !== null) {
+        updateDp()
+    }
+
+}, [dp])
+  
+  console.log("user personal info", userPersonalInfo)
+
   return (
     <main className="flex min-h-screen bg-slate-50 py-[20px] flex-col items-center  ">
       {!loggedInUser? <PublishAPostSideBarSkeleton/> :  <PublishAPostSideBar/>}
@@ -252,21 +308,23 @@ try {
     { showEditProfile && <EditProfile setShowEditProfile={setShowEditProfile} />}
       {showFullPost && <FullPost postComment={fullPostdata.postComment} data={fullPostdata} setFullPostData={setFullPostData} setShowFullPost={setShowFullPost} />}
      {!loggedInUser? <ProfileSkeleton/> : <div className="relative max-w-[500px] px-[20px]">
-        <Image alt="cover pics" src={CoverPics} className="rounded w-full" height={200} />
+     <Image alt="cover pics" src={userPersonalInfo?.coverPic !== ''? userPersonalInfo?.coverPic : CoverPics} className="rounded h-[250px] w-full" width={400} height={100} />
+       
         <input type="file" onChange={(e) => {
-                                     // setDp(e.target.files?.[0])
-                                  }} name="image" className="hidden" id="image" />
-                                  <label htmlFor="image" className="absolute bg-slate-50 rounded-full text-[30px] p-1 top-[70px] right-[50px] " >
+                                    setUserCoverPics(e.target.files?.[0])
+                                }} name="user cover pic" className="hidden" id="user cover pic" />
+                                  <label htmlFor="user cover pic" className="absolute bg-slate-50 rounded-full text-[30px] p-1 top-[70px] right-[50px] " >
                                      <FaPlus className="bg-slate-"/>
                                   </label>
         <div className="absolute top-[200px] ">
         <div className="items-center flex relative">
                               
-                              <FaUserCircle className="text-[200px] bg-slate-50 rounded-full shadow-2xl " />
+        { userPersonalInfo?.userPic? <Image src={userPersonalInfo?.userPic} alt={`${userPersonalInfo?.username} profile picture`} height={200} width={200}  className="rounded-full"/>  :  <FaUserCircle className="text-[200px] bg-slate-50 rounded-full shadow-2xl " />}
+             
                                   <input type="file" onChange={(e) => {
-                                     // setDp(e.target.files?.[0])
-                                  }} name="image" className="hidden" id="image" />
-                                  <label htmlFor="image" className="absolute text-[50px] bottom-[10px] left-[150px] " >
+                                     setDp(e.target.files?.[0])
+                                  }} name="user profile pic" className="hidden" id="user profile pic" />
+                                  <label htmlFor="user profile pic" className="absolute text-[50px] bottom-[10px] left-[150px] " >
                                       <FcAddImage className="bg-slate-"/>
                                   </label>
                                  </div>
@@ -275,7 +333,7 @@ try {
         <div className="pt-[180px] flex flex-col gap-y-[20px]">
           <div>
             <h1 className="font-bold text-[20px] text-slate-900 capitalize">{loggedInUser.displayName}</h1>
-            <p className="font-[500] text-slate-500">@Nzubechukwu(B2R)</p>
+            <p className="font-[500] capitalize text-slate-500">@{userPersonalInfo?.username.split(' ').slice(0, 1)}</p>
           </div>
           <div>
             <p>Frontend Software Developer | reactJs | NextJs | JavaScript | Typescript | Firebase | Tailwindcss | Crafting Value & Solutions | Sharing Insights in Software Development</p>
