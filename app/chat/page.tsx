@@ -124,9 +124,7 @@ const [dp, setDp] = useState<File | any>(null);
             const dpName = ref(dpRef, currentUser.username)
             const uploadDp = await uploadBytes(dpName, dp);
             const dpUrl = await getDownloadURL(uploadDp.ref);
-            await updateProfile(user, {
-              photoURL: dpUrl
-            })
+           
 
             await updateDoc(doc(db, 'users', currentUser.userID), {
              userPic: dpUrl   
@@ -144,17 +142,6 @@ const [dp, setDp] = useState<File | any>(null);
 
     }, [dp])
 
-    // const logOutUser = async () => {
-    //     console.log('hhghd')
-    //     const confirmLogout = confirm("Are you sure that you want to logout?")
-    //     if (!confirmLogout) return;
-    //     try {
-    //        await signOut(auth) 
-    //     } catch (error: any) {
-    //        alert(error.message) 
-    //     }
-    // }
-    
     const createChats = async (theUserID: any) => {
         try {
             // Iterate through all users

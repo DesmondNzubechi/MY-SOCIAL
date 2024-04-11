@@ -17,7 +17,7 @@ import { Timestamp, collection, doc, getDoc, getDocs, onSnapshot, query, serverT
 import { db } from "@/app/components/config/firebase";
 
 
-interface userInfo  {
+interface userInfo  { 
     userID: string,
     username: string,
     useremail: string,
@@ -45,6 +45,11 @@ const User = ({ params }: { params: { chatId: string } }) => {
         time: any,
        
     }
+    interface User {
+        userID: string;
+        username: string;
+        userPic: string;
+    }
 
 const [currentChat, setCurrentChat] = useState<any>([])
 
@@ -55,6 +60,7 @@ const [currentChat, setCurrentChat] = useState<any>([])
       time:  null
     })
 
+    const [currentUser, setCurrentUser] = useState<User | any>({});
     const lastMessageRef = useRef<HTMLDivElement | null>(null);
     
     useEffect(() => {
@@ -64,7 +70,7 @@ const [currentChat, setCurrentChat] = useState<any>([])
     }, [currentChat.message])
     console.log("user information", user);
     
-    const combinedId = user?.uid > params.chatId ?
+    const combinedId = currentUser.userID > params.chatId ?
         user?.uid + params.chatId :
         params.chatId + user?.uid;
    
@@ -83,14 +89,27 @@ const [currentChat, setCurrentChat] = useState<any>([])
             const ChatRef = collection(db, "chats");
             const unsub = onSnapshot(ChatRef, (ChatSnapshot) => {
                 const allChats = ChatSnapshot.docs.map(doc => doc.data());
-                const filterCurrentUserChat = allChats.filter(chat => {
-                    return chat.id.includes(user?.uid)
-                })
+                // const filterCurrentUserChat = allChats.filter(chat => {
+                //     return chat.id.includes(user?.uid)
+                // })
             })
             return () => unsub()
         }
        
     }, [user])
+
+    useEffect(() => {
+        const getCurrentUser = () => {
+            const currentUser = allUser.find((cUser: any) => {
+            return cUser.userID === user?.uid
+            })
+            setCurrentUser({ ...currentUser })
+          
+        }
+       
+            getCurrentUser();
+       
+    }, [allUser])
 
     useEffect(() => {
         const userStore = collection(db, 'chats');
@@ -149,9 +168,6 @@ const [currentChat, setCurrentChat] = useState<any>([])
 
     
     
-// console.log("routess", userInfoState);
-// console.log('params', params.chatId);
-// console.log("all users", allUser)
    
     const [viewProfile, setViewprofile] = useState(false);
     const [dp, setDp] = useState<any>(null);
