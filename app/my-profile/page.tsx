@@ -37,7 +37,7 @@ import { redirect, useRouter } from "next/navigation";
 import { updateProfile } from "firebase/auth";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
-interface personalInfo {
+export interface personalInfo {
     userID: string,
     fullname: string,
     useremail: string,
@@ -46,8 +46,8 @@ interface personalInfo {
     username: string,
     bio: string,
     location: string,
-    favourite: string
-
+    favorite: string,
+    dateJoined: string
   }
 
 export default function MyProfile() {
@@ -73,7 +73,8 @@ export default function MyProfile() {
     username: "",
     bio: "",
     location: "",
-    favourite: ""
+    favorite: "",
+    dateJoined: ''
   })
   const [fullPostdata, setFullPostData] = useState<allPostInfo>({
     postImg: '',
@@ -302,12 +303,12 @@ useEffect(() => {
 
   return (
     <main className="flex min-h-screen bg-slate-50 py-[20px] flex-col items-center  ">
-      {!loggedInUser? <PublishAPostSideBarSkeleton/> :  <PublishAPostSideBar/>}
-      {!loggedInUser? <SideBarSkeleton/> : <SideBar setPublishPost={setPublishPost}/>}
+      {(!loggedInUser && !allUser)? <PublishAPostSideBarSkeleton/> :  <PublishAPostSideBar/>}
+      {(!loggedInUser && !allUser)? <SideBarSkeleton/> : <SideBar setPublishPost={setPublishPost}/>}
       <PublishAPost displayPro={showPublishPost} setPublishPost={setPublishPost} />
-    { showEditProfile && <EditProfile setShowEditProfile={setShowEditProfile} />}
+    { showEditProfile && <EditProfile setUserPersonalInfo={setUserPersonalInfo} userInfo={userPersonalInfo} setShowEditProfile={setShowEditProfile} />}
       {showFullPost && <FullPost postComment={fullPostdata.postComment} data={fullPostdata} setFullPostData={setFullPostData} setShowFullPost={setShowFullPost} />}
-     {!loggedInUser? <ProfileSkeleton/> : <div className="relative max-w-[500px] px-[20px]">
+     {(!loggedInUser && !allUser)? <ProfileSkeleton/> : <div className="relative max-w-[500px] px-[20px]">
      <Image alt="cover pics" src={userPersonalInfo?.coverPic !== ''? userPersonalInfo?.coverPic : CoverPics} className="rounded h-[250px] w-full" width={400} height={100} />
        
         <input type="file" onChange={(e) => {
@@ -332,16 +333,16 @@ useEffect(() => {
         <button onClick={() => showEditProfile ? setShowEditProfile(false) : setShowEditProfile(true) } className="absolute top-[300px] right-[30px] active:bg-slate-200 shadow-2xl border p-2 rounded-[5px] text-slate-700 text-[20px] ">Edit Profile</button>
         <div className="pt-[180px] flex flex-col gap-y-[20px]">
           <div>
-            <h1 className="font-bold text-[20px] text-slate-900 capitalize">{loggedInUser.displayName}</h1>
+            <h1 className="font-bold text-[20px] text-slate-900 capitalize">{userPersonalInfo?.username}</h1>
             <p className="font-[500] capitalize text-slate-500">@{userPersonalInfo?.username.split(' ').slice(0, 1)}</p>
           </div>
           <div>
-            <p>Frontend Software Developer | reactJs | NextJs | JavaScript | Typescript | Firebase | Tailwindcss | Crafting Value & Solutions | Sharing Insights in Software Development</p>
+            <p>{userPersonalInfo?.bio}</p>
           </div>
           <div className="flex items-center gap-x-[20px] ">
-            <span className="flex items-center gap-1 text-slate-500"><FaHeart  className="text-[20px]"/> <p className="capitalize">Coding</p></span>
-            <span className="flex items-center gap-1 text-slate-500"><IoLocationSharp /> <p className="capitalize">Nigeria</p></span>
-<span className="flex items-center gap-1 text-slate-500"><IoIosTime /> <p className="capitalize">Joined March 2024</p></span>
+            <span className="flex items-center gap-1 text-slate-500"><FaHeart  className="text-[20px]"/> <p className="capitalize">{userPersonalInfo?.favorite === "" ? "No favorite " : userPersonalInfo?.favorite}</p></span>
+            <span className="flex items-center gap-1 text-slate-500"><IoLocationSharp /> <p className="capitalize">{userPersonalInfo?.location}</p></span>
+<span className="flex items-center gap-1 text-slate-500"><IoIosTime /> <p className="capitalize">{userPersonalInfo?.dateJoined}</p></span>
           </div>
 
           {/* <div className="flex mt-[20px] items-center border rounded justify-around ">
