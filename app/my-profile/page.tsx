@@ -302,7 +302,7 @@ useEffect(() => {
   console.log("user personal info", userPersonalInfo)
 
   return (
-    <main className="flex min-h-screen bg-slate-50 py-[20px] flex-col items-center  ">
+    <main className="flex min-h-screen bg-slate-50 pt-[100px] py-[20px] flex-col items-center  ">
       {(!loggedInUser && !allUser)? <PublishAPostSideBarSkeleton/> :  <PublishAPostSideBar/>}
       {(!loggedInUser && !allUser)? <SideBarSkeleton/> : <SideBar setPublishPost={setPublishPost}/>}
       <PublishAPost displayPro={showPublishPost} setPublishPost={setPublishPost} />

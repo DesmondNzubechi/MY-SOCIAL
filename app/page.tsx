@@ -167,15 +167,15 @@ try {
         {showQuoteRepost && <QuoteREpost data={fullPostdata} setShowQuoteRepost={setShowQuoteRepost} />}
    { showFullPost &&  <FullPost postComment={fullPostdata.postComment} data={fullPostdata} setFullPostData={setFullPostData} setShowFullPost={setShowFullPost} />}
      <PublishAPost displayPro={showPublishPost} setPublishPost={setPublishPost} />
-      <div className="bg-white flex items-center justify-between gap-2 fixed px-[20px] py-[10px] z-[100] right-0 left-0 top-0 shadow border-b">
-        <div className="flex items-center bg-blue-500 text-white py-[5px] px-[10px] rounded">
-          <TbSocial className="text-[50px]"/>
-          <h1 className="text-[15px] ">MYsocial</h1>
-        </div>
+      {/* <div className="bg-white flex items-center justify-between gap-2 fixed px-[20px] py-[10px] z-[100] right-0 left-0 top-0 shadow border-b">
+        // {/* <div className="flex items-center bg-blue-500 text-white py-[5px] px-[10px] rounded">
+        //   <TbSocial className="text-[50px]"/>
+        //   <h1 className="text-[15px] ">MYsocial</h1>
+        // </div> 
        
           <input type="text" className="bg-slate-50 capitalize outline-none py-[18px] w-full  text-center text-[15px]" placeholder="search for a post here" name="" id="" />
       
-      </div>
+      </div> */}
       <div className="grid md:grid-cols-6 px-[30px] relative">
           <div></div>
           <div></div>
@@ -183,7 +183,10 @@ try {
         {allPost.length == 0? <PublishAPostSideBarSkeleton/> :  <PublishAPostSideBar/>}
       {allPost.length == 0? <SideBarSkeleton/> : <SideBar setPublishPost={setPublishPost}/>}
     
-        <div className="md:col-span-2 flex max-w-[500px] flex-col gap-5">
+          <div className="md:col-span-2 flex max-w-[500px] flex-col gap-5">
+          <input type="text" className="bg-white rounded block md:hidden shadow capitalize outline-none py-[18px] w-full  text-center text-[15px]" placeholder="search for a post here" name="" id="" />
+      
+    
           <div onClick={() => setPublishPost('block')} className="md:hidden flex flex-col cursor-pointer gap-y-2 bg-white p-4 rounded">
             <div className="flex flex-row gap-x-[20px] items-center">
               <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />
