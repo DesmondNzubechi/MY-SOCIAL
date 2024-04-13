@@ -82,19 +82,6 @@ const [message, setMesage] = useState<messageInfo>({
       filterUser()
     }, [chatId, allUser])
     
-    // useEffect(() => {
-    //     if (user) {
-    //         const ChatRef = collection(db, "chats");
-    //         const unsub = onSnapshot(ChatRef, (ChatSnapshot) => {
-    //             const allChats = ChatSnapshot.docs.map(doc => doc.data());
-    //             // const filterCurrentUserChat = allChats.filter(chat => {
-    //             //     return chat.id.includes(user?.uid)
-    //             // })
-    //         })
-    //         return () => unsub()
-    //     }
-       
-    // }, [user])
 
     useEffect(() => {
         const getCurrentUser = () => {
@@ -109,17 +96,6 @@ const [message, setMesage] = useState<messageInfo>({
        
     }, [allUser])
 
-    // useEffect(() => {
-    //     const userStore = collection(db, 'chats');
-    //     const unsub = onSnapshot(userStore, (snapshot) => {
-    //         const allTheUser = snapshot.docs.map(doc => doc.data());
-    //         console.log("chat collections", allTheUser)
-
-    //     })
-    //     return () => {
-    //         unsub()
-    //     }
-    // }, [])
 
     useEffect(() => {
         const chatStore = doc(db, 'chats', params.chatId);
@@ -191,7 +167,7 @@ const [message, setMesage] = useState<messageInfo>({
         })
         setMyChats(filterMyChat)
     }, [allTheChat])
-
+const messenger = currentChat?.firstUser?.userID === currentUser.userID ? currentChat.secondUser : currentUser.firstUser
     return (
         <div className=" fixed w-full top-[70px] flex flex-row items-start gap-5  justify-around">
          <div className="md:flex flex-col hidden  h-[100vh] w-full overflow-y-scroll gap-5 px-[10px] py-[20px] pt-[100px]  bg-slate-100 items-center ">
