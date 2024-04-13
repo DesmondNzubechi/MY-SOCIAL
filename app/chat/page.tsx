@@ -18,7 +18,18 @@ import { db } from "../components/config/firebase";
 import Image from "next/image";
 import { AllUser } from "../components/allUser/allUser";
 import { Timestamp, collection, doc, getDoc, getDocs, onSnapshot, query, serverTimestamp, setDoc, updateDoc, where } from "firebase/firestore";
+import { v4 as uuid } from "uuid";
 
+
+const currentDate = new Date();
+    const options = {
+        year: 'numeric',
+        month: 'long', // 'short' for abbreviated name, 'long' for full name
+        day: 'numeric',
+        weekday: 'long', // 'short' for abbreviated name, 'long' for full name
+      };
+const fullDate = currentDate.toLocaleString(undefined, options);
+     
 const Chat = () => {
     const user = userAuth();
     //const allUser = AllUser();
@@ -62,52 +73,25 @@ const [currentUser, setCurrentUser] = useState<User | any>({});
     // console.log('all user', allUser)
     console.log("current user", currentUser)
 
-    // const searchUser = async () => {
-    //     const q = query(
-    //         collection(db, "allusers"), 
-    //         where("displayname". '==', 'username')
-    //     )
-
-    //     const querySnapshot = await getDoc(q);
-    //     querySnapshot.forEach(doc => {
-    //         console.log(doc.id, "=", doc.data() )
-    //     });
-    // }
     
     const startChat = async (theUserID: any) => {
         try {
-            const combinedId = currentUser?.userID > theUserID.userID ?
-                currentUser?.userID + theUserID.userID :
-                theUserID.userID + currentUser?.userID;
-
-                // Assuming 'db' is your Firestore database reference
-const docRef = doc(db, "chats", combinedId);
-const res = await getDoc(docRef);
-
-if (!res.exists()) {
-    await setDoc(docRef, { message: [], userInvoled: theUserID, lastMessage: 'start chat'  });
-}
- 
-
-            // await updateDoc(doc(db, 'UserChats', currentUser.userID), {
-            //     [combinedId+".userInfo"]: {
-            //         userID: currentUser.userID,
-            //         username: currentUser.username,
-            //         userPic: currentUser.userPic,
-            //     },
-            //     lastMessage: '',
-            //     [combinedId+".date"] : serverTimestamp(),
-            // })
-            // await updateDoc(doc(db, 'UserChats', theUserID), {
-            //     [combinedId+".userInfo"]: {
-            //         userID: currentUser.userID,
-            //         username: currentUser.username,
-            //         userPic: currentUser.userPic,
-            //     },
-            //     lastMessage: '',
-            //     [combinedId+".date"] : serverTimestamp(),
-            // })
-
+            const combinedId = currentUser?.userID  > theUserID.userID ?
+              currentUser?.userID  + theUserID.userID :
+              theUserID.userID + currentUser?.userID ;
+            
+            const docRef = doc(db, 'chats', combinedId);
+            const res = await getDoc(docRef);
+            if (!res.exists()) {
+              await setDoc(docRef,
+                {
+                  message: [],
+                  firstUser: currentUser, 
+                  secondUser: theUserID,
+                  lastMessage: { message: "Start New Chat", messageDate: fullDate, messageId:uuid() }
+                });
+            }
+         
         } catch (error) {
             alert(error)
         }
@@ -142,56 +126,6 @@ const [dp, setDp] = useState<File | any>(null);
 
     }, [dp])
 
-    const createChats = async (theUserID: any) => {
-        try {
-            // Iterate through all users
-            for (const user of allTheUsers) {
-                // Skip the current user
-                if (user.userID === currentUser.userID) {
-                    continue;
-                }
-    
-                // Combine user IDs
-                const combinedId =
-                    currentUser.userID > user.userID
-                        ? currentUser.userID + user.userID
-                        : user.userID + currentUser.userID;
-    
-                // Assuming 'db' is your Firestore database reference
-                const docRef = doc(db, "chats", combinedId);
-                const res = await getDoc(docRef);
-    
-                // Check if the document exists, and create if not
-                if (!res.exists()) {
-                    await setDoc(docRef, { message: [], lasMessage: 'start chats' });
-                }
-    
-                // Update UserChats for the current user
-                await updateDoc(doc(db, 'UserChats', currentUser.userID), {
-                    [combinedId + ".userInfo"]: {
-                        userID: user.userID,
-                        username: user.username,
-                        userPic: user.userPic,
-                    },
-                    lastMessage: '',
-                    [combinedId + ".date"]: serverTimestamp(),
-                });
-    
-                // Update UserChats for the other user
-                await updateDoc(doc(db, 'UserChats', user.userID), {
-                    [combinedId + ".userInfo"]: {
-                        userID: currentUser.userID,
-                        username: currentUser.username,
-                        userPic: currentUser.userPic,
-                    },
-                    lastMessage: '',
-                    [combinedId + ".date"]: serverTimestamp(),
-                });
-            }
-        } catch (error) {
-            alert(error);
-        }
-    };
 
     const [allTheChat, setAllTheChat] = useState<any>([])
 
@@ -199,7 +133,7 @@ const [dp, setDp] = useState<File | any>(null);
     useEffect(() => {
         const chatRef = collection(db, 'chats');
         const Unsub = onSnapshot(chatRef, (snapShot) => {
-            const chats = snapShot.docs.map(doc => ({ ...doc.data(), id: doc.id}))
+        let chats = snapShot.docs.map(doc => ({ ...doc.data(), id: doc.id }))
             setAllTheChat(chats)
         })
 
@@ -247,17 +181,16 @@ const [dp, setDp] = useState<File | any>(null);
                             <div className="flex w-full flex-col gap-5">
                               
                                 {
-                                    allTheUsers?.map((users:any) => {
-                                        return <><Link  onClick={() => startChat(users)} key={users.userID} href={`chat/${users.userID}`} className="flex w-full gap-2 items-center">
+                                    myChats?.map((chat:any) => {
+                                        return <><Link   key={chat?.lastMessage?.messageId} href={`chat/${chat?.id}`} className="flex w-full gap-2 items-center">
                                         <FaUserCircle className="text-[40px] " />
                                         <div className="flex flex-col gap-[5px]">
                                             <div className="flex items-center flex-row gap-2">
-                                                    <h1 className="text-slate-900 text-[15px] uppercase font-bold font-semibold">{users?.username}</h1> <p className="text-slate-500 text-[15px]">@{users?.username}</p>
-                                                </div>
-                                                
-                                            {/* <div>
-                                                <p className="text-slate-500 text-[15px]">Hello, How are you doing?</p>
-                                            </div> */}
+                                                    <h1 className="text-slate-900 text-[15px] uppercase font-bold font-semibold">{chat?.firstUser.userID === currentUser.userID ? chat?.secondUser?.username : chat?.firstUser?.username}</h1> <p className="text-slate-500 italic text-[15px]">{chat?.lastMessage?.messageDate}</p>
+                                                </div>  
+                                           <div>
+                                                    <p className="text-slate-500 text-[15px]">{chat?.lastMessage?.message}</p>
+                                            </div>
                                             </div>
                                         </Link>
                                             <hr />

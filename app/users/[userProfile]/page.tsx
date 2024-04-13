@@ -22,7 +22,7 @@ import { AllUser } from "../../components/allUser/allUser";
 import { AllThePost } from "../../components/allPosts/allPost";
 import { allPostInfo } from "../../components/allPosts/allPost";
 import { doc, updateDoc, setDoc, collection, onSnapshot, getDoc } from "firebase/firestore";
-import { fullDate } from "../../components/publishAPost/publishAPost";
+//import { fullDate } from "../../components/publishAPost/publishAPost";
 import { db } from "../../components/config/firebase";
 import { v4 as uuid } from "uuid";
 import { ToastContainer, toast } from "react-toastify";
@@ -36,6 +36,15 @@ import { PostSkeleton } from "../../components/SkeletonLoader/postSkeleton";
 import { redirect, useRouter } from "next/navigation";
 import { updateProfile } from "firebase/auth";
 
+
+ const currentDate = new Date();
+    const options = {
+        year: 'numeric',
+        month: 'long', // 'short' for abbreviated name, 'long' for full name
+        day: 'numeric',
+        weekday: 'long', // 'short' for abbreviated name, 'long' for full name
+      };
+     const fullDate = currentDate.toLocaleString(undefined, options);
 
 interface personalInfo {
     userID: string,
@@ -220,7 +229,10 @@ try {
   }, []);
 
   const startChat = async () => {
-    const findLoggedInUser = allUser.find((me: personalInfo) => me.userID === loggedInUser?.uid);
+    try {
+      const findLoggedInUser = allUser.find((me: personalInfo) => {
+        return me.userID === loggedInUser?.uid
+      });
     const combinedId = findLoggedInUser.userID > userPersonalInfo.userID ?
       findLoggedInUser.userID + userPersonalInfo.userID :
       userPersonalInfo.userID + findLoggedInUser.userID;
@@ -233,9 +245,13 @@ try {
           message: [],
           firstUser: findLoggedInUser,
           secondUser: userPersonalInfo,
-          lastMessage: { message: "Last Message", messageDate: }
+          lastMessage: { message: "Start New Chat", messageDate: fullDate, messageId:uuid() }
         });
     }
+    } catch (error) {
+      alert(error)
+    }
+    
   }
   
   return (
@@ -255,7 +271,7 @@ try {
                                 
                                  </div>
         </div>
-        <button onClick={() => showEditProfile ? setShowEditProfile(false) : setShowEditProfile(true) } className="absolute top-[300px] right-[30px] active:bg-slate-200 shadow-2xl border p-2 rounded-[5px] text-slate-700 text-[20px] ">Send Message</button>
+      <Link onClick={startChat} href='/chat'  className="absolute top-[300px] right-[30px] active:bg-slate-200 shadow-2xl border p-2 rounded-[5px] text-slate-700 text-[20px] ">Send Message</Link>
         <div className="pt-[180px] flex flex-col gap-y-[20px]">
           <div>
             <h1 className="font-bold text-[20px] text-slate-900 capitalize">{userPersonalInfo.username}</h1>

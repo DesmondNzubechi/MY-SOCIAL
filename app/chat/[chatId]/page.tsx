@@ -15,7 +15,8 @@ import { userAuth } from "@/app/components/auths/auth";
 import { AllUser } from "@/app/components/allUser/allUser";
 import { Timestamp, collection, doc, getDoc, getDocs, onSnapshot, query, serverTimestamp, setDoc, updateDoc, where } from "firebase/firestore";
 import { db } from "@/app/components/config/firebase";
-
+import { fullDate } from "@/app/components/publishAPost/publishAPost";
+import { v4 as uuid } from "uuid";
 
 interface userInfo  { 
     userID: string,
@@ -121,8 +122,8 @@ const [message, setMesage] = useState<messageInfo>({
     // }, [])
 
     useEffect(() => {
-        const chatStore = doc(db, 'chats', combinedId);
-        console.log('combine id', combinedId);
+        const chatStore = doc(db, 'chats', params.chatId);
+       // console.log('combine id', combinedId);
 
         const unsubscribe = onSnapshot(chatStore, (theChatSnapshot) => {
             try {
@@ -144,6 +145,7 @@ const [message, setMesage] = useState<messageInfo>({
     }, [combinedId, params.chatId, message.messagTitle]);
 
 
+
     
     const sendAMessage = async () => {
         if (message.messagTitle === '') {
@@ -151,9 +153,10 @@ const [message, setMesage] = useState<messageInfo>({
             return;
         }
         try {
-            const chatRef = doc(db, 'chats', combinedId);
+            const chatRef = doc(db, 'chats', params.chatId);
         await updateDoc(chatRef, {
-            message: [...currentChat?.message, message]
+            message: [...currentChat?.message, message],
+            lastMessage: { message: message.messagTitle, messageDate: fullDate, messageId:uuid() }
         })
            // alert("message succesful")
         } catch (error) {
@@ -167,8 +170,27 @@ const [message, setMesage] = useState<messageInfo>({
    
     const [viewProfile, setViewprofile] = useState(false);
     const [dp, setDp] = useState<any>(null);
-    console.log("current user", user)
+   
+    const [allTheChat, setAllTheChat] = useState<any>([])
+
     
+    useEffect(() => {
+        const chatRef = collection(db, 'chats');
+        const Unsub = onSnapshot(chatRef, (snapShot) => {
+        let chats = snapShot.docs.map(doc => ({ ...doc.data(), id: doc.id }))
+            setAllTheChat(chats)
+        })
+
+        return () => Unsub();
+    }, [])
+    
+    const [myChats, setMyChats] = useState<any>([])
+    useEffect(() => {
+        const filterMyChat = allTheChat.filter((myChat:any) => {
+            return myChat.id.includes(user?.uid)
+        })
+        setMyChats(filterMyChat)
+    }, [allTheChat])
 
     return (
         <div className=" fixed w-full top-[70px] flex flex-row items-start gap-5  justify-around">
@@ -198,18 +220,17 @@ const [message, setMesage] = useState<messageInfo>({
                             </div>
                             <div className="flex w-full flex-col pb-[50px] gap-5">
                               
-                                {
-                                    allUser?.map((users:any) => {
-                                        return <><Link href={`${users.userID}`} className="flex w-full gap-2 items-center">
+                            {
+                                    myChats?.map((chat:any) => {
+                                        return <><Link   key={chat?.lastMessage?.messageId} href={`${chat?.id}`} className="flex w-full gap-2 items-center">
                                         <FaUserCircle className="text-[40px] " />
                                         <div className="flex flex-col gap-[5px]">
                                             <div className="flex items-center flex-row gap-2">
-                                                    <h1 className="text-slate-900 text-[15px] uppercase font-bold font-semibold">{users?.username}</h1> <p className="text-slate-500 md:flex hidden text-[15px]">@{users?.username}</p>
-                                                </div>
-                                                
-                                            {/* <div>
-                                                <p className="text-slate-500 text-[15px]">Hello, How are you doing?</p>
-                                            </div> */}
+                                                    <h1 className="text-slate-900 text-[15px] uppercase font-bold font-semibold">{chat?.firstUser.userID === currentUser.userID ? chat?.secondUser?.username : chat?.firstUser?.username}</h1> <p className="text-slate-500 italic text-[15px]">{chat?.lastMessage?.messageDate}</p>
+                                                </div>  
+                                           <div>
+                                                    <p className="text-slate-500 text-[15px]">{chat?.lastMessage?.message}</p>
+                                            </div>
                                             </div>
                                         </Link>
                                             <hr />
