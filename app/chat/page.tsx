@@ -192,12 +192,34 @@ const [dp, setDp] = useState<File | any>(null);
             alert(error);
         }
     };
+
+    const [allTheChat, setAllTheChat] = useState<any>([])
+
+
+    useEffect(() => {
+        const chatRef = collection(db, 'chats');
+        const Unsub = onSnapshot(chatRef, (snapShot) => {
+            const chats = snapShot.docs.map(doc => ({ ...doc.data(), id: doc.id}))
+            setAllTheChat(chats)
+        })
+
+        return () => Unsub();
+    }, [])
     
+    const [myChats, setMyChats] = useState<any>([])
+    useEffect(() => {
+        const filterMyChat = allTheChat.filter((myChat:any) => {
+            return myChat.id.includes(user?.uid)
+        })
+        setMyChats(filterMyChat)
+    }, [allTheChat])
+    console.log("all my chat", myChats)
+    console.log("all the chat", allTheChat)
     
     return (
         <>
             {user ? (
-                <div className="py-[20px] flex flex-row items-center gap-5  absolute left-0 right-0 top-0 bottom-0 justify-evenly">
+                <div className="py-[20px] flex flex-row items-center gap-5  absolute left-0 right-0 top-[50p] bottom-0 justify-evenly">
                     <div className="flex flex-col h-[100vh] w-full overflow-y-scroll gap-5 px-[10px] py-[20px] pt-[100px]  bg-slate-100 items-center ">
                         <h1 className="uppercase text-[30px] text-center font-bold">all the chats</h1>
                         <div className="flex items-center  w-full self-start justify-center gap-5 ">

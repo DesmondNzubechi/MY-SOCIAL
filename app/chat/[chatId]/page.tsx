@@ -171,7 +171,7 @@ const [message, setMesage] = useState<messageInfo>({
     
 
     return (
-        <div className=" fixed w-full flex flex-row items-start gap-5  justify-around">
+        <div className=" fixed w-full top-[70px] flex flex-row items-start gap-5  justify-around">
          <div className="md:flex flex-col hidden  h-[100vh] w-full overflow-y-scroll gap-5 px-[10px] py-[20px] pt-[100px]  bg-slate-100 items-center ">
                         <h1 className="uppercase text-[30px] text-center font-bold">all the chats</h1>
                         <div className="flex items-center  w-full self-start justify-center gap-5 ">
@@ -196,7 +196,7 @@ const [message, setMesage] = useState<messageInfo>({
                                 <input type="search" name="" className="outline-none w-full bg-transparent p-2" placeholder="Serach for messages" id="" />
                                 <IoMdSearch />
                             </div>
-                            <div className="flex w-full flex-col gap-5">
+                            <div className="flex w-full flex-col pb-[50px] gap-5">
                               
                                 {
                                     allUser?.map((users:any) => {
@@ -220,7 +220,7 @@ const [message, setMesage] = useState<messageInfo>({
                         </div>
                     </div>
             <div className="flex flex-col overflow-y-auto overflow-x-hidden h-[100vh] gap-y-[50px] px-[20px] relative bg-contain pt-[50px] justify-around w-full ">
-                <div className="right-0 left-0 md:left-[48.8%] right-0 md:right-[0%] px-[20px] flex  items-center justify-between   gap-3 p-2 rounded fixed bg-slate-100 top-0">
+                <div className="right-0 left-0 md:left-[48.8%] right-0 md:right-[0%] px-[20px] flex  items-center justify-between top-[70px]  gap-3 p-2 rounded fixed bg-slate-100 top-0">
                     <div className="flex gap-2 items-center">
                    {userInfoState?.userPic ? <Image alt={userInfoState?.username} width={50} height={30} className="rounded-full h-[50px]" src={userInfoState?.userPic} /> : <FaUserCircle className="text-[50px] " />}
                         <h1 className="uppercase font-medium text-[20px] ">{ userInfoState?.username}</h1>
@@ -236,7 +236,7 @@ const [message, setMesage] = useState<messageInfo>({
                      { viewProfile &&  <Link href="" className="text-slate-900 bg-white  fixed top-[50px] font-medium px-[20px] py-[30px] shadow-2xl rounded  right-0">View Profile</Link>}
                  
            </div>
-                <div className="flex  pb-[120px]  items-center flex-col gap-y-[50px]">
+                <div className="flex  pb-[140px] pt-[50px]  items-center flex-col gap-y-[50px]">
                     {
                         currentChat?.message?.map((chats: messageInfo) => {
                             return <div  ref={(el) => (lastMessageRef.current = el)} className={`flex items-center ${chats?.senderId === chatId? "self-start" : "self-end" }   ${chats?.senderId === chatId? "flex-row" : "flex-row-reverse" }  gap-2`}>

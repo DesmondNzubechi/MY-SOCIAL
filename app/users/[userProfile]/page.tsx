@@ -21,7 +21,7 @@ import { PublishAPost } from "../../components/publishAPost/publishAPost";
 import { AllUser } from "../../components/allUser/allUser";
 import { AllThePost } from "../../components/allPosts/allPost";
 import { allPostInfo } from "../../components/allPosts/allPost";
-import { doc, updateDoc, setDoc, collection, onSnapshot } from "firebase/firestore";
+import { doc, updateDoc, setDoc, collection, onSnapshot, getDoc } from "firebase/firestore";
 import { fullDate } from "../../components/publishAPost/publishAPost";
 import { db } from "../../components/config/firebase";
 import { v4 as uuid } from "uuid";
@@ -35,6 +35,7 @@ import { PublishAPostSideBarSkeleton } from "../../components/SkeletonLoader/Pub
 import { PostSkeleton } from "../../components/SkeletonLoader/postSkeleton";
 import { redirect, useRouter } from "next/navigation";
 import { updateProfile } from "firebase/auth";
+
 
 interface personalInfo {
     userID: string,
@@ -217,13 +218,32 @@ try {
       return () => clearTimeout(timeoutId);
     }
   }, []);
+
+  const startChat = async () => {
+    const findLoggedInUser = allUser.find((me: personalInfo) => me.userID === loggedInUser?.uid);
+    const combinedId = findLoggedInUser.userID > userPersonalInfo.userID ?
+      findLoggedInUser.userID + userPersonalInfo.userID :
+      userPersonalInfo.userID + findLoggedInUser.userID;
+    
+    const docRef = doc(db, 'chats', combinedId);
+    const res = await getDoc(docRef);
+    if (!res.exists()) {
+      await setDoc(docRef,
+        {
+          message: [],
+          firstUser: findLoggedInUser,
+          secondUser: userPersonalInfo,
+          lastMessage: { message: "Last Message", messageDate: }
+        });
+    }
+  }
   
   return (
     <main className="flex min-h-screen bg-slate-50 py-[20px] flex-col items-center  ">
       {!userPersonalInfo? <PublishAPostSideBarSkeleton/> :  <PublishAPostSideBar/>}
       {!userPersonalInfo? <SideBarSkeleton/> : <SideBar setPublishPost={setPublishPost}/>}
       <PublishAPost displayPro={showPublishPost} setPublishPost={setPublishPost} />
-    { showEditProfile && <EditProfile setShowEditProfile={setShowEditProfile} />}
+    {/* { showEditProfile && <EditProfile setShowEditProfile={setShowEditProfile} />} */}
       {showFullPost && <FullPost postComment={fullPostdata.postComment} data={fullPostdata} setFullPostData={setFullPostData} setShowFullPost={setShowFullPost} />}
      {!userPersonalInfo? <ProfileSkeleton/> : <div className="relative max-w-[500px] px-[20px]">
         <Image alt="cover pics" src={userPersonalInfo.coverPic? userPersonalInfo.coverPic : CoverPics} className="rounded w-full" height={200} />
@@ -241,8 +261,8 @@ try {
             <h1 className="font-bold text-[20px] text-slate-900 capitalize">{userPersonalInfo.username}</h1>
             <p className="font-[500] text-slate-500">@{userPersonalInfo.username.split(" ").slice(0, 1)}</p>
           </div>
-          <div>
-            <p>Frontend Software Developer | reactJs | NextJs | JavaScript | Typescript | Firebase | Tailwindcss | Crafting Value & Solutions | Sharing Insights in Software Development</p>
+          <div> 
+            <p>{userPersonalInfo.bio}</p>
           </div>
           <div className="flex items-center gap-x-[20px] ">
             <span className="flex items-center gap-1 text-slate-500"><FaHeart  className="text-[20px]"/> <p className="capitalize">Coding</p></span>
