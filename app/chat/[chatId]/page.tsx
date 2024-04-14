@@ -14,10 +14,12 @@ import { FcAddImage } from "react-icons/fc";
 import { userAuth } from "@/app/components/auths/auth";
 import { AllUser } from "@/app/components/allUser/allUser";
 import { Timestamp, collection, doc, getDoc, getDocs, onSnapshot, query, serverTimestamp, setDoc, updateDoc, where } from "firebase/firestore";
-import { db } from "@/app/components/config/firebase";
+import { db, storage } from "@/app/components/config/firebase";
 import { fullDate } from "@/app/components/publishAPost/publishAPost";
 import { v4 as uuid } from "uuid";
-
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { toast } from "react-toastify";
+import 'react-toastify/ReactToastify.css';
 interface userInfo  { 
     userID: string,
     username: string,
@@ -134,9 +136,15 @@ const [message, setMesage] = useState<messageInfo>({
             message: [...currentChat?.message, message],
             lastMessage: { message: message.messagTitle, messageDate: fullDate, messageId:uuid() }
         })
-           // alert("message succesful")
+        toast.success("message sent successfully", {
+            hideProgressBar: true,
+            position: "top-center"
+        })
         } catch (error) {
-           alert(error) 
+            toast.error("An error occured. Try again", {
+                hideProgressBar: true,
+                position: "top-center"
+            })
         }
         
     }
@@ -167,7 +175,41 @@ const [message, setMesage] = useState<messageInfo>({
         })
         setMyChats(filterMyChat)
     }, [allTheChat])
-const messenger = currentChat?.firstUser?.userID === currentUser.userID ? currentChat.secondUser : currentUser.firstUser
+    const messenger = currentChat?.firstUser?.userID === currentUser.userID ? currentChat.secondUser : currentUser.firstUser
+    const imageExtensions = /\.(jpeg|jpg|gif|png|bmp)$/i;
+    const  isImageLink = (str: any) => {
+        return imageExtensions.test(str);
+    }
+    const [chatImg, setChatImg] = useState<File | any>(null);
+
+    const sendChatImage = async () => {
+        try {
+            const chatImgRef = ref(storage, "chat images");
+            const chatImgname = ref(chatImgRef, `${uuid()} chat image ${chatImg.name}`)
+          const uploadChatImg =  await uploadBytes(chatImgname, chatImg);
+            const getChatImgURL = await getDownloadURL(uploadChatImg.ref);
+            const chatRef = doc(db, "chats", params.chatId);
+            await updateDoc(chatRef, {
+                message: [...currentChat?.message, {messageTitle: getChatImgURL, senderId: user?.uid,
+                    senderName: user?.displayName,
+                    time: fullDate,}],
+                lastMessage: { message: "An Image", messageDate: fullDate, messageId:uuid() }
+            })
+            toast.success("message sent successfully", {
+                hideProgressBar: true,
+                position: "top-center"
+            })
+        } catch (error) {
+            alert(error)
+        }
+    }
+
+    useEffect(() => {
+        if (chatImg !== null) {
+            sendChatImage()
+        }
+    }, [chatImg])
+console.log("current chat ", currentChat)
     return (
         <div className=" fixed w-full top-[70px] flex flex-row items-start gap-5  justify-around">
          <div className="md:flex flex-col hidden  h-[100vh] w-full overflow-y-scroll gap-5 px-[10px] py-[20px] pt-[100px]  bg-slate-100 items-center ">
@@ -239,8 +281,8 @@ const messenger = currentChat?.firstUser?.userID === currentUser.userID ? curren
                             return <div  ref={(el) => (lastMessageRef.current = el)} className={`flex items-center ${chats?.senderId === chatId? "self-start" : "self-end" }   ${chats?.senderId === chatId? "flex-row" : "flex-row-reverse" }  gap-2`}>
                                 {chats?.senderId === chatId && (userInfoState?.userPic ? <Image alt={userInfoState?.username} width={50} height={30} className="rounded-full h-[50px]" src={userInfoState?.userPic} /> : <FaUserCircle className="text-[50px] " />)}
                                 {chats?.senderId !== chatId &&  (user?.photoURL ? <Image alt={userInfoState?.username} width={50} height={30} className="rounded-full h-[50px]" src={user?.photoURL} /> :<FaUserCircle className="text-[50px] " />)}
-                                <p className={` ${chats?.senderId === chatId? ' p-[20px] bg-slate-500 text-[20px] text-white rounded-tl-[10px] rounded-r-[15px]' : "p-[20px] bg-sky-500 text-[20px] text-white rounded-tr-[10px] rounded-l-[15px] "} `}>{chats?.messagTitle}</p>
-                              
+                              { !isImageLink(chats.messagTitle) ? <p className={` ${chats?.senderId === chatId? ' p-[20px] bg-slate-500 text-[20px] text-white rounded-tl-[10px] rounded-r-[15px]' : "p-[20px] bg-sky-500 text-[20px] text-white rounded-tr-[10px] rounded-l-[15px] "} `}>{chats?.messagTitle}</p>:
+                                <Image alt="" width={200} height={200} className="w-[200px] shadow-2xl rounded " src={fvi} />}
                             </div>
                         })
                 }
@@ -265,10 +307,12 @@ const messenger = currentChat?.firstUser?.userID === currentUser.userID ? curren
                             messagTitle: e.target.value,
                             senderId: user?.uid,
                             senderName: user?.displayName,
-                            time: 'january',
+                            time: fullDate,
                         })
                     }} name="" placeholder="Write you message here" className=" py-[10px] text-[20px] bg-transparent outline-none  w-full rounded " id="" />
-                    <input type="file" className="hidden " name="file" id="file" />
+                    <input type="file" onChange={(e) => {
+                        setChatImg(e.target.files?.[0])
+                    }} className="hidden " name="file" id="file" />
                     <label htmlFor="file">
                     <RiImageAddFill className="text-[40px] rounded-full    "/>
                     </label>

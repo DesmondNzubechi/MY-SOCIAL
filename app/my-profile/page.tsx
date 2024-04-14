@@ -263,7 +263,7 @@ try {
         await updateDoc(doc(db, 'users', userPersonalInfo.userID), {
          userPic: dpUrl   
         })
-        alert("success");
+        alert("success"); 
     } catch (error) {
        alert(error) 
     }
