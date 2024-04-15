@@ -81,13 +81,13 @@ const [message, setMesage] = useState<messageInfo>({
    
     useEffect(() => {
         const filterUser = () => {
-            const findUser = allUser.find((user: userInfo) => user.userID === params.chatId);
+            const findUser = allUser.find((theUser: userInfo) => params.chatId.includes(theUser.userID) && theUser.userID !== user?.uid);
             setUserInfoState(findUser);
             console.log("find user",  findUser)
         };
         
       filterUser()
-    }, [chatId, allUser])
+    }, [chatId, allUser, params.chatId])
     
 
     useEffect(() => {
@@ -233,31 +233,7 @@ const [message, setMesage] = useState<messageInfo>({
     }, [chatImg])
     console.log("current chat ", currentChat)
     
-    const [chatPatnerInfo, setChatPartnerInfo] = useState<userInfo | null>(null)
-
-    const [filterAllUser, setFilterAllUser] = useState<any>([])
-  useEffect(() => {
-    const filterUsers = () => {
-      const filteredUsers = allUser.filter((users: any) => {
-       return users?.userID !== user?.uid
-      })
-      setFilterAllUser(filteredUsers)
-    }
-    filterUsers();
- }, [allUser])
-
-    const getUserProfile = () => {
-        const findUser = filterAllUser.find((profile: any) => {
-          return params.chatId.includes(profile.userID)
-        })
-        setChatPartnerInfo(findUser);
-    }
     
-    console.log("chat patner", chatPatnerInfo)
-
-    useEffect(() => {
-        getUserProfile()  
-      }, [params.chatId])
     
     return (
         <div className=" fixed w-full top-[70px] flex flex-row items-start gap-5  justify-around">
@@ -274,7 +250,7 @@ const [message, setMesage] = useState<messageInfo>({
                                 <label htmlFor="image" className="absolute text-[20px] bottom-[-5px] " >
                                     <FcAddImage />
                                 </label>
-                                <h1 className="font-bold uppercase text-[20px] ">@{user?.displayName}</h1>
+                                <h1 className="font-bold uppercase text-[20px] ">@{currentUser?.username}</h1>
                                 </div>
                             </div>
                            
@@ -310,8 +286,8 @@ const [message, setMesage] = useState<messageInfo>({
             <div className="flex flex-col overflow-y-auto overflow-x-hidden h-[100vh] gap-y-[50px] px-[20px] relative bg-contain pt-[50px] justify-around w-full ">
                 <div className="right-0 left-0 md:left-[48.8%] right-0 md:right-[0%] px-[20px] flex  items-center justify-between top-[70px]  gap-3 p-2 rounded fixed bg-slate-100 top-0">
                     <div className="flex gap-2 items-center">
-                   {chatPatnerInfo?.userPic ? <Image alt={chatPatnerInfo?.username} width={50} height={30} className="rounded-full h-[50px]" src={chatPatnerInfo?.userPic} /> : <FaUserCircle className="text-[50px] " />}
-                        <h1 className="uppercase font-medium text-[20px] ">{ chatPatnerInfo?.username}</h1>
+                   {userInfoState?.userPic ? <Image alt={userInfoState?.username} width={50} height={30} className="rounded-full h-[50px]" src={userInfoState?.userPic} /> : <FaUserCircle className="text-[50px] " />}
+                        <h1 className="uppercase font-medium text-[20px] ">{ userInfoState?.username}</h1>
                     </div>
                     <HiDotsHorizontal onClick={() => {
                         if (!viewProfile) {
