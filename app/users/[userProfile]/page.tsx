@@ -262,7 +262,7 @@ try {
     {/* { showEditProfile && <EditProfile setShowEditProfile={setShowEditProfile} />} */}
       {showFullPost && <FullPost postComment={fullPostdata.postComment} data={fullPostdata} setFullPostData={setFullPostData} setShowFullPost={setShowFullPost} />}
      {!userPersonalInfo? <ProfileSkeleton/> : <div className="relative max-w-[500px] px-[20px]">
-        <Image alt="cover pics" src={userPersonalInfo.coverPic? userPersonalInfo.coverPic : CoverPics} className="rounded w-full" height={200} />
+        <Image alt="cover pics" src={userPersonalInfo.coverPic? userPersonalInfo.coverPic : CoverPics} className="rounded w-full" width={500} height={200} />
        
         <div className="absolute top-[200px] ">
         <div className="items-center flex relative">

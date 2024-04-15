@@ -21,6 +21,7 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { toast } from "react-toastify";
 import 'react-toastify/ReactToastify.css';
 import Chat from "../page";
+import { userInfo } from "os";
 interface userInfo  { 
     userID: string,
     username: string,
@@ -298,10 +299,10 @@ console.log("current chat ", currentChat)
                 <div className="flex  pb-[140px] pt-[50px]  items-center flex-col gap-y-[50px]">
                     {
                         currentChat?.message?.map((chats: messageInfo) => {
-                            return <div  ref={(el) => (lastMessageRef.current = el)} className={`flex items-center ${chats?.senderId === chatId? "self-start" : "self-end" }   ${chats?.senderId === chatId? "flex-row" : "flex-row-reverse" }  gap-2`}>
+                            return <div  ref={(el) => (lastMessageRef.current = el)} className={`flex items-center ${chats?.senderId !== user?.uid? "self-start" : "self-end" }   ${chats?.senderId !== user?.uid? "flex-row" : "flex-row-reverse" }  gap-2`}>
                                 {chats?.senderId === chatId && (userInfoState?.userPic ? <Image alt={userInfoState?.username} width={50} height={30} className="rounded-full h-[50px]" src={userInfoState?.userPic} /> : <FaUserCircle className="text-[50px] " />)}
                                 {chats?.senderId !== chatId &&  (user?.photoURL ? <Image alt={userInfoState?.username} width={50} height={30} className="rounded-full h-[50px]" src={user?.photoURL} /> :<FaUserCircle className="text-[50px] " />)}
-                                {chats.messageTitle !== '' && <p className={` ${chats?.senderId === chatId ? ' p-[20px] bg-slate-500 text-[20px] text-white rounded-tl-[10px] rounded-r-[15px]' : "p-[20px] bg-sky-500 text-[20px] text-white rounded-tr-[10px] rounded-l-[15px] "} `}>{chats?.messageTitle}</p> }
+                                {chats.messageTitle !== '' && <p className={` ${chats?.senderId !== user?.uid ? ' p-[20px] bg-slate-500 text-[20px] text-white rounded-tl-[10px] rounded-r-[15px]' : "p-[20px] bg-sky-500 text-[20px] text-white rounded-tr-[10px] rounded-l-[15px] "} `}>{chats?.messageTitle}</p> }
                                {chats.messageImg !== '' && <Image alt="" width={200} height={200} className="w-[200px] shadow-2xl rounded " src={chats?.messageImg} /> }
                             </div>
                         })
