@@ -235,12 +235,25 @@ const [message, setMesage] = useState<messageInfo>({
     
     const [chatPatnerInfo, setChatPartnerInfo] = useState<userInfo | null>(null)
 
+    const [filterAllUser, setFilterAllUser] = useState<any>([])
+  useEffect(() => {
+    const filterUsers = () => {
+      const filteredUsers = allUser.filter((users: any) => {
+       return users?.userID !== user?.uid
+      })
+      setFilterAllUser(filteredUsers)
+    }
+    filterUsers();
+ }, [allUser])
+
     const getUserProfile = () => {
-        const findUser = allUser.find((profile: any) => {
+        const findUser = filterAllUser.find((profile: any) => {
           return params.chatId.includes(profile.userID)
         })
         setChatPartnerInfo(findUser);
-      }
+    }
+    
+    console.log("chat patner", chatPatnerInfo)
 
     useEffect(() => {
         getUserProfile()  
@@ -346,7 +359,7 @@ const [message, setMesage] = useState<messageInfo>({
                             time: fullDate,
                             messageImg: ''
                         })
-                    }} name="" placeholder="Write you message here" className=" py-[10px] text-[20px] bg-transparent outline-none  w-full rounded " id="" />
+                    }} name="" value={message.messageTitle} placeholder="Write you message here" className=" py-[10px] text-[20px] bg-transparent outline-none  w-full rounded " id="" />
                     <input type="file" onChange={(e) => {
                         setChatImg(e.target.files?.[0])
                     }} className="hidden " name="file" id="file" />

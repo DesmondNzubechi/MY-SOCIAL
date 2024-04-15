@@ -18,7 +18,7 @@ export const AllUser = () => {
             const filterUser = users.filter((user: any) => {
                 return user.userID !== loggedInUser?.uid
             })
-            setAllUser(filterUser)
+            setAllUser(filterUser);
         })
         return () => {
             unsub();

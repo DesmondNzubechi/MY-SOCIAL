@@ -21,10 +21,11 @@ import { Allan } from "next/font/google";
 import { db } from "../components/config/firebase";
 import Link from "next/link";
 import { FaUserCircle } from "react-icons/fa";
+import { userAuth } from "../components/auths/auth";
 //import { postCard } from "./components/postCard/postCard";
 
 export default function Home() {
-  //const loggedInUser = userAuth();
+ const loggedInUser = userAuth();
   const skeletonLoader = [1, 2, 3, 4, 5]
   const allPost = AllThePost();
   const [showFullPost, setShowFullPost] = useState<boolean>(false)
@@ -46,8 +47,16 @@ export default function Home() {
   })
 
     const allTheUsers = AllUser();
-  
-    //console.log("all the user", allTheUsers)
+  const [filterAllUser, setFilterAllUser] = useState<any>([])
+  useEffect(() => {
+    const filterUsers = () => {
+      const filteredUsers = allTheUsers.filter((users: any) => {
+       return users?.userID !== loggedInUser?.uid
+      })
+      setFilterAllUser(filteredUsers)
+    }
+    filterUsers();
+ }, [allTheUsers])
 
   return (
     <>
@@ -56,7 +65,7 @@ export default function Home() {
         {showQuoteRepost && <QuoteREpost data={fullPostdata} setShowQuoteRepost={setShowQuoteRepost} />}
    { showFullPost &&  <FullPost postComment={fullPostdata.postComment} data={fullPostdata} setFullPostData={setFullPostData} setShowFullPost={setShowFullPost} />}
      <PublishAPost displayPro={showPublishPost} setPublishPost={setPublishPost} />
-      <div className="bg-white flex items-center justify-between gap-2 fixed px-[20px] py-[10px] z-[100] right-0 left-0 top-0 shadow border-b">
+      {/* <div className="bg-white flex items-center justify-between gap-2 fixed px-[20px] py-[10px] z-[100] right-0 left-0 top-0 shadow border-b">
         <div className="flex items-center bg-blue-500 text-white py-[5px] px-[10px] rounded">
           <TbSocial className="text-[50px]"/>
           <h1 className="text-[15px] ">MYsocial</h1>
@@ -64,7 +73,7 @@ export default function Home() {
        
           <input type="text" className="bg-slate-50 capitalize outline-none py-[18px] w-full  text-center text-[15px]" placeholder="search for a post here" name="" id="" />
       
-      </div>
+      </div> */}
       <div className="grid md:grid-cols-6 px-[30px] relative">
           <div></div>
           <div></div>
@@ -79,7 +88,7 @@ export default function Home() {
         
                       <div className="flex flex-col gap-y-[20px]">
                           {
-                              allTheUsers.map((users: any) => {
+                    filterAllUser.map((users: any) => {
                                   return <Link href={`users/${users.userID}`} className="shadow hover:bg-white rounded p-2">
                                       <div>
                                       <div className="flex gap-1  flex-row items-start">
