@@ -20,6 +20,7 @@ import { v4 as uuid } from "uuid";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { toast } from "react-toastify";
 import 'react-toastify/ReactToastify.css';
+import Chat from "../page";
 interface userInfo  { 
     userID: string,
     username: string,
@@ -30,8 +31,9 @@ interface userInfo  {
 interface messageInfo {
     senderId: string | undefined,
     senderName: string | undefined | null,
-    messagTitle: string,
+    messageTitle: string,
     time: any,
+    messageImg: string,
    
 }
 interface User {
@@ -56,8 +58,9 @@ const User = ({ params }: { params: { chatId: string } }) => {
 const [message, setMesage] = useState<messageInfo>({
     senderId: '',
     senderName: '',
-    messagTitle: '',
-  time:  null
+    messageTitle: '',
+    time: fullDate,
+  messageImg: '',
 })
 
 
@@ -120,26 +123,37 @@ const [message, setMesage] = useState<messageInfo>({
         });
 
         return () => unsubscribe();
-    }, [combinedId, params.chatId, message.messagTitle]);
+    }, [combinedId, params.chatId, message.messageTitle]);
 
 
 
     
     const sendAMessage = async () => {
-        if (message.messagTitle === '') {
-            alert("please in put message");
+        if (message.messageTitle === '') {
+            toast.info("Please input your message", {
+                hideProgressBar: true,
+                position: "top-center"
+            })
             return;
         }
         try {
             const chatRef = doc(db, 'chats', params.chatId);
         await updateDoc(chatRef, {
             message: [...currentChat?.message, message],
-            lastMessage: { message: message.messagTitle, messageDate: fullDate, messageId:uuid() }
+            lastMessage: { message: message.messageTitle, messageDate: fullDate, messageId:uuid() }
+        })
+        setMesage({
+            senderId: '',
+        senderName: '',
+        messageTitle: '',
+        time: fullDate,
+            messageImg: '',
         })
         toast.success("message sent successfully", {
             hideProgressBar: true,
             position: "top-center"
         })
+           
         } catch (error) {
             toast.error("An error occured. Try again", {
                 hideProgressBar: true,
@@ -190,9 +204,15 @@ const [message, setMesage] = useState<messageInfo>({
             const getChatImgURL = await getDownloadURL(uploadChatImg.ref);
             const chatRef = doc(db, "chats", params.chatId);
             await updateDoc(chatRef, {
-                message: [...currentChat?.message, {messageTitle: getChatImgURL, senderId: user?.uid,
-                    senderName: user?.displayName,
-                    time: fullDate,}],
+                message: [...currentChat?.message,
+                    {
+                        messageImg: getChatImgURL,
+                        messageTitle: '',
+                        senderId: user?.uid,
+                        senderName: user?.displayName,
+                        time: fullDate,
+                    }
+                ],
                 lastMessage: { message: "An Image", messageDate: fullDate, messageId:uuid() }
             })
             toast.success("message sent successfully", {
@@ -281,8 +301,8 @@ console.log("current chat ", currentChat)
                             return <div  ref={(el) => (lastMessageRef.current = el)} className={`flex items-center ${chats?.senderId === chatId? "self-start" : "self-end" }   ${chats?.senderId === chatId? "flex-row" : "flex-row-reverse" }  gap-2`}>
                                 {chats?.senderId === chatId && (userInfoState?.userPic ? <Image alt={userInfoState?.username} width={50} height={30} className="rounded-full h-[50px]" src={userInfoState?.userPic} /> : <FaUserCircle className="text-[50px] " />)}
                                 {chats?.senderId !== chatId &&  (user?.photoURL ? <Image alt={userInfoState?.username} width={50} height={30} className="rounded-full h-[50px]" src={user?.photoURL} /> :<FaUserCircle className="text-[50px] " />)}
-                              { !isImageLink(chats.messagTitle) ? <p className={` ${chats?.senderId === chatId? ' p-[20px] bg-slate-500 text-[20px] text-white rounded-tl-[10px] rounded-r-[15px]' : "p-[20px] bg-sky-500 text-[20px] text-white rounded-tr-[10px] rounded-l-[15px] "} `}>{chats?.messagTitle}</p>:
-                                <Image alt="" width={200} height={200} className="w-[200px] shadow-2xl rounded " src={fvi} />}
+                                {chats.messageTitle !== '' && <p className={` ${chats?.senderId === chatId ? ' p-[20px] bg-slate-500 text-[20px] text-white rounded-tl-[10px] rounded-r-[15px]' : "p-[20px] bg-sky-500 text-[20px] text-white rounded-tr-[10px] rounded-l-[15px] "} `}>{chats?.messageTitle}</p> }
+                               {chats.messageImg !== '' && <Image alt="" width={200} height={200} className="w-[200px] shadow-2xl rounded " src={chats?.messageImg} /> }
                             </div>
                         })
                 }
@@ -304,10 +324,11 @@ console.log("current chat ", currentChat)
                 <form action=""  className="left-0 md:left-[48.8%] right-0 md:right-[0%]  flex gap-2 right-0 items-center p-2 rounded fixed bg-slate-100 bottom-0">
                     <input type="text" onChange={(e) => {
                         setMesage({
-                            messagTitle: e.target.value,
+                            messageTitle: e.target.value,
                             senderId: user?.uid,
                             senderName: user?.displayName,
                             time: fullDate,
+                            messageImg: ''
                         })
                     }} name="" placeholder="Write you message here" className=" py-[10px] text-[20px] bg-transparent outline-none  w-full rounded " id="" />
                     <input type="file" onChange={(e) => {
