@@ -22,6 +22,7 @@ import { toast } from "react-toastify";
 import 'react-toastify/ReactToastify.css';
 import Chat from "../page";
 import { userInfo } from "os";
+//import { userInfo } from "os";
 interface userInfo  { 
     userID: string,
     username: string,
@@ -230,7 +231,21 @@ const [message, setMesage] = useState<messageInfo>({
             sendChatImage()
         }
     }, [chatImg])
-console.log("current chat ", currentChat)
+    console.log("current chat ", currentChat)
+    
+    const [chatPatnerInfo, setChatPartnerInfo] = useState<userInfo | null>(null)
+
+    const getUserProfile = () => {
+        const findUser = allUser.find((profile: any) => {
+          return params.chatId.includes(profile.userID)
+        })
+        setChatPartnerInfo(findUser);
+      }
+
+    useEffect(() => {
+        getUserProfile()  
+      }, [params.chatId])
+    
     return (
         <div className=" fixed w-full top-[70px] flex flex-row items-start gap-5  justify-around">
          <div className="md:flex flex-col hidden  h-[100vh] w-full overflow-y-scroll gap-5 px-[10px] py-[20px] pt-[100px]  bg-slate-100 items-center ">
@@ -282,8 +297,8 @@ console.log("current chat ", currentChat)
             <div className="flex flex-col overflow-y-auto overflow-x-hidden h-[100vh] gap-y-[50px] px-[20px] relative bg-contain pt-[50px] justify-around w-full ">
                 <div className="right-0 left-0 md:left-[48.8%] right-0 md:right-[0%] px-[20px] flex  items-center justify-between top-[70px]  gap-3 p-2 rounded fixed bg-slate-100 top-0">
                     <div className="flex gap-2 items-center">
-                   {userInfoState?.userPic ? <Image alt={userInfoState?.username} width={50} height={30} className="rounded-full h-[50px]" src={userInfoState?.userPic} /> : <FaUserCircle className="text-[50px] " />}
-                        <h1 className="uppercase font-medium text-[20px] ">{ userInfoState?.username}</h1>
+                   {chatPatnerInfo?.userPic ? <Image alt={chatPatnerInfo?.username} width={50} height={30} className="rounded-full h-[50px]" src={chatPatnerInfo?.userPic} /> : <FaUserCircle className="text-[50px] " />}
+                        <h1 className="uppercase font-medium text-[20px] ">{ chatPatnerInfo?.username}</h1>
                     </div>
                     <HiDotsHorizontal onClick={() => {
                         if (!viewProfile) {
