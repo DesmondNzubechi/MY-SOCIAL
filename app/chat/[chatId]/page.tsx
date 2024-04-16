@@ -39,9 +39,15 @@ interface messageInfo {
    
 }
 interface User {
-    userID: string;
-    username: string;
-    userPic: string;
+    userID: string,
+    fullname: string,
+    useremail: string,
+    userPic: string,
+    coverPic: string,
+    username: string,
+    bio: string,
+    location: string,
+    favorite: string
 }
 const User = ({ params }: { params: { chatId: string } }) => {
 
@@ -140,7 +146,9 @@ const [message, setMesage] = useState<messageInfo>({
         }
         try {
             const chatRef = doc(db, 'chats', params.chatId);
-        await updateDoc(chatRef, {
+            await updateDoc(chatRef, {
+                firstUser: currentUser,
+                secondUser: userInfoState ,
             message: [...currentChat?.message, message],
             lastMessage: { message: message.messageTitle, messageDate: fullDate, messageId:uuid() }
         })
@@ -206,6 +214,8 @@ const [message, setMesage] = useState<messageInfo>({
             const getChatImgURL = await getDownloadURL(uploadChatImg.ref);
             const chatRef = doc(db, "chats", params.chatId);
             await updateDoc(chatRef, {
+                firstUser: currentUser,
+                secondUser: userInfoState ,
                 message: [...currentChat?.message,
                     {
                         messageImg: getChatImgURL,
@@ -231,7 +241,7 @@ const [message, setMesage] = useState<messageInfo>({
             sendChatImage()
         }
     }, [chatImg])
-    console.log("current chat ", currentChat)
+    console.log("current chat ", myChats)
     
     
     
@@ -266,7 +276,8 @@ const [message, setMesage] = useState<messageInfo>({
                             {
                                     myChats?.map((chat:any) => {
                                         return <><Link   key={chat?.lastMessage?.messageId} href={`${chat?.id}`} className="flex w-full gap-2 items-center">
-                                        <FaUserCircle className="text-[40px] " />
+                                            <Image alt='user pic' width={50} height={30} className="rounded-full h-[50px]" src={chat?.firstUser.userID === currentUser.userID ? chat?.secondUser?.userPic : chat?.firstUser?.userPic} />
+                                            <FaUserCircle className="text-[40px] " />
                                         <div className="flex flex-col gap-[5px]">
                                             <div className="flex items-center flex-row gap-2">
                                                     <h1 className="text-slate-900 text-[15px] uppercase font-bold font-semibold">{chat?.firstUser.userID === currentUser.userID ? chat?.secondUser?.username : chat?.firstUser?.username}</h1> <p className="text-slate-500 italic text-[15px]">{chat?.lastMessage?.messageDate}</p>
