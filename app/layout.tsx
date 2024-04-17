@@ -9,6 +9,7 @@ import { MdHome } from "react-icons/md";
 import { MdLogout } from "react-icons/md";
 import { TbSocial } from "react-icons/tb";
 import Link from "next/link";
+import { userAuth } from "./components/auths/auth";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -21,15 +22,18 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
       <body className={inter.className}>
       <header className="flex items-center bg-slate-50 fixed top-0 left-0 right-0 w-full z-[100] shadow gap-5 bg-white p-2 px-[30px] justify-between">
-      <div className="flex items-center  text-white py-[5px] px-[10px] rounded">
+          <div className="flex items-center gap-3">
+          <div className="flex items-center  text-white py-[5px] px-[10px] rounded">
           <TbSocial className="text-[50px] text-blue-500"/>
           <h1 className="text-[15px] text-blue-500 ">MYsocial</h1>
-          </div>
-          <input type="text" className="bg-slate-50 rounded capitalize outline-none py-[18px] w-full md:block hidden  text-center text-[15px]" placeholder="search for a post here" name="" id="" />
+            </div>
+            <input type="text" className="bg-slate-50 rounded capitalize outline-none py-[18px] w-full md:block hidden  text-center text-[15px]" placeholder="search for a post here" name="" id="" />
+     </div>
           <div className="flex items-center gap-5 ">
           <Link href="/" className="flex flex-col items-center gap-0">
               <MdHome className="text-slate-700 text-[20px]"/>

@@ -35,7 +35,7 @@ import { PublishAPostSideBarSkeleton } from "../../components/SkeletonLoader/Pub
 import { PostSkeleton } from "../../components/SkeletonLoader/postSkeleton";
 import { redirect, useRouter } from "next/navigation";
 import { updateProfile } from "firebase/auth";
-
+import { PostCard } from "@/app/components/postCard/postCard";
 
  const currentDate = new Date();
     const options = {
@@ -287,8 +287,10 @@ try {
           </div>
         </div>
         <div className="flex flex-col py-[50px] gap-5">
-    
-        {
+        {myPost.map((myPost: allPostInfo) => {
+            return <PostCard post={myPost} showFullPostFn={showFullPostFn} />
+          })}
+        {/* {
               myPost.map((post) => {
                 const postContents = post.postsContent.split(' ');
                 const tobeDisplayed = postContents.slice(0, 20).join(' ');
@@ -349,7 +351,7 @@ try {
                 </div>
             </div>
             })
-          }   
+          }    */}
 </div>
       </div>}
      

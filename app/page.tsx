@@ -29,6 +29,7 @@ import { PublishAPostSideBar } from "./components/publishAPostSidebar/publishAPo
 import { PostSkeleton } from "./components/SkeletonLoader/postSkeleton";
 import { SideBarSkeleton } from "./components/SkeletonLoader/SidebarSkeleton";
 import { PublishAPostSideBarSkeleton } from "./components/SkeletonLoader/PublishApostSkeleton";
+import { PostCard } from "./components/postCard/postCard";
 //import { postCard } from "./components/postCard/postCard";
 export default function Home() {
   //const loggedInUser = userAuth();
@@ -63,102 +64,102 @@ setShowFullPost(true)
   console.log("post id", fullPostdata.id)
 
 console.log("Log in useer", loggedInUser)
-  const likePost = async (post: allPostInfo) => {
-    if (!loggedInUser) {
-      const notification = () => toast("Kindly login before you can like this post");
-      notification();
-      return;
-    }
-    const postRef = doc(db, 'posts', post.id)
-    try {
-      const likeStatus = post.postLike.find(like => like.likeId === loggedInUser?.uid);
-      const addLike = post.postLike.filter(like => like.likeId !== loggedInUser?.uid)
+//   const likePost = async (post: allPostInfo) => {
+//     if (!loggedInUser) {
+//       const notification = () => toast("Kindly login before you can like this post");
+//       notification();
+//       return;
+//     }
+//     const postRef = doc(db, 'posts', post.id)
+//     try {
+//       const likeStatus = post.postLike.find(like => like.likeId === loggedInUser?.uid);
+//       const addLike = post.postLike.filter(like => like.likeId !== loggedInUser?.uid)
      
-        if (likeStatus) {
-          await updateDoc(postRef, {
-            postLike: [...addLike]
-          })
-          const notification = () => toast("You unliked this post");
-          notification();
-        } else {
-          await updateDoc(postRef, {
-            postLike: [...post.postLike, {likeId: loggedInUser?.uid, likeName: loggedInUser?.displayName}]
-          })
-          const notification = () => toast("You liked this post");
-          notification();
-        }
-} catch (error) {
-  console.log(error)
-}
-  }
+//         if (likeStatus) {
+//           await updateDoc(postRef, {
+//             postLike: [...addLike]
+//           })
+//           const notification = () => toast("You unliked this post");
+//           notification();
+//         } else {
+//           await updateDoc(postRef, {
+//             postLike: [...post.postLike, {likeId: loggedInUser?.uid, likeName: loggedInUser?.displayName}]
+//           })
+//           const notification = () => toast("You liked this post");
+//           notification();
+//         }
+// } catch (error) {
+//   console.log(error)
+// }
+//   }
 
-  const Repost = async (post: allPostInfo) => {
-    if (!loggedInUser) {
-      const notification = () => toast.info('Kindly login before you can repost');
-      notification();
-      return;
-    }
-    const postRef = doc(db, 'posts', uuid())
-try {
-  await setDoc(postRef, {
-    postImg: post.postImg,
-    postsContent:post.postsContent,
-    postId: post.postId,
-    postsDate: post.postsDate,
-    authorId: post.authorId,
-    authorName: post.authorName,
-    authorPics: post.authorPics,
-    postComment: post.postComment,
-    postLike: post.postLike,
-    postRepost: post.postRepost,
-    reposterName: loggedInUser.displayName,
-    reposterPics: loggedInUser.photoURL === null? "" : loggedInUser.photoURL,
-    respotDate: fullDate,
-    reposterId: loggedInUser.uid
-  })
-  const notification = () => toast.info('succesfully reposted');
-  notification();
-  setShowRepost(false);
-} catch (error) {
-  const errorNotification = () => toast.error("An error occured. Please Try again", {
-    hideProgressBar: true,
- })
-  errorNotification();
-}
-  }
+//   const Repost = async (post: allPostInfo) => {
+//     if (!loggedInUser) {
+//       const notification = () => toast.info('Kindly login before you can repost');
+//       notification();
+//       return;
+//     }
+//     const postRef = doc(db, 'posts', uuid())
+// try {
+//   await setDoc(postRef, {
+//     postImg: post.postImg,
+//     postsContent:post.postsContent,
+//     postId: post.postId,
+//     postsDate: post.postsDate,
+//     authorId: post.authorId,
+//     authorName: post.authorName,
+//     authorPics: post.authorPics,
+//     postComment: post.postComment,
+//     postLike: post.postLike,
+//     postRepost: post.postRepost,
+//     reposterName: loggedInUser.displayName,
+//     reposterPics: loggedInUser.photoURL === null? "" : loggedInUser.photoURL,
+//     respotDate: fullDate,
+//     reposterId: loggedInUser.uid
+//   })
+//   const notification = () => toast.info('succesfully reposted');
+//   notification();
+//   setShowRepost(false);
+// } catch (error) {
+//   const errorNotification = () => toast.error("An error occured. Please Try again", {
+//     hideProgressBar: true,
+//  })
+//   errorNotification();
+// }
+//   }
 
 
   
-  const addCommentfn = async (post: allPostInfo) => {
-    if (!loggedInUser) {
-      const notification = () => toast("Kindly login before you can comment on this post");
-          notification();
-      return;
-    }
-    if (commentInput === '') {
-      const notification = () => toast('Kindly input your comment');
-      notification();
-      return;
-    }
+  // const addCommentfn = async (post: allPostInfo) => {
+  //   if (!loggedInUser) {
+  //     const notification = () => toast("Kindly login before you can comment on this post");
+  //         notification();
+  //     return;
+  //   }
+  //   if (commentInput === '') {
+  //     const notification = () => toast('Kindly input your comment');
+  //     notification();
+  //     return;
+  //   }
   
-    try {
-      const commentRef = doc(db, 'posts', post?.id);
+  //   try {
+  //     const commentRef = doc(db, 'posts', post?.id);
       
-      // Check if post.postComment is an array
-      const updatedComments = Array.isArray(post.postComment) 
-        ? [{ commentDate: fullDate, commenterName: loggedInUser?.displayName, commenterPic: loggedInUser?.photoURL, commentContent: commentInput }, ...post.postComment]
-        : [{ commentDate: fullDate, commenterName: loggedInUser?.displayName, commenterPic: loggedInUser?.photoURL, commentContent: commentInput }];
+  //     // Check if post.postComment is an array
+  //     const updatedComments = Array.isArray(post.postComment) 
+  //       ? [{ commentDate: fullDate, commenterName: loggedInUser?.displayName, commenterPic: loggedInUser?.photoURL, commentContent: commentInput }, ...post.postComment]
+  //       : [{ commentDate: fullDate, commenterName: loggedInUser?.displayName, commenterPic: loggedInUser?.photoURL, commentContent: commentInput }];
   
-      await updateDoc(commentRef, {
-        postComment: updatedComments
-      });
-      const notification = () => toast("You commented to this post")
-      notification();
-    } catch (error) {
-      const notification = () => toast("An error occured")
-      notification();
-    }
-  }
+  //     await updateDoc(commentRef, {
+  //       postComment: updatedComments
+  //     });
+  //     const notification = () => toast("You commented to this post")
+  //     notification();
+  //   } catch (error) {
+  //     const notification = () => toast("An error occured")
+  //     notification();
+  //   }
+  // }
 
   return (
     <>
@@ -201,7 +202,11 @@ try {
             </div>
             
             {allPost.length === 0 && skeletonLoader.map(skel => <PostSkeleton />)}
-          {
+
+            {allPost.map((myPost: allPostInfo) => {
+            return <PostCard post={myPost} showFullPostFn={showFullPostFn} />
+          })}
+          {/* {
              allPost.map((post) => {
                 const postContents = post.postsContent.split(' ');
                 const tobeDisplayed = postContents.slice(0, 20).join(' ');
@@ -262,7 +267,7 @@ try {
                 </div>
             </div>
             })
-          }
+          } */}
            
         </div>
         </div>
