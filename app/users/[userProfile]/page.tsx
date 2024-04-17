@@ -38,12 +38,13 @@ import { updateProfile } from "firebase/auth";
 import { PostCard } from "@/app/components/postCard/postCard";
 
  const currentDate = new Date();
-    const options = {
-        year: 'numeric',
-        month: 'long', // 'short' for abbreviated name, 'long' for full name
-        day: 'numeric',
-        weekday: 'long', // 'short' for abbreviated name, 'long' for full name
-      };
+ const options: Intl.DateTimeFormatOptions = {
+  year: 'numeric',
+  month: 'long', // 'short' for abbreviated name, 'long' for full name
+  day: 'numeric',
+  weekday: 'long', // 'short' for abbreviated name, 'long' for full name
+};
+
      const fullDate = currentDate.toLocaleString(undefined, options);
 
 interface personalInfo {
