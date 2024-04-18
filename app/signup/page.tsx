@@ -50,7 +50,8 @@ export default function Home() {
     try {
       const res = await createUserWithEmailAndPassword(auth, userDetails.userEmail, userDetails.userPassword);
       await updateProfile(res.user, {
-     displayName: userDetails.username  
+        displayName: userDetails.username ,
+     photoURL: ''   
       })
       await setDoc(doc(db, "users", res.user.uid), {
         userID: res.user.uid,
@@ -65,7 +66,7 @@ export default function Home() {
 
       });
 
-      await setDoc(doc(db, "UserChats", res.user.uid), {})
+     // await setDoc(doc(db, "UserChats", res.user.uid), {})
 router.push('/')
     } catch (error) { 
       alert(error)

@@ -196,7 +196,22 @@ try {
    </div>
    <Image src={post.postImg} width={500} height={300} className="rounded-[10px] " alt="post pic" />
    <div className="flex items-center border-t border-b py-[5px] justify-around">
-     <div onClick={showFullPostFn} className=" border-r flex items-center cursor-pointer p-[5px] gap-x-[5px] "><FaCommentAlt className="text-[20px] "/> <p className="text-slate-500">{post.postComment.length} Comments</p></div>
+        <div onClick={() => {
+            showFullPostFn();
+            setFullPostData({
+              postImg: post.postImg,
+              postsContent: post.postsContent,
+              postId:post.postId,
+              postsDate: post.postsDate,
+              authorId: post.authorId,
+              authorName: post.authorName,
+              authorPics: post.authorPics,
+              postComment: [...post.postComment],
+              postLike: post.postLike,
+              postRepost:post.postRepost,
+              id:post.id,
+            })
+     }} className=" border-r flex items-center cursor-pointer p-[5px] gap-x-[5px] "><FaCommentAlt className="text-[20px] "/> <p className="text-slate-500">{post.postComment.length} Comments</p></div>
        <div onClick={() => likePost(post)} className={` flex items-center p-[5px] cursor-pointer gap-x-[5px] ${post.postLike.find(like => like.likeId === loggedInUser?.uid) ? 'text-sky-700 ' : 'text-slate-500'}  `}><SlLike className="text-[20px] " /> <p
          className={post.postLike.find(like => like.likeId === loggedInUser?.uid) ? 'text-sky-700 ' : 'text-slate-500' }>{post.postLike.length} Likes</p></div>
        <div onClick={() => showRepost? setShowRepost(false) : setShowRepost(true)} className=" flex items-center p-[5px] cursor-pointer gap-x-[5px] border-l "><BiRepost className="text-[20px] " /><p className="text-slate-500">{post?.postRepost?.length} Repost</p></div>

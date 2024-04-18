@@ -13,6 +13,8 @@ import { userAuth } from "../auths/auth";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
 import { useEffect } from "react";
+import 'react-toastify/ReactToastify.css';
+import { toast } from "react-toastify";
 export const FullPost = ({ setShowFullPost, data, postComment, setFullPostData }: { setShowFullPost: React.Dispatch<React.SetStateAction<boolean>>, data: allPostInfo, postComment: any[], setFullPostData: React.Dispatch<React.SetStateAction<allPostInfo>> }) => {
   const loggedInUser = userAuth();
   const [commentInput, setCommentInput] = useState<string>('');
@@ -80,8 +82,11 @@ export const FullPost = ({ setShowFullPost, data, postComment, setFullPostData }
         postComment: updatedComments
       });
   
-      setFullPostData({...data, postComment: [{ commentDate: fullDate, commenterName: loggedInUser?.displayName, commenterPic: loggedInUser?.photoURL, commentContent: commentInput }, ...data.postComment]})
-      alert('Success');
+      setFullPostData({ ...data, postComment: [{ commentDate: fullDate, commenterName: loggedInUser?.displayName, commenterPic: loggedInUser?.photoURL, commentContent: commentInput }, ...data.postComment] })
+      setCommentInput('');
+      toast.success("You added a new comment", {
+       hideProgressBar: true
+     })
     } catch (error) {
       alert(error);
     }
