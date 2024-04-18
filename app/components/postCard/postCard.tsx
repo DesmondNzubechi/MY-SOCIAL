@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import CoverPics from '../../public/cover pic.png'
 import { userAuth } from "../../components/auths/auth";
@@ -39,7 +39,7 @@ import { personalInfo } from "@/app/my-profile/page";
 interface props {
     showFullPostFn: () => void,
 }
-export const PostCard = ({post, showFullPostFn} : {post: allPostInfo, showFullPostFn: any}) => {
+export const PostCard = ({post, showFullPostFn, setFullPostData} : {post: allPostInfo, showFullPostFn: any, setFullPostData: React.Dispatch<React.SetStateAction<allPostInfo>>}) => {
 
     const allUser = AllUser();
   const loggedInUser = userAuth();
@@ -66,19 +66,7 @@ export const PostCard = ({post, showFullPostFn} : {post: allPostInfo, showFullPo
     favorite: "",
     dateJoined: ''
   })
-  const [fullPostdata, setFullPostData] = useState<allPostInfo>({
-    postImg: '',
-    postsContent: '',
-    postId:'',
-    postsDate: '',
-    authorId: '',
-    authorName: '',
-    authorPics: '',
-    postComment: [],
-    postLike: [],
-    postRepost: [],
-    id: ''
-  })
+  
     const [commentInput, setCommentInput] = useState<string>('');
     
   const likePost = async (post: allPostInfo) => {

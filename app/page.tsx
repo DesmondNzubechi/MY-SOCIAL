@@ -204,7 +204,7 @@ console.log("Log in useer", loggedInUser)
             {allPost.length === 0 && skeletonLoader.map(skel => <PostSkeleton />)}
 
             {allPost.map((myPost: allPostInfo) => {
-            return <PostCard post={myPost} showFullPostFn={showFullPostFn} />
+            return <PostCard setFullPostData={setFullPostData} post={myPost} showFullPostFn={showFullPostFn} />
           })}
           {/* {
              allPost.map((post) => {
