@@ -256,9 +256,9 @@ setShowFullPost(true)
         const dpName = ref(dpRef, userPersonalInfo.username)
         const uploadDp = await uploadBytes(dpName, dp);
         const dpUrl = await getDownloadURL(uploadDp.ref);
-        await updateProfile(loggedInUser, {
-          photoURL: dpUrl
-        })
+        // await updateProfile(loggedInUser, {
+        //   photoURL: dpUrl
+        // })
 
         await updateDoc(doc(db, 'users', userPersonalInfo.userID), {
          userPic: dpUrl   
