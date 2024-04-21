@@ -7,8 +7,8 @@ import './PostSkeleton.css'; // Import CSS file for styling
 export const PostSkeleton = () => {
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
+  useEffect(() => { 
+    const timer = setTimeout(() => { 
       setIsLoading(true); // Simulating data loading completion after 2 seconds
     }, 2000);
 

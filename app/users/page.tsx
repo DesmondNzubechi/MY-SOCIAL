@@ -22,6 +22,7 @@ import { db } from "../components/config/firebase";
 import Link from "next/link";
 import { FaUserCircle } from "react-icons/fa";
 import { userAuth } from "../components/auths/auth";
+import { UserSkeletonLoader } from "../components/SkeletonLoader/UserSkeleton";
 //import { postCard } from "./components/postCard/postCard";
 
 export default function Home() {
@@ -84,24 +85,25 @@ export default function Home() {
         <div className="md:col-span-2 flex max-w-[500px] flex-col gap-5">
         
             
-            {allPost.length === 0 && skeletonLoader.map(skel => <PostSkeleton />)}
+           
+            <div className="flex flex-col w-full gap-y-[20px]">
+            {allPost.length === 0 && skeletonLoader.map(skel => <UserSkeletonLoader />)}
         
-                      <div className="flex flex-col gap-y-[20px]">
                           {
                     filterAllUser.map((users: any) => {
-                                  return <Link href={`users/${users.userID}`} className="shadow hover:bg-white rounded p-2">
+                                  return <Link href={`users/${users?.userID}`} className="shadow hover:bg-white w-full rounded p-2">
                                       <div>
-                                      <div className="flex gap-1  flex-row items-start">
-                                              {users?.userPic !== ('' || null) ? <Image src={users?.userPic} height={50} width={50} className="rounded-full " alt="post pic" /> : <FaUserCircle className="text-[50px] bg-slate-50 rounded-full shadow-2xl " />}
-                                              <div className="flex flex-col gap-2">
-                                                  <div className="flex flex-row items-center justify-between">
-                                                      <div>
+                                      <div className="flex gap-1 w-full flex-row items-start">
+                                              {users?.userPic !== '' ? <Image src={users?.userPic} height={50} width={50} className="rounded-full " alt="post pic" /> : <FaUserCircle className="text-[50px] bg-slate-50 rounded-full shadow-2xl " />}
+                                              <div className="flex w-full flex-col gap-2">
+                                                  <div className="flex flex-row items-center w-full justify-between ">
+                                                      <div className="">
                                                           <h1 className="font-medium text-slate-900 capitalize">{users?.username}</h1>
-                                                          <h2 className="text-slate-500 font-[500] text-[15px] capitalize ">@{users.username.split(" ").slice(0, 1).join(" ")}</h2>
+                                                          <h2 className="text-slate-500 font-[500] text-[15px] capitalize ">@{users?.username.split(" ").slice(0, 1).join(" ")}</h2>
                                                       </div>
-                                                     <button className="bg-sky-500 rounded-[5px] hover:bg-sky-600 text-slate-50 px-2  py-1 text-[15px]">View Profile</button>
+                                                     <button className="bg-sky-500 rounded-[5px]  hover:bg-sky-600 text-slate-50 px-2  py-1 text-[15px]">View Profile</button>
                                                   </div>
-                                                  <p className="text-[15px] font-[400] text-slate-900">{users?.bio.split(" ").slice(0, 11).join(' ')}...</p>
+                                                  <p className="text-[15px] font-[400] w-full text-slate-900">{users?.bio.split(" ").slice(0, 11).join(' ')}...</p>
                                               </div>
               </div>
                                       </div>

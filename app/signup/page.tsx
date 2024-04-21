@@ -62,7 +62,7 @@ export default function Home() {
           useremail: userDetails.userEmail,
           userPic: '',
           coverPic: '',
-          username: '',
+          username: userDetails.username,
           bio: '',
           location: '',
           favorite: ''
