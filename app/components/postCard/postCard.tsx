@@ -27,12 +27,12 @@ import { v4 as uuid } from "uuid";
 import { ToastContainer, toast } from "react-toastify";
 import { FaEdit } from "react-icons/fa";
 import 'react-toastify/ReactToastify.css';
-
+//import { QuoteREpost } from "../quoteRepost/quoteRepost";
 import { personalInfo } from "@/app/my-profile/page";
 interface props {
     showFullPostFn: () => void,
 } 
-export const PostCard = ({post, showFullPostFn, setFullPostData} : {post: allPostInfo, showFullPostFn: any, setFullPostData: React.Dispatch<React.SetStateAction<allPostInfo>>}) => {
+export const PostCard = ({post, setShowQuoteRepost, showFullPostFn, setFullPostData} : {post: allPostInfo | any, setShowQuoteRepost:React.Dispatch<React.SetStateAction<boolean>>, showFullPostFn: any, setFullPostData: React.Dispatch<React.SetStateAction<allPostInfo>>}) => {
 
     const allUser = AllUser();
   const loggedInUser = userAuth();
@@ -43,7 +43,7 @@ export const PostCard = ({post, showFullPostFn, setFullPostData} : {post: allPos
   const [userInfo, setUserInfo] = useState<any>({});
   const [userPost, setUserPost] = useState<any[]>([]);
   const [showRepost, setShowRepost] = useState<boolean>(false);
-  const [showQuoteRepost, setShowQuoteRepost] = useState<boolean>(false);
+  //const [showQuoteRepost, setShowQuoteRepost] = useState<boolean>(false);
   const [myPost, setMyPost] = useState<any[]>([]);
   const [dp, setDp] = useState<File | any>(null);
   const [userCoverPics, setUserCoverPics] = useState<File | any>(null);
@@ -160,7 +160,13 @@ try {
     const tobeDisplayed = postContents.slice(0, 20).join(' ');
 
     return <div key={post.postId} className="shadow-xl border bg-white relative  p-2 gap-[20px] rounded-[10px] flex-col flex">
-   
+    {  post?.reposterName &&  <div className="bg-slate-100 p-2">
+              <div className="flex gap-1 flex-row items-center">
+              <h1 className="font-bold flex  capitalize items-center ">  {(post?.reposterPics !== '' || post?.reposterPics) ? <Image src={post?.reposterPics} height={50} width={50} className="rounded-full " alt="post pic" /> :  <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />}@{post.reposterName}</h1> <span className="text-slate-500 ">Reposted</span> <GoDotFill/> <p className="text-slate-500 text-[10px]">{post.respotDate}</p>
+              </div>
+                    <p className="text-slate-700 text-[15px] mb-[10px]">{post?.repostThought}</p>
+              
+                  </div>}
    <div className="flex gap-1 flex-row items-center">
        <h1 className="font-bold flex  capitalize items-center ">  {post.authorPics !== '' ? <Image src={post.authorPics} height={50} width={50} className="rounded-full " alt="post pic" /> :  <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />}@{post.authorName}</h1> <span className="text-slate-500 ">posted this</span> <GoDotFill/> <p className="text-slate-500 text-[10px]">{post.postsDate}</p>
    </div>
@@ -206,7 +212,7 @@ try {
             })
      }} className=" border-r flex items-center cursor-pointer p-[5px] gap-x-[5px] "><FaCommentAlt className="text-[20px] "/> <p className="text-slate-500">{post.postComment.length} Comments</p></div>
        <div onClick={() => likePost(post)} className={` flex items-center p-[5px] cursor-pointer gap-x-[5px] ${post.postLike.find(like => like.likeId === loggedInUser?.uid) ? 'text-sky-700 ' : 'text-slate-500'}  `}><SlLike className="text-[20px] " /> <p
-         className={post.postLike.find(like => like.likeId === loggedInUser?.uid) ? 'text-sky-700 ' : 'text-slate-500' }>{post.postLike.length} Likes</p></div>
+         className={post.postLike.find((like: any) => like.likeId === loggedInUser?.uid) ? 'text-sky-700 ' : 'text-slate-500' }>{post.postLike.length} Likes</p></div>
        <div onClick={() => showRepost? setShowRepost(false) : setShowRepost(true)} className=" flex items-center p-[5px] cursor-pointer gap-x-[5px] border-l "><BiRepost className="text-[20px] " /><p className="text-slate-500">{post?.postRepost?.length} Repost</p></div>
        {showRepost && <div className="absolute flex flex-col bg-slate-50 gap-2 p-2 items-start rounded border  bottom-[135px]  right-0 ">
          <button
