@@ -26,30 +26,30 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-      <header className="flex items-center bg-slate-50 fixed top-0 left-0 right-0 w-full z-[100] shadow gap-5 bg-white p-2 px-[30px] justify-between">
+      <header className="flex items-center bg-slate-50 fixed top-0 left-0 right-0 w-full z-[100] shadow gap-5 bg-white p-2 py-[20px] px-[30px] justify-between">
           <div className="flex items-center gap-3">
           <div className="flex items-center  text-white py-[5px] px-[10px] rounded">
-          <TbSocial className="text-[50px] text-blue-500"/>
-          <h1 className="text-[15px] text-blue-500 ">MYsocial</h1>
+          <TbSocial className="md:text-[50px] text-[25px] text-blue-500"/>
+          <h1 className="md:text-[15px] text-[12px] text-blue-500 ">MYsocial</h1>
             </div>
             <input type="text" className="bg-slate-50 rounded capitalize outline-none py-[18px] w-full md:block hidden  text-center text-[15px]" placeholder="search for a post here" name="" id="" />
      </div>
           <div className="flex items-center gap-5 ">
           <Link href="/" className="flex flex-col items-center gap-0">
-              <MdHome className="text-slate-700 text-[20px]"/>
-              <span className="text-[12px]">Home</span>
+              <MdHome className="text-slate-700 text-[15px] md:text-[20px]"/>
+              <span className="md:text-[12px] text-[10px] ">Home</span>
             </Link>
             <Link href="/chat" className="flex flex-col items-center gap-0">
-              <FaMessage className="text-slate-700 text-[20px]"/>
-              <span className="text-[12px]">Messaging</span>
+              <FaMessage className="text-slate-700  text-[15px] md:text-[20px]"/>
+              <span className="md:text-[12px] text-[10px]">Messaging</span>
             </Link>
             <Link href="/users" className="flex flex-col items-center gap-0">
-              <FaUsersRectangle className="text-slate-700 text-[20px]"/>
-              <span className="text-[12px]">Friends</span>
+              <FaUsersRectangle className="text-slate-700  text-[15px] md:text-[20px]"/>
+              <span className="md:text-[12px] text-[10px]">Friends</span>
             </Link>
             <Link href="/my-profile" className="flex flex-col items-center gap-0">
-              <FaCircleUser className="text-slate-700 text-[20px]"/>
-              <span className="text-[12px]">Me</span>
+              <FaCircleUser className="text-slate-700  text-[15px] md:text-[20px]"/>
+              <span className="md:text-[12px] text-[10px]">Me</span>
             </Link>
           </div>
     </header>
