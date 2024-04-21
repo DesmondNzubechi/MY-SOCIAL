@@ -57,7 +57,7 @@ export default function Home() {
         userID: res.user.uid,
         fullname: res.user.displayName,
         useremail: res.user.email,
-        userPic: res.user.photoURL,
+        userPic: '',
         coverPic: '',
         username: '',
         bio: '',

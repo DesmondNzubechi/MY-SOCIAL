@@ -27,18 +27,11 @@ import { v4 as uuid } from "uuid";
 import { ToastContainer, toast } from "react-toastify";
 import { FaEdit } from "react-icons/fa";
 import 'react-toastify/ReactToastify.css';
-import { PublishAPostSideBar } from "../../components/publishAPostSidebar/publishAPostSideBar";
-import { ProfileSkeleton } from "../../components/SkeletonLoader/ProfileSkeleton";
-import { SideBarSkeleton } from "../../components/SkeletonLoader/SidebarSkeleton";
-import { PublishAPostSideBarSkeleton } from "../../components/SkeletonLoader/PublishApostSkeleton";
-import { PostSkeleton } from "../../components/SkeletonLoader/postSkeleton";
-import { redirect, useRouter } from "next/navigation";
-import { updateProfile } from "firebase/auth";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+
 import { personalInfo } from "@/app/my-profile/page";
 interface props {
     showFullPostFn: () => void,
-}
+} 
 export const PostCard = ({post, showFullPostFn, setFullPostData} : {post: allPostInfo, showFullPostFn: any, setFullPostData: React.Dispatch<React.SetStateAction<allPostInfo>>}) => {
 
     const allUser = AllUser();
@@ -59,7 +52,7 @@ export const PostCard = ({post, showFullPostFn, setFullPostData} : {post: allPos
     fullname: "",
     useremail: "",
     userPic:"",
-    coverPic: "",
+    coverPic: "", 
     username: "",
     bio: "",
     location: "",

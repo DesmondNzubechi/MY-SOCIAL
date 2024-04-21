@@ -54,7 +54,7 @@ export const FullPost = ({ setShowFullPost, data, postComment, setFullPostData }
   //         commentContent: commentInput
   //       }, ...data.postComment]
   //     })
-  //     alert('success');
+  //     alert('success'); 
   //   } catch (error) {
   //     alert(error)
   //   }
@@ -62,11 +62,16 @@ export const FullPost = ({ setShowFullPost, data, postComment, setFullPostData }
 
   const addComment = async () => {
     if (!loggedInUser) {
-      alert('Kindly login');
+      toast.info("Kindly login before adding a comment", {
+        hideProgressBar: true,
+     });
       return;
     }
     if (commentInput === '') {
-      alert('Kindly input your comment');
+      
+      toast.info("Kindly input your comment", {
+        hideProgressBar: true,
+     });
       return;
     }
   
@@ -88,10 +93,51 @@ export const FullPost = ({ setShowFullPost, data, postComment, setFullPostData }
        hideProgressBar: true
      })
     } catch (error) {
-      alert(error);
+      toast.error("An error occured, please try again.", {
+        hideProgressBar: true
+      })
     }
   }
   
+    
+  const likePost = async (data: allPostInfo) => {
+    if (!loggedInUser) {
+      toast.info("Kindly login before you can like this post", {
+        hideProgressBar: true,
+     });
+      return;
+    }
+    const postRef = doc(db, 'posts', data.id)
+    try {
+      const likeStatus = data.postLike.find(like => like.likeId === loggedInUser?.uid);
+      const addLike = data.postLike.filter(like => like.likeId !== loggedInUser?.uid)
+     
+        if (likeStatus) {
+          await updateDoc(postRef, {
+            postLike: [...addLike]
+            
+          })
+          setFullPostData({ ...data, postLike: [...addLike]})
+      
+          toast.info("You Unliked this post", {
+            hideProgressBar: true,
+         });
+        } else {
+          await updateDoc(postRef, {
+            postLike: [...data.postLike, {likeId: loggedInUser?.uid, likeName: loggedInUser?.displayName}]
+          })
+          setFullPostData({ ...data, postLike: [...data.postLike, {likeId: loggedInUser?.uid, likeName: loggedInUser?.displayName}]})
+      
+          toast.success("You liked this post", {
+            hideProgressBar: true,
+         });
+        }
+} catch (error) { 
+      toast.error("An error occured, please try again.", {
+   hideProgressBar: true
+ })
+}
+  }
 
     return (
         <div>
@@ -109,7 +155,7 @@ export const FullPost = ({ setShowFullPost, data, postComment, setFullPostData }
             <Image src={data.postImg} height={400} width={500} className="w-full  " alt="post pic" />
             <div className="flex items-center border-t border-b bg-slate-50 py-[10px] justify-around">
               <div className=" flex items-center p-[5px] gap-x-[5px] rounded"><FaCommentAlt className="text-[20px] "/> <p className="text-slate-500">{data.postComment.length} Comments</p></div>
-              <div className=" flex items-center p-[5px] gap-x-[5px] rounded"><SlLike className="text-[20px] "/> <p className="text-slate-500">{data.postLike.length} Likes</p></div>
+              <div onClick={() => likePost(data)} className="cursor-pointer flex items-center p-[5px] gap-x-[5px] rounded"><SlLike className="text-[20px] "/> <p className="text-slate-500">{data.postLike.length} Likes</p></div>
               <div className=" flex items-center p-[5px] gap-x-[5px] rounded"><BiRepost className="text-[20px] " /><p className="text-slate-500">{data.postRepost} Repost</p></div>
                         </div>
                         {/* COMMENTS UNDER POST */}
@@ -136,7 +182,7 @@ export const FullPost = ({ setShowFullPost, data, postComment, setFullPostData }
                         {/* ADD YOUR COMMENTS */}
                         <div className="bg-slate-50 bottom-0 md:left-[24%] md:right-[24%] fixed left-0 right-0 border-t md:bottom-[20px] p-2">
                         <div className="py-[10px] w-full bg-white flex items-center justify-around px-[20px] gap-1">
-                <input type="text" onChange={(e) => setCommentInput(e.target.value)} placeholder="Input your comment" className="w-full outline-none bg-transparent" />
+                <input type="text" onChange={(e) => setCommentInput(e.target.value)} placeholder="Input your comment" value={commentInput} className="w-full outline-none bg-transparent" />
                 <button onClick={addComment} type="button" className="bg-sky-500 p-2 rounded text-slate-50">Comment</button>
                             </div>
                       </div>
