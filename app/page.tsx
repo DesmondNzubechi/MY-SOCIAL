@@ -164,7 +164,7 @@ console.log("Log in useer", loggedInUser)
   return (
     <>
       
-      <main className="flex min-h-screen pt-[100px] py-[20px] bg-slate-50 flex-col items-center  ">
+      <main className="flex min-h-screen overflow-x-hidden pt-[100px] py-[20px] bg-slate-50 justify-center flex-col items-center  ">
         {showQuoteRepost && <QuoteREpost data={fullPostdata} setShowQuoteRepost={setShowQuoteRepost} />}
    { showFullPost &&  <FullPost postComment={fullPostdata.postComment} data={fullPostdata} setFullPostData={setFullPostData} setShowFullPost={setShowFullPost} />}
      <PublishAPost displayPro={showPublishPost} setPublishPost={setPublishPost} />
@@ -190,14 +190,14 @@ console.log("Log in useer", loggedInUser)
     
           <div onClick={() => setPublishPost('block')} className="md:hidden flex flex-col cursor-pointer gap-y-2 bg-white p-4 rounded">
             <div className="flex flex-row gap-x-[20px] items-center">
-              <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />
-              <div className="text-slate-500 p-3 border w-full rounded-[10px]">Write a post here...</div>
+              <FaUserCircle className="md:text-[30px] text-[20px] bg-slate-50 rounded-full shadow-2xl " />
+              <div className="text-slate-500 text-[12px] md:text-[15px]  p-3 border w-full rounded-[10px]">Write a post here...</div>
             </div>
             <hr />
             <div className="flex flex-row gap-5  w-full justify-around">
-              <div className="flex items-center gap-1 text-slate-700  bg-slate-50 p-2 rounded"><IoMdPhotos /><span>Photo</span></div>
-              <div className="flex items-center gap-1 text-slate-700 bg-slate-50 p-2 rounded"><MdVideoLibrary /><span>Video</span></div>
-              <button className="bg-sky-500 text-slate-50 p-2 rounded">Publish Post</button>
+              <div className="flex items-center gap-1 text-slate-700  bg-slate-50 p-2 rounded"><IoMdPhotos /><span className="text-[12px] md:text-[15px]">Photo</span></div>
+              <div className="flex items-center gap-1 text-slate-700 bg-slate-50 p-2 rounded"><MdVideoLibrary /><span className="text-[12px] md:text-[15px]">Video</span></div>
+              <button className="bg-sky-500 text-[12px] md:text-[15px] text-slate-50 p-2 rounded">Publish Post</button>
             </div>
             </div>
             
