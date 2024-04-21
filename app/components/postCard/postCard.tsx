@@ -211,7 +211,7 @@ try {
               id:post.id,
             })
      }} className=" border-r flex items-center cursor-pointer p-[5px] gap-x-[5px] "><FaCommentAlt className="md:text-[20px] text-[15px] "/> <p className="text-slate-500 md:text-[15px] text-[12px]">{post.postComment.length} Comments</p></div>
-       <div onClick={() => likePost(post)} className={` flex items-center p-[5px] cursor-pointer gap-x-[5px] ${post.postLike.find(like => like.likeId === loggedInUser?.uid) ? 'text-sky-700 ' : 'text-slate-500'}  `}><SlLike className="md:text-[20px] text-[15px]" /> <p
+       <div onClick={() => likePost(post)} className={` flex items-center p-[5px] cursor-pointer gap-x-[5px] ${post.postLike.find((like:any) => like.likeId === loggedInUser?.uid) ? 'text-sky-700 ' : 'text-slate-500'}  `}><SlLike className="md:text-[20px] text-[15px]" /> <p
          className={post.postLike.find((like: any) => like.likeId === loggedInUser?.uid) ? 'text-sky-700 md:text-[15px] text-[12px] ' : 'text-slate-500 md:text-[15px] text-[12px]'  }>{post.postLike.length} Likes</p></div>
        <div onClick={() => showRepost? setShowRepost(false) : setShowRepost(true)} className=" flex items-center p-[5px] cursor-pointer gap-x-[5px] border-l "><BiRepost className="md:text-[20px] text-[15px] " /><p className="text-slate-500 md:text-[15px] text-[12px]">{post?.postRepost?.length} Repost</p></div>
        {showRepost && <div className="absolute flex flex-col bg-slate-50 gap-2 p-2 items-start rounded border  bottom-[135px]  right-0 ">
