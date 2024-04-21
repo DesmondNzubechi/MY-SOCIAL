@@ -58,8 +58,8 @@ export default function Home() {
       if (!resHere.exists()) {
         await setDoc(userRef, {
           userID: res.user.uid,
-          fullname: res.user.displayName,
-          useremail: res.user.email,
+          fullname: userDetails.username,
+          useremail: userDetails.userEmail,
           userPic: '',
           coverPic: '',
           username: '',
