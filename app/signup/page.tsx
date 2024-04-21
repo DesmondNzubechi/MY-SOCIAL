@@ -9,7 +9,7 @@ import { auth, db } from "../components/config/firebase";
 import { useRouter } from "next/navigation";
 import { userAuth } from "../components/auths/auth";
 import { redirect } from "next/navigation";
-import { setDoc } from "firebase/firestore";
+import { getDoc, setDoc } from "firebase/firestore";
 import { doc } from "firebase/firestore";
 import { AllUser } from "../components/allUser/allUser";
 export default function Home() {
@@ -47,27 +47,32 @@ export default function Home() {
       alert("Please fill in your details")
       return;
 }
-    try {
+    try { 
       const res = await createUserWithEmailAndPassword(auth, userDetails.userEmail, userDetails.userPassword);
       await updateProfile(res.user, {
         displayName: userDetails.username ,
      photoURL: ''   
       })
-      await setDoc(doc(db, "users", res.user.uid), {
-        userID: res.user.uid,
-        fullname: res.user.displayName,
-        useremail: res.user.email,
-        userPic: '',
-        coverPic: '',
-        username: '',
-        bio: '',
-        location: '',
-        favorite: ''
-
-      });
+      const userRef = doc(db, "users", res.user.uid);
+      const resHere = await getDoc(userRef);
+      if (!resHere.exists()) {
+        await setDoc(userRef, {
+          userID: res.user.uid,
+          fullname: res.user.displayName,
+          useremail: res.user.email,
+          userPic: '',
+          coverPic: '',
+          username: '',
+          bio: '',
+          location: '',
+          favorite: ''
+  
+        });
+      }
+     
 
      // await setDoc(doc(db, "UserChats", res.user.uid), {})
-router.push('/')
+router.push('/my-profile')
     } catch (error) { 
       alert(error)
     }

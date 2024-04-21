@@ -352,7 +352,7 @@ useEffect(() => {
         </div>
         <div className="flex flex-col py-[50px] gap-5">
           {myPost.map((myPost: allPostInfo) => {
-            return <PostCard setFullPostData={setFullPostData} post={myPost} showFullPostFn={showFullPostFn} />
+            return <PostCard setShowQuoteRepost={setShowQuoteRepost} setFullPostData={setFullPostData} post={myPost} showFullPostFn={showFullPostFn} />
           })}
         {/* {
               myPost.map((post) => {
