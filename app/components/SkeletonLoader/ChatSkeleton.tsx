@@ -22,7 +22,7 @@ const ChatSkeletonLoader = () => {
     const chatLoader = [0, 0, 0, 0 ,0, 0]
     return (
     
-                   <div className="flex flex-col h-[100vh] w-[100%]  overflow-y-scroll gap-5 px-[10px] py-[20px] pt-[100px]  bg-slate-100 items-center ">
+                   <div className="md:flex hidden flex-col h-[100vh] w-[100%]  overflow-y-scroll gap-5 px-[10px] py-[20px] pt-[100px]  bg-slate-100 items-center ">
                         <h1 className="uppercase   text-[30px] text-center font-bold">ALL THE CHATs</h1>
                        
                         <div className="flex flex-col gap-5">

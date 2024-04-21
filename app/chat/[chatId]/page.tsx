@@ -22,6 +22,8 @@ import { toast } from "react-toastify";
 import 'react-toastify/ReactToastify.css';
 import Chat from "../page";
 import { userInfo } from "os";
+import ChatSkeletonLoader from "@/app/components/SkeletonLoader/ChatSkeleton";
+import { ConversationSkeletonLoader } from "@/app/components/SkeletonLoader/conversationSkeleton";
 //import { userInfo } from "os";
 interface userInfo  { 
     userID: string,
@@ -247,22 +249,11 @@ const [message, setMesage] = useState<messageInfo>({
     
     return (
         <div className=" fixed w-full top-[70px] flex flex-row items-start gap-5  justify-around">
-         <div className="md:flex flex-col hidden  h-[100vh] w-full overflow-y-scroll gap-5 px-[10px] py-[20px] pt-[100px]  bg-slate-100 items-center ">
+         
+         {userInfoState ? <div className="md:flex hidden flex-col h-[100vh] w-full overflow-y-scroll gap-5 px-[10px] py-[20px] pt-[100px] pb-[50px]  bg-slate-100 items-center ">
                         <h1 className="uppercase text-[30px] text-center font-bold">all the chats</h1>
                         <div className="flex items-center  w-full self-start justify-center gap-5 ">
-                            <div className="flex self-start flex-col gap-2">
-                                <div className="items-center flex relative">
-                                {user?.photoURL? <Image alt={`${user?.displayName}`} width={50} height={30} className="rounded-full h-[50px]" src={user?.photoURL} /> :
-                            <FaUserCircle className="text-[50px] " />}
-                                <input type="file" onChange={(e) => {
-                                    setDp(e.target.files?.[0])
-                                }} name="image" className="hidden" id="image" />
-                                <label htmlFor="image" className="absolute text-[20px] bottom-[-5px] " >
-                                    <FcAddImage />
-                                </label>
-                                <h1 className="font-bold uppercase text-[20px] ">@{currentUser?.username}</h1>
-                                </div>
-                            </div>
+                           
                            
                             {/* <button onClick={() => logOutUser()} className="bg-red-500 p-1 text-slate-50 px-[20px] rounded text-[20px] font-medium">Logout</button> */}
                         </div>
@@ -271,14 +262,14 @@ const [message, setMesage] = useState<messageInfo>({
                                 <input type="search" name="" className="outline-none w-full bg-transparent p-2" placeholder="Serach for messages" id="" />
                                 <IoMdSearch />
                             </div>
-                            <div className="flex w-full flex-col pb-[50px] gap-5">
+                            <div className="flex w-full flex-col gap-5">
                               
-                            {
+                                {
                                     myChats?.map((chat:any) => {
-                                        return <><Link   key={chat?.lastMessage?.messageId} href={`${chat?.id}`} className="flex w-full gap-2 items-center">
-                                            {(chat.secondUser.userPic !== '' && chat.firstUser.userPic !== '')? <Image alt='user pic' width={50} height={30} className="rounded-full h-[50px]" src={chat?.firstUser.userID === currentUser.userID ? chat?.secondUser?.userPic : chat?.firstUser?.userPic} /> :
+                                        return <><Link   key={chat?.lastMessage?.messageId} href={`chat/${chat?.id}`} className="flex w-full gap-2 items-center">
+                                        {(chat.secondUser.userPic !== '' && chat.firstUser.userPic !== '')? <Image alt='user pic' width={50} height={30} className="rounded-full h-[50px]" src={chat?.firstUser.userID === currentUser.userID ? chat?.secondUser?.userPic : chat?.firstUser?.userPic} /> :
                                                 
-                                       <FaUserCircle className="text-[40px] " />}
+                                                <FaUserCircle className="text-[40px] " />}
                                         <div className="flex flex-col gap-[5px]">
                                             <div className="flex items-center flex-row gap-2">
                                                     <h1 className="text-slate-900 text-[15px] uppercase font-bold font-semibold">{chat?.firstUser.userID === currentUser.userID ? chat?.secondUser?.username : chat?.firstUser?.username}</h1> <p className="text-slate-500 italic text-[15px]">{chat?.lastMessage?.messageDate}</p>
@@ -294,8 +285,8 @@ const [message, setMesage] = useState<messageInfo>({
                                 }
                             </div>
                         </div>
-                    </div>
-            <div className="flex flex-col overflow-y-auto overflow-x-hidden h-[100vh] gap-y-[50px] px-[20px] relative bg-contain pt-[50px] justify-around w-full ">
+                    </div> : <ChatSkeletonLoader/> }
+            {userInfoState?<div className="flex flex-col overflow-y-auto overflow-x-hidden h-[100vh] gap-y-[50px] px-[20px] relative bg-contain pt-[50px] justify-around w-full ">
                 <div className="right-0 left-0 md:left-[48.8%] right-0 md:right-[0%] px-[20px] flex  items-center justify-between top-[70px]  gap-3 p-2 rounded fixed bg-slate-100 top-0">
                     <div className="flex gap-2 items-center">
                    {userInfoState?.userPic ? <Image alt={userInfoState?.username} width={50} height={30} className="rounded-full h-[50px]" src={userInfoState?.userPic} /> : <FaUserCircle className="text-[50px] " />}
@@ -356,7 +347,7 @@ const [message, setMesage] = useState<messageInfo>({
                     </label>
                     <button onClick={sendAMessage} className="bg-sky-500 py-[5px] shadow-2xl rounded-[7px] text-slate-50 text-[20px]  px-[20px]" type="button">Send</button>
            </form>
-            </div>
+            </div> : <ConversationSkeletonLoader/>}
             </div>
     )
 }
