@@ -193,7 +193,7 @@ try {
        className="font-bold text-[12px] md:text-[15px]">See More...
      </button>}
    </div>
-   <Image src={post.postImg} width={500} height={300} className="rounded-[10px] " alt="post pic" />
+   <Image src={post.postImg} width={300} height={300} className="rounded-[10px] w-full " alt="post pic" />
    <div className="flex items-center border-t border-b py-[5px] justify-around">
         <div onClick={() => {
             showFullPostFn();
