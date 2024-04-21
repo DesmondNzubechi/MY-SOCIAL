@@ -19,6 +19,7 @@ import Image from "next/image";
 import { AllUser } from "../components/allUser/allUser";
 import { Timestamp, collection, doc, getDoc, getDocs, onSnapshot, query, serverTimestamp, setDoc, updateDoc, where } from "firebase/firestore";
 import { v4 as uuid } from "uuid";
+import ChatSkeletonLoader from "../components/SkeletonLoader/ChatSkeleton";
 
 
 const currentDate = new Date();
@@ -154,23 +155,12 @@ const [dp, setDp] = useState<File | any>(null);
     return (
         <>
             {user ? (
-                <div className="py-[20px] flex flex-row items-center gap-5  absolute left-0 right-0 top-[50p] bottom-0 justify-evenly">
-                    <div className="flex flex-col h-[100vh] w-full overflow-y-scroll gap-5 px-[10px] py-[20px] pt-[100px]  bg-slate-100 items-center ">
+                <div className="  flex flex-row items-center gap-5   absolute left-0 right-0 top-[50p] bottom-0 justify-evenly">
+                    
+                  {myChats.length !== 0? <div className="flex flex-col h-[100vh] w-full overflow-y-scroll gap-5 px-[10px] py-[20px] pt-[150px] pb-[50px]  bg-slate-100 items-center ">
                         <h1 className="uppercase text-[30px] text-center font-bold">all the chats</h1>
                         <div className="flex items-center  w-full self-start justify-center gap-5 ">
-                            <div className="flex self-start flex-col gap-2">
-                                <div className="items-center flex relative">
-                                {currentUser.userPic? <Image alt={currentUser.username} width={50} height={30} className="rounded-full h-[50px]" src={currentUser?.userPic} /> :
-                            <FaUserCircle className="text-[50px] " />}
-                                <input type="file" onChange={(e) => {
-                                    setDp(e.target.files?.[0])
-                                }} name="image" className="hidden" id="image" />
-                                <label htmlFor="image" className="absolute text-[20px] bottom-[-5px] " >
-                                    <FcAddImage />
-                                </label>
-                                <h1 className="font-bold uppercase text-[20px] ">@{currentUser?.username}</h1>
-                                </div>
-                            </div>
+                           
                            
                             {/* <button onClick={() => logOutUser()} className="bg-red-500 p-1 text-slate-50 px-[20px] rounded text-[20px] font-medium">Logout</button> */}
                         </div>
@@ -202,7 +192,7 @@ const [dp, setDp] = useState<File | any>(null);
                                 }
                             </div>
                         </div>
-                    </div>
+                    </div> : <ChatSkeletonLoader/> }
                     <div className="hidden md:flex w-full flex-col items-center justify-self-center">
                         <IoIosChatbubbles className="text-[100px]" />
                         <h1 className="uppercase font-bold  text-[30px]">Click on a user</h1>
