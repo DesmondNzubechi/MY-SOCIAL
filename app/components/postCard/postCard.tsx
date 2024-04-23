@@ -162,16 +162,16 @@ try {
     return <div key={post.postId} className="shadow-xl border bg-white relative  p-2 gap-[20px] rounded-[10px] flex-col flex">
     {  post?.reposterName &&  <div className="bg-slate-100 p-2">
               <div className="flex gap-1 flex-row items-center">
-              <h1 className="font-bold flex  capitalize items-center ">  {(post?.reposterPics !== '' || post?.reposterPics) ? <Image src={post?.reposterPics} height={50} width={50} className="rounded-full " alt="post pic" /> :  <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />} @{post.reposterName}</h1> <span className="text-slate-500 ">Reposted</span> <GoDotFill/> <p className="text-slate-500 text-[10px]">{post.respotDate}</p>
+              <h1 className="font-bold flex  capitalize items-center ">  {(post?.reposterPics !== '' || post?.reposterPics) ? <Image src={post?.reposterPics} height={50} width={50} className="rounded-full md:w-[50px] w-[30px] " alt="post pic" /> :  <FaUserCircle className="md:text-[30px] text-[15px] bg-slate-50 rounded-full shadow-2xl " />} <span className="text-[10px] md:text-[20px]"> @{post.reposterName} </span> </h1> <span className="text-slate-500 md:text-[20px] text-[10px] ">Reposted</span> <GoDotFill/> <p className="text-slate-500 text-[7px] md:text-[10px]">{post.respotDate}</p>
               </div>
                     <p className="text-slate-700 text-[12px] md:text-[15px] mb-[10px]">{post?.repostThought}</p>
               
                   </div>}
    <div className="flex gap-1 flex-row items-center">
-       <h1 className="font-bold flex  capitalize items-center ">  {post.authorPics !== '' ? <Image src={post.authorPics} height={50} width={50} className="rounded-full " alt="post pic" /> :  <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />} <span className="md:text-[15px] text-[12px]">@{post.authorName}</span> </h1> <span className="text-slate-500 md:text-[15px] text-[12px] ">posted this</span> <GoDotFill/> <p className="text-slate-500 md:text-[12px] text-[10+-px]">{post.postsDate}</p>
+       <h1 className="font-bold flex  capitalize items-center ">  {post.authorPics !== '' ? <Image src={post.authorPics} height={50} width={50} className="rounded-full md:w-[50px] w-[30px]" alt="post pic" /> :  <FaUserCircle className="md:text-[30px] text-[15px] bg-slate-50 rounded-full shadow-2xl " />} <span className="md:text-[20px] text-[10px]">@{post.authorName}</span> </h1> <span className="text-slate-500 md:text-[15px] text-[12px] ">posted this</span> <GoDotFill/> <p className="text-slate-500 md:text-[12px] text-[7px]">{post.postsDate}</p>
    </div>
    <div className="">
-       <p className="text-[12px] md:text-[15px]">{ tobeDisplayed }</p>
+       <p className="text-[10px] md:text-[15px]">{ tobeDisplayed }</p>
      {postContents.length > 20 && <button
        onClick={() => {
          showFullPostFn();

@@ -303,16 +303,16 @@ useEffect(() => {
 
   return (
     <main className="flex min-h-screen bg-slate-50 pt-[100px] py-[20px] flex-col items-center  ">
-      {(!loggedInUser && !allUser)? <PublishAPostSideBarSkeleton/> :  <PublishAPostSideBar/>}
-      {(!loggedInUser && !allUser)? <SideBarSkeleton/> : <SideBar setPublishPost={setPublishPost}/>}
-      <PublishAPost displayPro={showPublishPost} setPublishPost={setPublishPost} />
+      {allUser.length == 0? <PublishAPostSideBarSkeleton/> :  <PublishAPostSideBar/>}
+      {allUser.length == 0? <SideBarSkeleton/> : <SideBar setPublishPost={setPublishPost}/>}
+       <PublishAPost displayPro={showPublishPost} setPublishPost={setPublishPost} />
     { showEditProfile && <EditProfile setUserPersonalInfo={setUserPersonalInfo} userInfo={userPersonalInfo} setShowEditProfile={setShowEditProfile} />}
       {showFullPost && <FullPost postComment={fullPostdata.postComment} data={fullPostdata} setFullPostData={setFullPostData} setShowFullPost={setShowFullPost} />}
-     {(!loggedInUser && !allUser)? <ProfileSkeleton/> : <div className="relative max-w-[500px] px-[20px]">
+     {allUser.length == 0? <ProfileSkeleton/> : <div className="relative max-w-[500px] px-[20px]">
      <Image alt="cover pics" src={userPersonalInfo?.coverPic !== ''? userPersonalInfo?.coverPic : CoverPics} className="rounded h-[250px] w-full" width={400} height={100} />
-       
+        
         <input type="file" onChange={(e) => {
-                                    setUserCoverPics(e.target.files?.[0])
+                                     setUserCoverPics(e.target.files?.[0])
                                 }} name="user cover pic" className="hidden" id="user cover pic" />
                                   <label htmlFor="user cover pic" className="absolute bg-slate-50 rounded-full text-[30px] p-1 top-[70px] right-[50px] " >
                                      <FaPlus className="bg-slate-"/>

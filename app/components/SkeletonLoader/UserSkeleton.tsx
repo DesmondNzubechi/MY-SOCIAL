@@ -16,7 +16,7 @@ export const UserSkeletonLoader = () => {
       return () => clearTimeout(timer); 
     }, []);
 
-    return <div  className="shadow animate-skeleton-loading hover:bg-white w-[400px] rounded p-2">
+    return <div  className=" animate-skeleton-loading hover:bg-white w-[300px] md:-[350px] l:w-[400px] rounded p-2">
     <div>
     <div className="flex gap-1 w-full flex-row items-start">
             <FaUserCircle className="text-[50px] text-slate-200 bg-slate-50 rounded-full shadow-2xl " />

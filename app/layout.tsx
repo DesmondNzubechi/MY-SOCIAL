@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-      <header className="flex items-center bg-slate-50 fixed top-0 left-0 right-0 w-full z-[100] shadow gap-5 bg-white p-2 py-[20px] px-[30px] justify-between">
+      <header className="flex items-center bg-slate-50 fixed top-0 left-0 right-0 w-full z-[100] shadow gap-5 bg-white p-2 py-[20px] px-[30px] overflow-x-hidden justify-between">
           <div className="flex items-center gap-3">
           <div className="flex items-center  text-white py-[5px] px-[10px] rounded">
           <TbSocial className="md:text-[50px] text-[25px] text-blue-500"/>

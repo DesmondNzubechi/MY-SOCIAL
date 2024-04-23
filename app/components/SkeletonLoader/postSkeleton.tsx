@@ -16,7 +16,7 @@ export const PostSkeleton = () => {
   }, []);
 
   return (
-    <div className="post-skeleton shadow-xl border bg-white p-2 gap-[20px] rounded-[10px] flex-col flex">
+    <div className="post-skeleton overflow-x-hidden shadow-xl border bg-white p-2 gap-[20px] rounded-[10px] flex-col flex">
       {isLoading ? (
         <>
           <div className="animate-skeleton-loading flex gap-1 flex-row items-center">
@@ -29,24 +29,24 @@ export const PostSkeleton = () => {
             <p className="skeleton-block bg-slate-200 h-[30px] rounded w-full"></p>
           </div>
           <div className="flex animate-skeleton-loading flex-col gap-1">
-            <p className="skeleton-block bg-slate-200 w-full h-[70px] rounded"></p>
+            <p className="skeleton-block bg-slate-200  h-[70px] rounded"></p>
             <button
               type="button"
               className="font-bold h-[30px] w-[40%] bg-slate-200 rounded"
             ></button>
           </div>
-          <div className="bg-slate-200 animate-skeleton-loading rounded w-full h-[100px]">
+          <div className="bg-slate-200 animate-skeleton-loading rounded  h-[100px]">
             <BiImage className="text-[100px] text-white" />
           </div>
           <div className="flex items-center animate-skeleton-loading gap-1 border-t border-b py-[5px] justify-around">
-            <div className="bg-slate-200 h-[30px] rounded w-[120px]">
+            <div className="bg-slate-200 h-[30px] rounded w-[70px]">
               <p className="text-slate-500"></p>
             </div>
-            <div className="bg-slate-200 h-[30px] rounded w-[120px]">
+            <div className="bg-slate-200 h-[30px] rounded w-[70px]">
               {' '}
               <p className="text-slate-500"></p>
             </div>
-            <div className="bg-slate-200 h-[30px] rounded w-[120px]">
+            <div className="bg-slate-200 h-[30px] rounded w-[70px]">
               <p className="text-slate-500"></p>
             </div>
           </div>
