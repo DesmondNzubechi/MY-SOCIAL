@@ -309,7 +309,7 @@ useEffect(() => {
     { showEditProfile && <EditProfile setUserPersonalInfo={setUserPersonalInfo} userInfo={userPersonalInfo} setShowEditProfile={setShowEditProfile} />}
       {showFullPost && <FullPost postComment={fullPostdata.postComment} data={fullPostdata} setFullPostData={setFullPostData} setShowFullPost={setShowFullPost} />}
      {allUser.length == 0? <ProfileSkeleton/> : <div className="relative w-full md:max-w-[500px] px-[20px]">
-     <Image alt="cover pics" src={(userPersonalInfo?.coverPic !== '' || userPersonalInfo)? userPersonalInfo?.coverPic : CoverPics} className="rounded h-[250px] w-full md:w-[400px]" width={400} height={100} />
+     <Image alt="cover pics" src={userPersonalInfo?.coverPic ? userPersonalInfo?.coverPic : CoverPics} className="rounded h-[250px] w-full md:w-[400px]" width={400} height={100} />
         
         <input type="file" onChange={(e) => {
                                      setUserCoverPics(e.target.files?.[0])
