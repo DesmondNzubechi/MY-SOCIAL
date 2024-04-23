@@ -302,14 +302,14 @@ useEffect(() => {
   console.log("user personal info", userPersonalInfo)
 
   return (
-    <main className="flex min-h-screen bg-slate-50 pt-[100px] py-[20px] flex-col items-center  ">
+    <main className="flex min-h-screen bg-slate-50 pt-[100px] md:pt-[140px]  py-[20px] flex-col items-center  ">
       {allUser.length == 0? <PublishAPostSideBarSkeleton/> :  <PublishAPostSideBar/>}
       {allUser.length == 0? <SideBarSkeleton/> : <SideBar setPublishPost={setPublishPost}/>}
        <PublishAPost displayPro={showPublishPost} setPublishPost={setPublishPost} />
     { showEditProfile && <EditProfile setUserPersonalInfo={setUserPersonalInfo} userInfo={userPersonalInfo} setShowEditProfile={setShowEditProfile} />}
       {showFullPost && <FullPost postComment={fullPostdata.postComment} data={fullPostdata} setFullPostData={setFullPostData} setShowFullPost={setShowFullPost} />}
      {allUser.length == 0? <ProfileSkeleton/> : <div className="relative max-w-[500px] px-[20px]">
-     <Image alt="cover pics" src={userPersonalInfo?.coverPic !== ''? userPersonalInfo?.coverPic : CoverPics} className="rounded h-[250px] w-full" width={400} height={100} />
+     <Image alt="cover pics" src={userPersonalInfo?.coverPic !== ''? userPersonalInfo?.coverPic : CoverPics} className="rounded h-[250px] w-full md:w-[400px]" width={400} height={100} />
         
         <input type="file" onChange={(e) => {
                                      setUserCoverPics(e.target.files?.[0])
@@ -320,18 +320,18 @@ useEffect(() => {
         <div className="absolute top-[200px] ">
         <div className="items-center flex relative">
                               
-        { userPersonalInfo?.userPic? <Image src={userPersonalInfo?.userPic} alt={`${userPersonalInfo?.username} profile picture`} height={200} width={200}  className="rounded-full"/>  :  <FaUserCircle className="text-[200px] bg-slate-50 rounded-full shadow-2xl " />}
+        { userPersonalInfo?.userPic? <Image src={userPersonalInfo?.userPic} alt={`${userPersonalInfo?.username} profile picture`} height={200} width={200}  className="rounded-full md:w-[200px] w-[100px] "/>  :  <FaUserCircle className="text-[200px] bg-slate-50 rounded-full shadow-2xl " />}
              
                                   <input type="file" onChange={(e) => {
                                      setDp(e.target.files?.[0])
                                   }} name="user profile pic" className="hidden" id="user profile pic" />
-                                  <label htmlFor="user profile pic" className="absolute text-[50px] bottom-[10px] left-[150px] " >
+                                  <label htmlFor="user profile pic" className="absolute text-[50px] bottom-0 md:bottom-[10px] md:left-[150px] left-[70px] " >
                                       <FcAddImage className="bg-slate-"/>
                                   </label>
                                  </div>
         </div>
         <button onClick={() => showEditProfile ? setShowEditProfile(false) : setShowEditProfile(true) } className="absolute top-[300px] right-[30px] active:bg-slate-200 shadow-2xl border p-2 rounded-[5px] text-slate-700 text-[20px] ">Edit Profile</button>
-        <div className="pt-[180px] flex flex-col gap-y-[20px]">
+        <div className="pt-[140px] flex flex-col gap-y-[20px]">
           <div>
             <h1 className="font-bold text-[20px] text-slate-900 capitalize">{userPersonalInfo?.username}</h1>
             <p className="font-[500] capitalize text-slate-500">@{userPersonalInfo?.username.split(' ').slice(0, 1)}</p>
