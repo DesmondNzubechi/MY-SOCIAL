@@ -302,14 +302,14 @@ useEffect(() => {
   console.log("user personal info", userPersonalInfo)
 
   return (
-    <main className="flex min-h-screen bg-slate-50 pt-[100px] md:pt-[140px]  py-[20px] flex-col items-center  ">
+    <main className="flex min-h-screen justify-center overflow-x-hidden bg-slate-50 pt-[100px] md:pt-[140px]  py-[20px] flex-col items-center  ">
       {allUser.length == 0? <PublishAPostSideBarSkeleton/> :  <PublishAPostSideBar/>}
       {allUser.length == 0? <SideBarSkeleton/> : <SideBar setPublishPost={setPublishPost}/>}
        <PublishAPost displayPro={showPublishPost} setPublishPost={setPublishPost} />
     { showEditProfile && <EditProfile setUserPersonalInfo={setUserPersonalInfo} userInfo={userPersonalInfo} setShowEditProfile={setShowEditProfile} />}
       {showFullPost && <FullPost postComment={fullPostdata.postComment} data={fullPostdata} setFullPostData={setFullPostData} setShowFullPost={setShowFullPost} />}
-     {allUser.length == 0? <ProfileSkeleton/> : <div className="relative max-w-[500px] px-[20px]">
-     <Image alt="cover pics" src={userPersonalInfo?.coverPic !== ''? userPersonalInfo?.coverPic : CoverPics} className="rounded h-[250px] w-full md:w-[400px]" width={400} height={100} />
+     {allUser.length == 0? <ProfileSkeleton/> : <div className="relative w-full md:max-w-[500px] px-[20px]">
+     <Image alt="cover pics" src={(userPersonalInfo?.coverPic !== '' || userPersonalInfo)? userPersonalInfo?.coverPic : CoverPics} className="rounded h-[250px] w-full md:w-[400px]" width={400} height={100} />
         
         <input type="file" onChange={(e) => {
                                      setUserCoverPics(e.target.files?.[0])
