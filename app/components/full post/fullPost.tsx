@@ -16,12 +16,38 @@ import { useEffect } from "react";
 import 'react-toastify/ReactToastify.css';
 import { toast } from "react-toastify";
 import Link from "next/link";
+import { AllUser } from "../allUser/allUser";
+import { personalInfo } from "@/app/my-profile/page";
+
 export const FullPost = ({ setShowFullPost, data, postComment, setFullPostData }: { setShowFullPost: React.Dispatch<React.SetStateAction<boolean>>, data: allPostInfo, postComment: any[], setFullPostData: React.Dispatch<React.SetStateAction<allPostInfo>> }) => {
   const loggedInUser = userAuth();
+  const allUser = AllUser();
   const [commentInput, setCommentInput] = useState<string>('');
+  const [userPersonalInfo, setUserPersonalInfo] = useState<personalInfo>({
+    userID: "",
+    fullname: "",
+    useremail: "",
+    userPic:"",
+    coverPic: "",
+    username: "",
+    bio: "",
+    location: "",
+    favorite: "",
+    dateJoined: ''
+  })
   console.log("comment", commentInput)
   console.log("post id", data.id)
 
+  const getUserProfile = () => {
+    const findUser = allUser.find((profile: any) => {
+      return profile.userID === loggedInUser?.uid
+    })
+    setUserPersonalInfo(findUser);
+  }
+
+  useEffect(() => {
+    getUserProfile();
+  }, [allUser, loggedInUser])
   
   // Add useEffect to handle overflow when the component mounts and unmounts
   useEffect(() => {
@@ -81,14 +107,14 @@ export const FullPost = ({ setShowFullPost, data, postComment, setFullPostData }
       
       // Check if data.postComment is an array
       const updatedComments = Array.isArray(data.postComment) 
-        ? [{ commentDate: fullDate, commenterName: loggedInUser?.displayName, commenterPic: loggedInUser?.photoURL, commentContent: commentInput }, ...data.postComment]
-        : [{ commentDate: fullDate, commenterName: loggedInUser?.displayName, commenterPic: loggedInUser?.photoURL, commentContent: commentInput }];
+        ? [{ commentDate: fullDate, commenterName: userPersonalInfo?.username, commenterPic: userPersonalInfo?.userPic, commentContent: commentInput, commenterId: userPersonalInfo?.userID }, ...data.postComment]
+        : [{ commentDate: fullDate, commenterName: userPersonalInfo?.username, commenterPic: userPersonalInfo?.userPic, commentContent: commentInput, commenterId: userPersonalInfo?.userID }];
   
       await updateDoc(commentRef, {
         postComment: updatedComments
       });
   
-      setFullPostData({ ...data, postComment: [{ commentDate: fullDate, commenterName: loggedInUser?.displayName, commenterPic: loggedInUser?.photoURL, commentContent: commentInput }, ...data.postComment] })
+      setFullPostData({ ...data, postComment: [{ commentDate: fullDate, commenterName: userPersonalInfo?.username, commenterPic: userPersonalInfo?.userPic, commentContent: commentInput, commenterId: userPersonalInfo?.userID }, ...data.postComment] })
       setCommentInput('');
       toast.success("You added a new comment", {
        hideProgressBar: true
@@ -164,13 +190,13 @@ export const FullPost = ({ setShowFullPost, data, postComment, setFullPostData }
                 <h1 className="font-bold text-slate-700 md:text-[20px] text-[15px] md:text-[20px] border-b w-full text-center">Comments section</h1>
               {postComment.length == 0 ? <h1 className="capitalize text-slate-500 text-[15px] my-[20px] text-center ">There is no comment under this post. be the first person to comment</h1>: 
                   postComment?.map((comment, index) => {
-                    const { commenterName, commentDate, commentContent, commenterPic, comm } = comment;
+                    const { commenterName, commentDate, commentContent, commenterPic, commenterId } = comment;
                     console.log("comments data", comment)
                     return  <div key={index} className="flex flex-start gap-1">
-                   {commenterPic? <Image src={commenterPic} height={50} width={50} className="rounded-full h-[30px] md:h-[50px] w-[30px] md:w-[50px] " alt="post pic" /> :  <FaUserCircle className="md:text-[50px] text-[30px] bg-slate-50 rounded-full shadow-2xl " />}
+                   {commenterPic? <Link href={`/users/${commenterId}`}><Image src={commenterPic} height={50} width={50} className="rounded-full h-[30px] md:h-[50px] w-[30px] md:w-[50px] " alt="post pic" /></Link> : <Link href={`/users/${commenterId}`}>  <FaUserCircle className="md:text-[50px] text-[30px] bg-slate-50 rounded-full shadow-2xl " /></Link>}
                     <div className='flex flex-col gap-1 bg-slate-200 rounded-bl-[20px]  rounded-r-[20px] p-3'>
                 <div className="flex gap-1 flex-row items-center">
-                          <h1 className="font-bold text-[10px] md:text-[15px] flex items-center "> @{commenterName}</h1>  <GoDotFill className="text-[10px]"/> <p className="text-slate-500 text-[8px] md:text-[10px]">{commentDate}</p>
+                          <h1 className="font-bold text-[10px] md:text-[15px] flex items-center "> <Link href={`/users/${commenterId}`}> @{commenterName} </Link></h1>  <GoDotFill className="text-[10px]"/> <p className="text-slate-500 text-[8px] md:text-[10px]">{commentDate}</p>
     </div>
     <p className="text-[10px] md:text-[15px]">{commentContent}</p>
   </div>

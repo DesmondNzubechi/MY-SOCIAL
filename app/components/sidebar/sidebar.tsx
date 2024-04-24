@@ -45,8 +45,7 @@ export const SideBar = ({ setPublishPost }: { setPublishPost: React.Dispatch<Rea
       <Link href='/users' className="text-slate-700 text-[20px] capitalize ">Friends</Link>
       <Link href='/chat' className="text-slate-700 text-[20px] capitalize ">Chats</Link>
       <button onClick={() => setPublishPost('block')} type="button" className="text-slate-700 text-[20px] capitalize ">Make a post</button>
-      <button className="flex text-[20px] mt-[20px] items-center"><IoMdLogOut /> <span className="text-slate-500">Logout</span></button>
-    </ul> :  <ul className="flex flex-col gap-3 items-center ">
+       </ul> :  <ul className="flex flex-col gap-3 items-center ">
     <Link href='/' className="text-slate-700 text-[20px] capitalize ">Home</Link>
       <Link href='/login' className="flex text-[20px] mt-[20px] items-center"><IoMdLogOut /> <span className="text-slate-500">Login</span></Link>
     </ul>}
