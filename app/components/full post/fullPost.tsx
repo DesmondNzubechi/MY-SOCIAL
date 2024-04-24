@@ -15,6 +15,7 @@ import { db } from "../config/firebase";
 import { useEffect } from "react";
 import 'react-toastify/ReactToastify.css';
 import { toast } from "react-toastify";
+import Link from "next/link";
 export const FullPost = ({ setShowFullPost, data, postComment, setFullPostData }: { setShowFullPost: React.Dispatch<React.SetStateAction<boolean>>, data: allPostInfo, postComment: any[], setFullPostData: React.Dispatch<React.SetStateAction<allPostInfo>> }) => {
   const loggedInUser = userAuth();
   const [commentInput, setCommentInput] = useState<string>('');
@@ -146,7 +147,7 @@ export const FullPost = ({ setShowFullPost, data, postComment, setFullPostData }
         <h1 onClick={() => setShowFullPost(false)} className="uppercase text-white fixed z-[10] right-[35px] md:right-[450px] md:top-[50px] top-[10px] bg-slate-900 focus:bg-slate-500 cursor-pointer text-[20px] px-[12px] rounded-full py-[4px] ">X</h1>
           <div className=" p-2 gap-[20px] relative pb-[70px] flex-col flex">
             <div className="flex gap-1 flex-row items-center">
-            <h1 className="font-bold flex  capitalize items-center ">  {data.authorPics !== '' ? <Image src={data.authorPics} height={50} width={50} className="rounded-full w-[30px] md:w-[50px] " alt="post pic" /> :  <FaUserCircle className="md:text-[30px] text-[20px] bg-slate-50 rounded-full shadow-2xl " />} <span className="md:text-[15px] text-[10px] ">@{data.authorName}</span> </h1> <span className="text-slate-500 text-[8px] md:text-[12px] ">posted</span> <GoDotFill className="text-[10px] "/> <p className="text-slate-500 text-[8px] md:text-[12px]">{data.postsDate}</p>
+            <h1 className="font-bold flex  capitalize items-center ">  {data.authorPics !== '' ? <Link href={`/users/${data.authorId}`}><Image src={data.authorPics} height={50} width={50} className="rounded-full w-[30px] md:w-[50px] " alt="post pic" /></Link> : <Link href={`/users/${data.authorId}`}><FaUserCircle className="md:text-[30px] text-[20px] bg-slate-50 rounded-full shadow-2xl " /></Link>} <Link href={`/users/${data.authorId}`} className="md:text-[15px] text-[10px] ">@{data.authorName}</Link> </h1> <span className="text-slate-500 text-[8px] md:text-[12px] ">posted</span> <GoDotFill className="text-[10px] "/> <p className="text-slate-500 text-[8px] md:text-[12px]">{data.postsDate}</p>
               </div>
             <div className="">
             <p className="text-[10px] md:text-[15px] ">{data.postsContent}</p>
@@ -163,7 +164,7 @@ export const FullPost = ({ setShowFullPost, data, postComment, setFullPostData }
                 <h1 className="font-bold text-slate-700 md:text-[20px] text-[15px] md:text-[20px] border-b w-full text-center">Comments section</h1>
               {postComment.length == 0 ? <h1 className="capitalize text-slate-500 text-[15px] my-[20px] text-center ">There is no comment under this post. be the first person to comment</h1>: 
                   postComment?.map((comment, index) => {
-                    const { commenterName, commentDate, commentContent, commenterPic } = comment;
+                    const { commenterName, commentDate, commentContent, commenterPic, comm } = comment;
                     console.log("comments data", comment)
                     return  <div key={index} className="flex flex-start gap-1">
                    {commenterPic? <Image src={commenterPic} height={50} width={50} className="rounded-full h-[30px] md:h-[50px] w-[30px] md:w-[50px] " alt="post pic" /> :  <FaUserCircle className="md:text-[50px] text-[30px] bg-slate-50 rounded-full shadow-2xl " />}
@@ -182,7 +183,7 @@ export const FullPost = ({ setShowFullPost, data, postComment, setFullPostData }
                         {/* ADD YOUR COMMENTS */}
                         <div className="bg-slate-50 bottom-0 md:left-[26.9%] md:right-[26.9%] fixed left-0 right-0 border-t md:bottom-[20px] p-2">
                         <div className="py-[10px] w-full bg-white flex items-center justify-around px-[20px] gap-1">
-                <input type="text" onChange={(e) => setCommentInput(e.target.value)} placeholder={loggedInUser? `Comment as ${loggedInUser?.displayName}` : " Input your comment"} value={commentInput} className="w-full outline-none bg-transparent" />
+                <input type="text" onChange={(e) => setCommentInput(e.target.value)} placeholder={loggedInUser? `Comment as ${loggedInUser?.displayName}` : " Kindly Login"} value={commentInput} className="w-full outline-none bg-transparent" />
                 <button onClick={addComment} type="button" className="bg-sky-500 p-2 text-[12px] md:text-[15px] rounded text-slate-50">Comment</button>
                             </div>
                       </div>
