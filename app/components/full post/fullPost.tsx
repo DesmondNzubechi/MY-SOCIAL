@@ -143,7 +143,7 @@ export const FullPost = ({ setShowFullPost, data, postComment, setFullPostData }
     return (
         <div>
         <div className={`fixed  flex flex-col justify-center items-center top-0 bottom-0 left-0 right-0 h-full w-full bg-Tp z-[1000]`}>
-        <div className="bg-slate-50 relative overflow-y-auto md:w-[700px] w-full md:h-[90vh] p-4   ">
+        <div className="bg-slate-50 relative overflow-y-auto md:w-[700px] w-full h-full md:h-[90vh] p-4   ">
         <h1 onClick={() => setShowFullPost(false)} className="uppercase text-white fixed z-[10] right-[35px] md:right-[450px] md:top-[50px] top-[10px] bg-slate-900 focus:bg-slate-500 cursor-pointer text-[20px] px-[12px] rounded-full py-[4px] ">X</h1>
           <div className=" p-2 gap-[20px] relative pb-[70px] flex-col flex">
             <div className="flex gap-1 flex-row items-center">

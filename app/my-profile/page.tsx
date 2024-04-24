@@ -337,11 +337,11 @@ useEffect(() => {
             <p className="font-[500] capitalize text-slate-500">@{userPersonalInfo?.username.split(' ').slice(0, 1)}</p>
           </div>
           <div>
-            <p>{userPersonalInfo?.bio}</p>
+            <p>{userPersonalInfo?.bio ? userPersonalInfo?.bio : "No Bio. Kindly UpdateYour Bio!" }</p>
           </div>
           <div className="flex items-center gap-x-[20px] ">
-            <span className="flex items-center gap-1 text-slate-500"><FaHeart  className="text-[20px]"/> <p className="capitalize">{userPersonalInfo?.favorite === "" ? "No favorite " : userPersonalInfo?.favorite}</p></span>
-            <span className="flex items-center gap-1 text-slate-500"><IoLocationSharp /> <p className="capitalize">{userPersonalInfo?.location}</p></span>
+            <span className="flex items-center gap-1 text-slate-500"><FaHeart  className="text-[20px]"/> <p className="capitalize">{userPersonalInfo?.favorite === "" ? "No favorite. Kindly Update! " : userPersonalInfo?.favorite}</p></span>
+            <span className="flex items-center gap-1 text-slate-500"><IoLocationSharp /> <p className="capitalize">{userPersonalInfo?.location? userPersonalInfo?.location : "Unknown" }</p></span>
 <span className="flex items-center gap-1 text-slate-500"><IoIosTime /> <p className="capitalize">{userPersonalInfo?.dateJoined}</p></span>
           </div>
 

@@ -56,8 +56,8 @@ interface personalInfo {
     username: string,
     bio: string,
     location: string,
-    favorite: string
-
+    favorite: string,
+    dateJoined: string
   }
 
 export default function UserProfile({params}: {params: {userProfile: string}}) {
@@ -80,7 +80,8 @@ export default function UserProfile({params}: {params: {userProfile: string}}) {
     username: "",
     bio: "",
     location: "",
-    favorite: ""
+    favorite: "",
+    dateJoined: ''
   })
   const [fullPostdata, setFullPostData] = useState<allPostInfo>({
     postImg: '',
@@ -256,19 +257,19 @@ try {
   }
   
   return (
-    <main className="flex min-h-screen bg-slate-50 py-[20px] flex-col items-center  ">
+    <main className="flex min-h-screen bg-slate-50 pt-[100px] md:pt-[140px] py-[20px] flex-col items-center  ">
       {!userPersonalInfo? <PublishAPostSideBarSkeleton/> :  <PublishAPostSideBar/>}
       {!userPersonalInfo? <SideBarSkeleton/> : <SideBar setPublishPost={setPublishPost}/>}
       <PublishAPost displayPro={showPublishPost} setPublishPost={setPublishPost} />
     {/* { showEditProfile && <EditProfile setShowEditProfile={setShowEditProfile} />} */}
       {showFullPost && <FullPost postComment={fullPostdata.postComment} data={fullPostdata} setFullPostData={setFullPostData} setShowFullPost={setShowFullPost} />}
      {!userPersonalInfo? <ProfileSkeleton/> : <div className="relative max-w-[500px] px-[20px]">
-        <Image alt="cover pics" src={userPersonalInfo.coverPic? userPersonalInfo.coverPic : CoverPics} className="rounded w-full" width={500} height={200} />
+        <Image alt="cover pics" src={userPersonalInfo.coverPic? userPersonalInfo.coverPic : CoverPics} className="rounded h-[250px] w-full md:w-[400px]" width={500} height={200} />
        
         <div className="absolute top-[200px] ">
         <div className="items-center flex relative">
                               
-            { userPersonalInfo.userPic? <Image src={userPersonalInfo.userPic} alt={`${userPersonalInfo.username} profile picture`} height={200} width={200}  className="rounded-full"/>  :  <FaUserCircle className="text-[200px] bg-slate-50 rounded-full shadow-2xl " />}
+            { userPersonalInfo.userPic? <Image src={userPersonalInfo.userPic} alt={`${userPersonalInfo.username} profile picture`} height={200} width={200}  className="rounded-full md:w-[200px] w-[100px]"/>  :  <FaUserCircle className=" md:text-[200px] text-[100px]  bg-slate-50 rounded-full shadow-2xl " />}
                                 
                                  </div>
         </div>
@@ -279,12 +280,12 @@ try {
             <p className="font-[500] text-slate-500">@{userPersonalInfo.username.split(" ").slice(0, 1)}</p>
           </div>
           <div> 
-            <p>{userPersonalInfo.bio}</p>
+            <p>{userPersonalInfo.bio? userPersonalInfo.bio : "User Bio Not Updated" }</p>
           </div>
           <div className="flex items-center gap-x-[20px] ">
             <span className="flex items-center gap-1 text-slate-500"><FaHeart  className="text-[20px]"/> <p className="capitalize">Coding</p></span>
-            <span className="flex items-center gap-1 text-slate-500"><IoLocationSharp /> <p className="capitalize">Nigeria</p></span>
-<span className="flex items-center gap-1 text-slate-500"><IoIosTime /> <p className="capitalize">Joined March 2024</p></span>
+            <span className="flex items-center gap-1 text-slate-500"><IoLocationSharp /> <p className="capitalize">{userPersonalInfo.location? userPersonalInfo.location : "Unknown"}</p></span>
+<span className="flex items-center gap-1 text-slate-500"><IoIosTime /> <p className="capitalize">{userPersonalInfo?.dateJoined? userPersonalInfo?.dateJoined : "Private" }</p></span>
           </div>
         </div>
         <div className="flex flex-col py-[50px] gap-5">
