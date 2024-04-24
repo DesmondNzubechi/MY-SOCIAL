@@ -54,9 +54,9 @@ export const HeaderNavLink = () => {
       <div className="flex flex-col   rounded-[10px] py-[10px] px-[20px] items-center">
      {userPersonalInfo?.userPic?  <Image className="rounded-full" alt={`${userPersonalInfo?.username} profile pic`} src={userPersonalInfo?.userPic} height={50} width={50} /> : <FaUserCircle className="text-[70px] bg-slate-50 rounded-full  " />}
           <h1 className="text-[20px] font-bold">{userPersonalInfo?.username}</h1>
-        <Link className="border   w-full text-center text-slate-900 rounded p-1" href='/my-profile'>View Profile</Link>
+        <Link onClick={viewProFn} className="border   w-full text-center text-slate-900 rounded p-1" href='/my-profile'>View Profile</Link>
       </div>
-      <button className="flex text-[20px]  items-center"><IoMdLogOut /> <span className="text-slate-500">Logout</span></button>
+      <button onClick={viewProFn} className="flex text-[20px]  items-center"><IoMdLogOut /> <span className="text-slate-500">Logout</span></button>
     </ul> :  <ul className="flex flex-col gap-3 items-center ">
     <Link href='/' className="text-slate-700 text-[20px] capitalize ">Home</Link>
       <Link href='/login' className="flex text-[20px] mt-[20px] items-center"><IoMdLogOut /> <span className="text-slate-500">Login</span></Link>
@@ -83,10 +83,10 @@ export const HeaderNavLink = () => {
               <FaUsersRectangle className="text-slate-700  text-[15px] md:text-[20px]"/>
               <span className="md:text-[12px] text-[10px]">Friends</span>
             </Link>
-            <Link href="/" onClick={viewProFn} className="flex flex-col items-center gap-0">
+            <button onClick={viewProFn} className="flex flex-col items-center gap-0">
               <FaCircleUser className="text-slate-700  text-[15px] md:text-[20px]"/>
               <span className="md:text-[12px] text-[10px]">Me</span>
-            </Link>
+            </button>
           </div>
     </header>
     </>
