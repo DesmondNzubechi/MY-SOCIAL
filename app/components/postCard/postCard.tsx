@@ -168,7 +168,7 @@ try {
               
                   </div>}
    <div className="flex gap-1 flex-row items-center">
-       <h1 className="font-bold flex  capitalize items-center ">  {post.authorPics !== '' ? <Image src={post.authorPics} height={50} width={50} className="rounded-full md:w-[50px] w-[30px]" alt="post pic" /> :  <FaUserCircle className="md:text-[30px] text-[15px] bg-slate-50 rounded-full shadow-2xl " />} <span className="md:text-[20px] text-[10px]">@{post.authorName}</span> </h1> <span className="text-slate-500 md:text-[15px] text-[12px] ">posted this</span> <GoDotFill/> <p className="text-slate-500 md:text-[12px] text-[7px]">{post.postsDate}</p>
+       <h1 className="font-bold flex  capitalize items-center ">  {post.authorPics !== '' ? <Image src={post.authorPics} height={50} width={50} className="rounded-full md:w-[50px] w-[30px]" alt="post pic" /> :  <FaUserCircle className="md:text-[30px] text-[15px] bg-slate-50 rounded-full shadow-2xl " />} <span className="md:text-[20px] text-[10px]">@{post.authorName}</span> </h1> <span className="text-slate-500 md:text-[15px] text-[12px] ">posted</span> <GoDotFill/> <p className="text-slate-500 md:text-[12px] text-[7px]">{post.postsDate}</p>
    </div>
    <div className="">
        <p className="text-[10px] md:text-[15px]">{ tobeDisplayed }</p>
