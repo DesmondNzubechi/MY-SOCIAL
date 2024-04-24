@@ -12,6 +12,7 @@ import React, { useEffect, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { IoMdLogOut } from "react-icons/io";
 import Image from "next/image";
+import { LogOut } from "../LogOut/LogOut";
 export const HeaderNavLink = () => {
     
   const allUser = AllUser()
@@ -48,7 +49,10 @@ export const HeaderNavLink = () => {
             setViewproState(true)
         }
     }
+    const [logOut, setLogOut] = useState<boolean>(false);
+    
     return <>
+        <LogOut logOut={logOut} setLogOut={setLogOut} />
       { viewProState && <div className="md:col-span-2  bg-white shadow-2xl border fixed z-[200] gap-2 md:top-[75px] top-[55px] w-fit  right-0 rounded-[10px] p-2 p-[20px]  md:flex flex-col justify-center">
    {loggedInUser ? <ul className="flex flex-col gap-3 items-center ">
       <div className="flex flex-col   rounded-[10px] py-[10px] px-[20px] items-center">
@@ -56,7 +60,10 @@ export const HeaderNavLink = () => {
           <h1 className="text-[20px] font-bold">{userPersonalInfo?.username}</h1>
         <Link onClick={viewProFn} className="border   w-full text-center text-slate-900 rounded p-1" href='/my-profile'>View Profile</Link>
       </div>
-      <button onClick={viewProFn} className="flex text-[20px]  items-center"><IoMdLogOut /> <span className="text-slate-500">Logout</span></button>
+                <button onClick={() => {
+                    viewProFn();
+                    setLogOut(true)
+      } } className="flex text-[20px]  items-center"><IoMdLogOut /> <span className="text-slate-500">Logout</span></button>
     </ul> :  <ul className="flex flex-col gap-3 items-center ">
     <Link href='/' className="text-slate-700 text-[20px] capitalize ">Home</Link>
       <Link href='/login' className="flex text-[20px] mt-[20px] items-center"><IoMdLogOut /> <span className="text-slate-500">Login</span></Link>

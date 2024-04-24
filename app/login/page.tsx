@@ -35,6 +35,7 @@ export default function Login() {
         email: '',
         password: ''
       })
+      redirect("/")
     } catch (error: any) {
       alert(error.message)
     }

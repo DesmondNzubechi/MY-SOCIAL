@@ -72,7 +72,7 @@ export default function Home() {
      
 
      // await setDoc(doc(db, "UserChats", res.user.uid), {})
-router.push('/my-profile')
+router.push('/')
     } catch (error) { 
       alert(error)
     }
