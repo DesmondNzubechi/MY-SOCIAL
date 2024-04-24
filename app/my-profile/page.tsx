@@ -320,7 +320,7 @@ useEffect(() => {
         <div className="absolute top-[200px] ">
         <div className="items-center flex relative">
                               
-        { userPersonalInfo?.userPic? <Image src={userPersonalInfo?.userPic} alt={`${userPersonalInfo?.username} profile picture`} height={200} width={200}  className="rounded-full md:w-[200px] w-[100px] "/>  :  <FaUserCircle className="text-[200px] bg-slate-50 rounded-full shadow-2xl " />}
+        { userPersonalInfo?.userPic? <Image src={userPersonalInfo?.userPic} alt={`${userPersonalInfo?.username} profile picture`} height={200} width={200}  className="rounded-full md:w-[200px] w-[100px] "/>  :  <FaUserCircle className="md:text-[200px] text-[100px] bg-slate-50 rounded-full shadow-2xl " />}
              
                                   <input type="file" onChange={(e) => {
                                      setDp(e.target.files?.[0])
