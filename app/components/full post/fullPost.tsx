@@ -143,13 +143,13 @@ export const FullPost = ({ setShowFullPost, data, postComment, setFullPostData }
         <div>
         <div className={`fixed  flex flex-col justify-center items-center top-0 bottom-0 left-0 right-0 h-full w-full bg-Tp z-[1000]`}>
         <div className="bg-slate-50 relative overflow-y-auto md:w-[700px] w-full md:h-[90vh] p-4   ">
-        <h1 onClick={() => setShowFullPost(false)} className="uppercase text-white absolute z-[10] right-[5px] top-[10px] bg-slate-900 focus:bg-slate-500 cursor-pointer text-[20px] px-[12px] rounded-full py-[4px] ">X</h1>
+        <h1 onClick={() => setShowFullPost(false)} className="uppercase text-white fixed z-[10] right-[35px] top-[10px] bg-slate-900 focus:bg-slate-500 cursor-pointer text-[20px] px-[12px] rounded-full py-[4px] ">X</h1>
           <div className=" p-2 gap-[20px] relative pb-[70px] flex-col flex">
             <div className="flex gap-1 flex-row items-center">
-            <h1 className="font-bold flex  capitalize items-center ">  {data.authorPics !== '' ? <Image src={data.authorPics} height={50} width={50} className="rounded-full " alt="post pic" /> :  <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />}@{data.authorName}</h1> <span className="text-slate-500 ">posted this</span> <GoDotFill/> <p className="text-slate-500 text-[10px]">{data.postsDate}</p>
+            <h1 className="font-bold flex  capitalize items-center ">  {data.authorPics !== '' ? <Image src={data.authorPics} height={50} width={50} className="rounded-full w-[30px] md:w-[50px] " alt="post pic" /> :  <FaUserCircle className="md:text-[30px] text-[20px] bg-slate-50 rounded-full shadow-2xl " />} <span className="md:text-[15px] text-[10px] ">@{data.authorName}</span> </h1> <span className="text-slate-500 text-[8px] md:text-[12px] ">posted this</span> <GoDotFill className="text-[10px] "/> <p className="text-slate-500 text-[8px] md:text-[12px]">{data.postsDate}</p>
               </div>
             <div className="">
-            <p>{data.postsContent}</p>
+            <p className="text-[10px] md:text-[15px] ">{data.postsContent}</p>
             
             </div>
             <Image src={data.postImg} height={400} width={500} className="w-full  " alt="post pic" />
@@ -160,18 +160,18 @@ export const FullPost = ({ setShowFullPost, data, postComment, setFullPostData }
                         </div>
                         {/* COMMENTS UNDER POST */}
                         <div className="flex flex-col gap-5">
-                <h1 className="font-bold text-slate-700 text-[30px] my-[20px] border-b w-fit">Comments section</h1>
-              {postComment.length == 0 ? <h1 className="capitalize text-slate-500 text-[20px] text-center ">There is no comment under this post. be the first person to comment</h1>: 
+                <h1 className="font-bold text-slate-700 md:text-[20px] text-[15px] md:text-[20px] border-b w-full text-center">Comments section</h1>
+              {postComment.length == 0 ? <h1 className="capitalize text-slate-500 text-[15px] my-[20px] text-center ">There is no comment under this post. be the first person to comment</h1>: 
                   postComment?.map((comment, index) => {
                     const { commenterName, commentDate, commentContent, commenterPic } = comment;
                     console.log("comments data", comment)
                     return  <div key={index} className="flex flex-start gap-1">
-                    <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />
+                    <FaUserCircle className="md:text-[30px] text-[15px] bg-slate-50 rounded-full shadow-2xl " />
                     <div className='flex flex-col gap-1 bg-slate-200 rounded-bl-[20px]  rounded-r-[20px] p-3'>
                 <div className="flex gap-1 flex-row items-center">
-                          <h1 className="font-bold flex items-center "> @{commenterName}</h1> <span className="text-slate-500 text-[10px] ">Commented</span> <GoDotFill/> <p className="text-slate-500 text-[10px]">{commentDate}</p>
+                          <h1 className="font-bold text-[10px] md:text-[15px] flex items-center "> @{commenterName}</h1> <span className="text-slate-500 text-[8px] md:text-[10px] ">Commented</span> <GoDotFill className="text-[10px]"/> <p className="text-slate-500 text-[8px] md:text-[10px]">{commentDate}</p>
     </div>
-    <p>{commentContent}</p>
+    <p className="text-[10px] md:text-[15px]">{commentContent}</p>
   </div>
                     </div>
                   })
