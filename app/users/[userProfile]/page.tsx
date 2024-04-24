@@ -197,6 +197,8 @@ try {
     }
   }
 
+  
+
   const getUserPost = () => {
     const filterPost = allPost.filter((post: any) => {
       return post.authorId === params.userProfile
@@ -229,6 +231,13 @@ try {
       return () => clearTimeout(timeoutId);
     }
   }, []);
+
+  const findLoggedInUser = allUser.find((me: personalInfo) => {
+    return me.userID === loggedInUser?.uid
+  });
+const combinedId = findLoggedInUser?.userID > userPersonalInfo?.userID ?
+  findLoggedInUser?.userID + userPersonalInfo?.userID :
+  userPersonalInfo?.userID + findLoggedInUser?.userID;
 
   const startChat = async () => {
     try {
@@ -273,7 +282,7 @@ try {
                                 
                                  </div>
         </div>
-      <Link onClick={startChat} href='/chat'  className="absolute top-[300px] right-[30px] active:bg-slate-200 shadow-2xl border p-2 rounded-[5px] text-slate-700 text-[20px] ">Send Message</Link>
+        <Link onClick={startChat} href={`/chat/${combinedId}`} className="absolute top-[300px] right-[30px] active:bg-slate-200 shadow-2xl border p-2 rounded-[5px] text-slate-700 text-[20px] ">Send Message</Link>
         <div className="pt-[180px] flex flex-col gap-y-[20px]">
           <div>
             <h1 className="font-bold text-[20px] text-slate-900 capitalize">{userPersonalInfo.username}</h1>
@@ -289,6 +298,7 @@ try {
           </div>
         </div>
         <div className="flex flex-col py-[50px] gap-5">
+          {myPost.length == 0 && <p className="text-center">User Has Not Posted Anything</p> }
         {myPost.map((myPost: allPostInfo) => {
             return <PostCard setShowQuoteRepost={setShowQuoteRepost} setFullPostData={setFullPostData} post={myPost} showFullPostFn={showFullPostFn} />
           })}

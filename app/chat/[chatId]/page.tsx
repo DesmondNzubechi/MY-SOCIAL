@@ -266,7 +266,7 @@ const [message, setMesage] = useState<messageInfo>({
                               
                                 {
                                     myChats?.map((chat:any) => {
-                                        return <><Link   key={chat?.lastMessage?.messageId} href={`chat/${chat?.id}`} className="flex w-full gap-2 items-center">
+                                        return <><Link   key={chat?.lastMessage?.messageId} href={`/chat/${chat?.id}`} className="flex w-full gap-2 items-center">
                                         {(chat.secondUser.userPic !== '' && chat.firstUser.userPic !== '')? <Image alt='user pic' width={50} height={30} className="rounded-full h-[50px]" src={chat?.firstUser.userID === currentUser.userID ? chat?.secondUser?.userPic : chat?.firstUser?.userPic} /> :
                                                 
                                                 <FaUserCircle className="text-[40px] " />}
@@ -286,19 +286,13 @@ const [message, setMesage] = useState<messageInfo>({
                             </div>
                         </div>
                     </div> : <ChatSkeletonLoader/> }
-            {userInfoState?<div className="flex flex-col overflow-y-auto overflow-x-hidden h-[100vh] gap-y-[50px] px-[20px] relative bg-contain pt-[50px] justify-around w-full ">
-                <div className="right-0 left-0 md:left-[48.8%] right-0 md:right-[0%] px-[20px] flex  items-center justify-between top-[70px]  gap-3 p-2 rounded fixed bg-slate-100 top-0">
-                    <div className="flex gap-2 items-center">
+            {userInfoState? <div className="flex flex-col overflow-y-auto overflow-x-hidden h-[100vh] gap-y-[50px] px-[20px] relative bg-contain pt-[50px] justify-around w-full ">
+                <div className="right-0 left-0 md:left-[48.8%] right-0 md:right-[0%] px-[20px] flex  items-center justify-between top-[55px] md:top-[80px]  gap-3 p-2 rounded fixed bg-slate-100 top-0">
+              <Link className="flex gap-2 items-center" href={`/users/${userInfoState?.userID}`}>
                    {userInfoState?.userPic ? <Image alt={userInfoState?.username} width={50} height={30} className="rounded-full h-[50px]" src={userInfoState?.userPic} /> : <FaUserCircle className="text-[50px] " />}
                         <h1 className="uppercase font-medium text-[20px] ">{ userInfoState?.username}</h1>
-                    </div>
-                    <HiDotsHorizontal onClick={() => {
-                        if (!viewProfile) {
-                            setViewprofile(true);
-                        } else {
-                            setViewprofile(false)
-                        }
-                    }} className="border text-[30px] border-slate-900 p-1  rounded-full " />
+                    </Link>
+                    <HiDotsHorizontal className="border text-[30px] border-slate-900 p-1  rounded-full " />
                   
                      { viewProfile &&  <Link href="" className="text-slate-900 bg-white  fixed top-[50px] font-medium px-[20px] py-[30px] shadow-2xl rounded  right-0">View Profile</Link>}
                  
@@ -307,9 +301,9 @@ const [message, setMesage] = useState<messageInfo>({
                     {
                         currentChat?.message?.map((chats: messageInfo) => {
                             return <div  ref={(el) => (lastMessageRef.current = el)} className={`flex items-center ${chats?.senderId !== user?.uid? "self-start" : "self-end" }   ${chats?.senderId !== user?.uid? "flex-row" : "flex-row-reverse" }  gap-2`}>
-                                {chats?.senderId === userInfoState?.userID && (userInfoState?.userPic ? <Image alt={userInfoState?.username} width={50} height={30} className="rounded-full h-[50px]" src={userInfoState?.userPic} /> : <FaUserCircle className="text-[50px] " />)}
-                                {chats?.senderId !== userInfoState?.userID &&  (user?.photoURL ? <Image alt={userInfoState?.username} width={50} height={30} className="rounded-full h-[50px]" src={user?.photoURL} /> :<FaUserCircle className="text-[50px] " />)}
-                                {chats.messageTitle !== '' && <p className={` ${chats?.senderId !== user?.uid ? ' p-[20px] bg-slate-500 text-[20px] text-white rounded-tl-[10px] rounded-r-[15px]' : "p-[20px] bg-sky-500 text-[20px] text-white rounded-tr-[10px] rounded-l-[15px] "} `}>{chats?.messageTitle}</p> }
+                                {chats?.senderId === userInfoState?.userID && (userInfoState?.userPic ? <Link href={`/users/${userInfoState?.userID}`}> <Image alt={userInfoState?.username} width={50} height={30} className="rounded-full h-[50px]" src={userInfoState?.userPic} /></Link> : <Link href={`/users/${userInfoState?.userID}`}><FaUserCircle className="text-[50px] " /></Link>)}
+                                {chats?.senderId !== userInfoState?.userID &&  (user?.photoURL ? <Link href='/my-profile'> <Image alt={userInfoState?.username} width={50} height={30} className="rounded-full h-[50px]" src={user?.photoURL} /></Link> : <Link href='/my-profile'><FaUserCircle className="text-[50px] " /></Link>)}
+                                {chats.messageTitle !== '' && <p className={` ${chats?.senderId !== user?.uid ? ' p-[15px] bg-slate-500 text-[15px] text-white rounded-tl-[10px] rounded-r-[15px]' : "p-[15px] bg-sky-500 text-[15px] text-white rounded-tr-[10px] rounded-l-[15px] "} `}>{chats?.messageTitle}</p> }
                                {chats.messageImg !== '' && <Image alt="" width={200} height={200} className="w-[200px] shadow-2xl rounded " src={chats?.messageImg} /> }
                             </div>
                         })
