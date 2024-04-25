@@ -11,7 +11,7 @@ import { MdLogout } from "react-icons/md";
 import { TbSocial } from "react-icons/tb";
 import Link from "next/link";
 import { userAuth } from "./components/auths/auth";
-import { HeaderNavLink } from "./components/Header/page";
+import { HeaderNavLink } from "./components/Header/Header";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
