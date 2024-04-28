@@ -11,16 +11,19 @@ import { auth } from "../components/config/firebase";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import 'react-toastify/ReactToastify.css';
+
 export default function Login() {
   const user = userAuth();
   const [showPassword, setShowPassword] = useState('password')
   const router = useRouter();
+  const [signInState, setSignInState] = useState<boolean>(true)
   const [userDetails, setUserDertails] = useState<any>({
     email: '',
     password: ''
   })
 
   const signInUser = async () => {
+    setSignInState(false)
     if (userDetails.email === '') {
       alert("please input your email");
       return;
@@ -37,11 +40,13 @@ export default function Login() {
         email: '',
         password: ''
       })
+      setSignInState(true)
       //router.push("/");
       toast.success("Login Successful", {
         hideProgressBar: true
       })
     } catch (error: any) {
+      setSignInState(true)
       toast.error("An Error Occured. Please Try Again", {
         hideProgressBar: true
       })
@@ -59,7 +64,7 @@ export default function Login() {
             <AiFillEyeInvisible onClick={() => setShowPassword('password')} className="text-[30px] hover:text-slate-500 active:text-slate-900"/>} 
         </div>
        
-        <button onClick={signInUser} type="button" className="border   w-full rounded text-slate-50 p-2 font-semibold">Login</button>
+        {signInState ? <button onClick={signInUser} type="button" className="border   w-full rounded text-slate-50 p-2 font-semibold">Login</button> : <button  type="button" className="border   w-full rounded text-slate-50 p-2 font-semibold">Login In Progress...</button> }
        <p className="text-slate-400 text-center  ">Don't have an account yet? <Link className="text-slate-50" href='/signup'>Sign up</Link></p>
    </form>
       </div>}

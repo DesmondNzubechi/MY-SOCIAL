@@ -17,6 +17,7 @@ import { toast } from "react-toastify";
 export default function Home() {
   const allUser = AllUser();
   const [showPassword, setShowPassword] = useState('password')
+  const [signUpState, setSignUpState] = useState<boolean>(true)
   const [userDetails, setUserDetails] = useState({
     username: '',
     userEmail: '',
@@ -48,7 +49,8 @@ export default function Home() {
       ) {
       alert("Please fill in your details")
       return;
-}
+    }
+    setSignUpState(false)
     try { 
       const res = await createUserWithEmailAndPassword(auth, userDetails.userEmail, userDetails.userPassword);
       await updateProfile(res.user, {
@@ -71,9 +73,10 @@ export default function Home() {
           dateJoined: fullDate
         });
       }
-     
+     setSignUpState(true)
 router.push('/')
     } catch (error) { 
+      setSignUpState(true)
       toast.error("An error occured, Please try again.", {
       hideProgressBar: true,
     })
@@ -112,7 +115,7 @@ router.push('/')
             {showPassword === 'password'? <AiFillEye onClick={() => setShowPassword('text')} className="text-[30px] hover:text-slate-500 active:text-slate-900 "/> :
             <AiFillEyeInvisible onClick={() => setShowPassword('password')} className="text-[30px] hover:text-slate-500 active:text-slate-900"/>}
         </div>
-        <button onClick={registerUser} type="button" className="border md:col-span-2  w-full rounded text-slate-50 p-2 font-semibold">Sign Up</button>
+      { signUpState? <button onClick={registerUser} type="button" className="border md:col-span-2  w-full rounded text-slate-50 p-2 font-semibold">Sign Up</button> :   <button type="button" className="border md:col-span-2  w-full rounded text-slate-50 p-2 font-semibold">Sign Up In Progress...</button>}
        <p className="text-slate-400 text-center md:col-span-2 ">Already have an account? <Link className="text-slate-50" href='/login'>Login</Link></p>
    </form>
     </main> 

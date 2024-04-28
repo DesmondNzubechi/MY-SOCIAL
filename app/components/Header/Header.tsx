@@ -65,8 +65,8 @@ export const HeaderNavLink = () => {
                     setLogOut(true)
       } } className="flex text-[20px]  items-center"><IoMdLogOut /> <span className="text-slate-500">Logout</span></button>
     </ul> :  <ul className="flex flex-col gap-3 items-center ">
-    <Link href='/' className="text-slate-700 text-[20px] capitalize ">Home</Link>
-      <Link href='/login' className="flex text-[20px] mt-[20px] items-center"><IoMdLogOut /> <span className="text-slate-500">Login</span></Link>
+    <Link href='/' onClick={viewProFn} className="text-slate-700 text-[20px] capitalize ">Home</Link>
+      <Link href='/login' onClick={viewProFn} className="flex text-[20px] mt-[20px] items-center"><IoMdLogOut /> <span className="text-slate-500">Login</span></Link>
     </ul>}
   </div>}
          <header className="flex items-center bg-slate-50 fixed top-0 left-0 right-0 w-full z-[100] shadow gap-5 bg-white  py-[10px] px-[30px] overflow-x-hidden justify-between">
