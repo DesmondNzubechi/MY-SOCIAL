@@ -159,7 +159,8 @@ setShowFullPost(true)
   
   const getMyPost = () => {
     const filterPost = allPost.filter(post => {
-      return post.authorId === loggedInUser?.uid
+      return post.authorId === loggedInUser?.uid ||
+      post.reposterId === loggedInUser?.uid
     })
     setMyPost(filterPost);
   } 
