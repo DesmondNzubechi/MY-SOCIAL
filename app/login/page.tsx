@@ -8,11 +8,13 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { userAuth } from "../components/auths/auth";
 import { redirect } from "next/navigation";
 import { auth } from "../components/config/firebase";
-
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import 'react-toastify/ReactToastify.css';
 export default function Login() {
   const user = userAuth();
   const [showPassword, setShowPassword] = useState('password')
-  
+  const router = useRouter();
   const [userDetails, setUserDertails] = useState<any>({
     email: '',
     password: ''
@@ -35,9 +37,14 @@ export default function Login() {
         email: '',
         password: ''
       })
-      redirect("/")
+      //router.push("/");
+      toast.success("Login Successful", {
+        hideProgressBar: true
+      })
     } catch (error: any) {
-      alert(error.message)
+      toast.error("An Error Occured. Please Try Again", {
+        hideProgressBar: true
+      })
     }
   }
   return (

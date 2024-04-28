@@ -12,6 +12,8 @@ import { redirect } from "next/navigation";
 import { getDoc, setDoc } from "firebase/firestore";
 import { doc } from "firebase/firestore";
 import { AllUser } from "../components/allUser/allUser";
+import { fullDate } from "../components/publishAPost/publishAPost";
+import { toast } from "react-toastify";
 export default function Home() {
   const allUser = AllUser();
   const [showPassword, setShowPassword] = useState('password')
@@ -65,16 +67,16 @@ export default function Home() {
           username: userDetails.username,
           bio: '',
           location: '',
-          favorite: ''
-  
+          favorite: '',
+          dateJoined: fullDate
         });
       }
      
-
-     // await setDoc(doc(db, "UserChats", res.user.uid), {})
 router.push('/')
     } catch (error) { 
-      alert(error)
+      toast.error("An error occured, Please try again.", {
+      hideProgressBar: true,
+    })
     }
   }
   const user = userAuth();

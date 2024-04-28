@@ -268,7 +268,7 @@ useEffect(() => {
         <div className="absolute top-[200px] ">
         <div className="items-center flex relative">
                               
-        { userPersonalInfo?.userPic? <Image src={userPersonalInfo?.userPic} alt={`${userPersonalInfo?.username} profile picture`} height={200} width={200}  className="rounded-full md:w-[200px] w-[100px] "/>  :  <FaUserCircle className="md:text-[200px] text-[100px] bg-slate-50 rounded-full shadow-2xl " />}
+        { userPersonalInfo?.userPic? <Image src={userPersonalInfo?.userPic} alt={`${userPersonalInfo?.username}  profile picture`} height={200} width={200}  className="rounded-full md:w-[200px] md:h-[200px] h-[100px] w-[100px] "/>  :  <FaUserCircle className="md:text-[200px] text-[100px] bg-slate-50 rounded-full shadow-2xl " />}
              
                                   <input type="file" onChange={(e) => {
                                      setDp(e.target.files?.[0])
@@ -288,9 +288,9 @@ useEffect(() => {
             <p>{userPersonalInfo?.bio ? userPersonalInfo?.bio : "No Bio. Kindly UpdateYour Bio!" }</p>
           </div>
           <div className="flex items-center gap-x-[20px] ">
-            <span className="flex items-center gap-1 text-slate-500"><FaHeart  className="text-[20px]"/> <p className="capitalize">{userPersonalInfo?.favorite === "" ? "No favorite. Kindly Update! " : userPersonalInfo?.favorite}</p></span>
+            <span className="flex items-center gap-1 text-slate-500"><FaHeart  className="text-[20px]"/> <p className="capitalize">{userPersonalInfo?.favorite === "" ? "No favorite Yet! " : userPersonalInfo?.favorite}</p></span>
             <span className="flex items-center gap-1 text-slate-500"><IoLocationSharp /> <p className="capitalize">{userPersonalInfo?.location? userPersonalInfo?.location : "Unknown" }</p></span>
-<span className="flex items-center gap-1 text-slate-500"><IoIosTime /> <p className="capitalize">{userPersonalInfo?.dateJoined}</p></span>
+<span className="flex items-center gap-1 text-slate-500"><IoIosTime /> <p className="capitalize">{userPersonalInfo?.dateJoined ? userPersonalInfo?.dateJoined : "Private"}</p></span>
           </div>
 
           {/* <div className="flex mt-[20px] items-center border rounded justify-around ">

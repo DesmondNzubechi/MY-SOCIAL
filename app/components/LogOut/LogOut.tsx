@@ -4,18 +4,24 @@ import { signOut } from "firebase/auth";
 import { auth } from "../config/firebase";
 
 import { redirect } from "next/navigation";
-
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 export const LogOut = ({logOut, setLogOut} : {logOut: boolean, setLogOut: React.Dispatch<React.SetStateAction<boolean>>}) => {
     //const [logOut, setLogOut] = useState<boolean>(false);
-    
+  const router = useRouter();
     const signOutUser = async () => {
         try {
          // setMainUser(0)
           await signOut(auth);
             setLogOut(false)
-           redirect('/')
+          router.push('/');
+          toast.success("Logout successful", {
+            hideProgressBar: true,
+          })
         } catch (error) {
-          alert("an error occured")
+          toast.error("An error occured, Try again.", {
+            hideProgressBar: true,
+          })
         }
       }
     return(
