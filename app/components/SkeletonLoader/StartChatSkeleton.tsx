@@ -36,11 +36,11 @@ const StartChatSkeletonLoader = () => {
                    
                     {
                 chatLoader.map((chat: number) => {
-                 return   <div className="flex w-[100%] md:w-[50%] gap-2 items-center">
+                 return   <div className="flex w-[100%]  gap-2 items-center">
                  <FaUserCircle className="text-[40px] text-slate-200 " />
                   <div className="flex flex-col gap-[5px]">
                       <div className="flex items-center flex-row gap-2">
-                              <h1 className="text-slate-900 text-[15px] uppercase bg-slate-200 h-[30px] w-[150px] font-bold font-semibold"></h1> <p className="text-slate-500 italic bg-slate-200 h-[30px] w-[150px] text-[15px]"></p>
+                              <h1 className="text-slate-900 text-[15px] uppercase bg-slate-200 h-[30px] w-[100px] md:w-[150px] font-bold font-semibold"></h1> <p className="text-slate-500 italic bg-slate-200 h-[30px] w-[100px] md:w-[150px] text-[15px]"></p>
                           </div>  
                      <div>
                               <p className="text-slate-500 bg-slate-200 h-[30px] w-[150px] text-[15px]"></p>

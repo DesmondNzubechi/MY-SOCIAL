@@ -178,10 +178,10 @@ const [dp, setDp] = useState<File | any>(null);
                                                 <FaUserCircle className="text-[40px] " />}
                                         <div className="flex flex-col gap-[5px]">
                                             <div className="flex items-center flex-row gap-2">
-                                                    <h1 className="text-slate-900 text-[15px] uppercase font-bold font-semibold">{chat?.firstUser.userID === currentUser.userID ? chat?.secondUser?.username : chat?.firstUser?.username}</h1> <p className="text-slate-500 italic text-[15px]">{chat?.lastMessage?.messageDate}</p>
+                                                    <h1 className="text-slate-900 text-[12px] md:text-[15px] uppercase font-bold font-semibold">{chat?.firstUser.userID === currentUser.userID ? chat?.secondUser?.username : chat?.firstUser?.username}</h1> <p className="text-slate-500 italic text-[10px] md:text-[15px]">{chat?.lastMessage?.messageDate}</p>
                                                 </div>  
                                            <div>
-                                                    <p className="text-slate-500 text-[15px]">{chat?.lastMessage?.message}</p>
+                                                    <p className="text-slate-500 text-[10px] md:text-[15px]">{chat?.lastMessage?.message}</p>
                                             </div>
                                             </div>
                                         </Link>
