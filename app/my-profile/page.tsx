@@ -154,77 +154,15 @@ setShowFullPost(true)
 // }
 //   }
 
-//   const Repost = async (post: allPostInfo) => {
-//     if (!loggedInUser) {
-//       const notification = () => toast('Kindly login before you can repost');
-//       notification();
-//       return;
-//     } 
-//     const postRef = doc(db, 'posts', uuid())
-// try {
-//   await setDoc(postRef, {
-//     postImg: post.postImg,
-//     postsContent:post.postsContent,
-//     postId: uuid(),
-//     postsDate: post.postsDate,
-//     authorId: post.authorId,
-//     authorName: post.authorName,
-//     authorPics: post.authorPics,
-//     postComment: [],
-//     postLike: [],
-//     postRepost: post.postRepost,
-//     reposterName: loggedInUser?.displayName,
-//     reposterPics: loggedInUser?.photoURL,
-//     respotDate: fullDate,
-//     reposterId: loggedInUser?.uid
-//   })
-//   const notification = () => toast('succesfully reposted');
-//   notification();
-//   setShowRepost(false);
-// } catch (error) {
-//   alert("an error occured")
-// }
-//   }
 
 
   
-//   const addCommentfn = async (post: allPostInfo) => {
-//     if (!loggedInUser) {
-//       const notification = () => toast("Kindly login before you can comment on this post");
-//           notification();
-//       return;
-//     }
-//     if (commentInput === '') {
-//       const notification = () => toast('Kindly input your comment');
-//       notification();
-//       return;
-//     }
-  
-//     try {
-//       const commentRef = doc(db, 'posts', post?.id);
-      
-     
-//       const updatedComments = Array.isArray(post.postComment) 
-//         ? [{ commentDate: fullDate, commenterName: loggedInUser?.displayName, commenterPic: loggedInUser?.photoURL, commentContent: commentInput }, ...post.postComment]
-//         : [{ commentDate: fullDate, commenterName: loggedInUser?.displayName, commenterPic: loggedInUser?.photoURL, commentContent: commentInput }];
-  
-//       await updateDoc(commentRef, {
-//         postComment: updatedComments
-//       });
-//       const notification = () => toast("You commented to this post")
-//       notification();
-//     } catch (error) {
-//       const notification = () => toast("An error occured")
-//       notification();
-//     }
-//   }
-
   const getMyPost = () => {
     const filterPost = allPost.filter(post => {
       return post.authorId === loggedInUser?.uid
     })
     setMyPost(filterPost);
-  }
+  } 
 
   useEffect(() => {
     getMyPost();
@@ -263,9 +201,14 @@ setShowFullPost(true)
         await updateDoc(doc(db, 'users', userPersonalInfo.userID), {
          userPic: dpUrl   
         })
-        alert("success"); 
+      setUserPersonalInfo({...userPersonalInfo, userPic: dpUrl})
+      toast.success("Profile Picture successfully updated", {
+        hideProgressBar: true,
+      })
     } catch (error) {
-       alert(error) 
+      toast.error("An error occured, please try again.", {
+       hideProgressBar:true
+     })
     }
   }
   
@@ -279,9 +222,14 @@ setShowFullPost(true)
         await updateDoc(doc(db, 'users', userPersonalInfo.userID), {
          coverPic: dpUrl   
         })
-        alert("success");
+      setUserPersonalInfo({...userPersonalInfo,  coverPic: dpUrl})
+      toast.success("Cover Picture successfully updated", {
+        hideProgressBar: true,
+      })
     } catch (error) {
-       alert(error) 
+      toast.error("An error occured, please try again.", {
+       hideProgressBar:true
+     })
     }
 }
 
