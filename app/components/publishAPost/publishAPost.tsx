@@ -6,6 +6,7 @@ import Image from "next/image";
 import { v4 as uuid } from 'uuid';
 import { doc, setDoc } from "firebase/firestore";
 import { userAuth } from "../auths/auth";
+import { toast } from "react-toastify";
 
 const currentDate: Date = new Date();
 const options: Intl.DateTimeFormatOptions = {
@@ -90,7 +91,12 @@ export const PublishAPost = ({ displayPro, setPublishPost }: { displayPro: strin
             const uploadPhoto = await uploadBytes(imgName, postImg);
             const downloadURL = await getDownloadURL(uploadPhoto.ref);
             setThePost({...thePost, imageInfo: downloadURL})
-alert("success")
+          toast.success("Image Uploaded", {
+            hideProgressBar: true,
+            closeOnClick: true,
+            autoClose: 5000,
+            pauseOnHover: true
+})
         } catch (error) {
            alert(error)
         }

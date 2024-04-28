@@ -204,10 +204,16 @@ setShowFullPost(true)
       setUserPersonalInfo({...userPersonalInfo, userPic: dpUrl})
       toast.success("Profile Picture successfully updated", {
         hideProgressBar: true,
+            closeOnClick: true,
+            autoClose: 5000,
+            pauseOnHover: true
       })
     } catch (error) {
       toast.error("An error occured, please try again.", {
-       hideProgressBar:true
+        hideProgressBar: true,
+            closeOnClick: true,
+            autoClose: 5000,
+            pauseOnHover: true
      })
     }
   }
@@ -225,10 +231,16 @@ setShowFullPost(true)
       setUserPersonalInfo({...userPersonalInfo,  coverPic: dpUrl})
       toast.success("Cover Picture successfully updated", {
         hideProgressBar: true,
+        closeOnClick: true,
+        autoClose: 5000,
+        pauseOnHover: true
       })
     } catch (error) {
       toast.error("An error occured, please try again.", {
-       hideProgressBar:true
+        hideProgressBar: true,
+            closeOnClick: true,
+            autoClose: 5000,
+            pauseOnHover: true
      })
     }
 }

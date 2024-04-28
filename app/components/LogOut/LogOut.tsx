@@ -17,10 +17,16 @@ export const LogOut = ({logOut, setLogOut} : {logOut: boolean, setLogOut: React.
           router.push('/');
           toast.success("Logout successful", {
             hideProgressBar: true,
+            closeOnClick: true,
+            autoClose: 5000,
+            pauseOnHover: true
           })
         } catch (error) {
           toast.error("An error occured, Try again.", {
             hideProgressBar: true,
+            closeOnClick: true,
+            autoClose: 5000,
+            pauseOnHover: true
           })
         }
       }
