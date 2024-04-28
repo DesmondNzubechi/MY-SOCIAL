@@ -13,6 +13,8 @@ import { FaUserCircle } from "react-icons/fa";
 import { IoMdLogOut } from "react-icons/io";
 import Image from "next/image";
 import { LogOut } from "../LogOut/LogOut";
+
+
 export const HeaderNavLink = () => {
     
   const allUser = AllUser()
@@ -68,7 +70,7 @@ export const HeaderNavLink = () => {
     <Link href='/' onClick={viewProFn} className="text-slate-700 text-[20px] capitalize ">Home</Link>
       <Link href='/login' onClick={viewProFn} className="flex text-[20px] mt-[20px] items-center"><IoMdLogOut /> <span className="text-slate-500">Login</span></Link>
     </ul>}
-  </div>}
+  </div>} 
          <header className="flex items-center bg-slate-50 fixed top-0 left-0 right-0 w-full z-[100] shadow gap-5 bg-white  py-[10px] px-[30px] overflow-x-hidden justify-between">
           <div className="flex items-center gap-3">
           <div className="flex items-center  text-white py-[5px] px-[10px] rounded">

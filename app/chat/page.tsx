@@ -19,8 +19,7 @@ import Image from "next/image";
 import { AllUser } from "../components/allUser/allUser";
 import { Timestamp, collection, doc, getDoc, getDocs, onSnapshot, query, serverTimestamp, setDoc, updateDoc, where } from "firebase/firestore";
 import { v4 as uuid } from "uuid";
-import ChatSkeletonLoader from "../components/SkeletonLoader/ChatSkeleton";
-
+import StartChatSkeletonLoader from "../components/SkeletonLoader/StartChatSkeleton";
 
 const currentDate = new Date();
 const options: Intl.DateTimeFormatOptions = {
@@ -192,7 +191,7 @@ const [dp, setDp] = useState<File | any>(null);
                                 }
                             </div>
                         </div>
-                    </div> : <ChatSkeletonLoader/> }
+                    </div> : <StartChatSkeletonLoader /> }
                     <div className="hidden md:flex w-full flex-col items-center justify-self-center">
                         <IoIosChatbubbles className="text-[100px]" />
                         <h1 className="uppercase font-bold  text-[30px]">Click on a user</h1>

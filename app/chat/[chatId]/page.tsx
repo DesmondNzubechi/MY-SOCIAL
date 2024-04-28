@@ -201,11 +201,11 @@ const [message, setMesage] = useState<messageInfo>({
         })
         setMyChats(filterMyChat)
     }, [allTheChat])
-    const messenger = currentChat?.firstUser?.userID === currentUser.userID ? currentChat.secondUser : currentUser.firstUser
-    const imageExtensions = /\.(jpeg|jpg|gif|png|bmp)$/i;
-    const  isImageLink = (str: any) => {
-        return imageExtensions.test(str);
-    }
+    // const messenger = currentChat?.firstUser?.userID === currentUser.userID ? currentChat.secondUser : currentUser.firstUser
+    // const imageExtensions = /\.(jpeg|jpg|gif|png|bmp)$/i;
+    // const  isImageLink = (str: any) => {
+    //     return imageExtensions.test(str);
+    // }
     const [chatImg, setChatImg] = useState<File | any>(null);
 
     const sendChatImage = async () => {
@@ -243,7 +243,7 @@ const [message, setMesage] = useState<messageInfo>({
             sendChatImage()
         }
     }, [chatImg])
-    console.log("current chat ", myChats)
+    //console.log("current chat ", myChats)
     
     
     
