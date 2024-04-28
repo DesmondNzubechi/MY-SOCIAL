@@ -107,7 +107,7 @@ export default function MyProfile() {
     const findUser = allUser.find((profile: any) => {
       return profile.userID === loggedInUser?.uid
     })
-    setUserPersonalInfo(findUser);
+    setUserPersonalInfo(findUser); 
   }
 
   useEffect(() => {

@@ -40,7 +40,7 @@ export const PublishAPostSideBar = () => {
         postDate: string,
         authorName: string,
         authorId: string,
-    }
+    } 
 
     const [postImg, setPostImg] = useState<any>(null);
 
@@ -131,4 +131,4 @@ alert("success")
       </form>
 </div>
  
-}
+} 

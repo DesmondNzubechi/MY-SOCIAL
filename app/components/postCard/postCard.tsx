@@ -59,6 +59,18 @@ export const PostCard = ({post, setShowQuoteRepost, showFullPostFn, setFullPostD
     favorite: "",
     dateJoined: ''
   })
+
+  
+  const getUserProfile = () => {
+    const findUser = allUser.find((profile: any) => {
+      return profile.userID === loggedInUser?.uid
+    })
+    setUserPersonalInfo(findUser);
+  }
+
+  useEffect(() => {
+    getUserProfile();
+  }, [allPost, loggedInUser, showRepost])
   
     const [commentInput, setCommentInput] = useState<string>('');
     
@@ -110,10 +122,10 @@ try {
     postComment: [],
     postLike: [],
     postRepost: post.postRepost,
-    reposterName: loggedInUser?.displayName,
-    reposterPics: loggedInUser?.photoURL,
+    reposterName: userPersonalInfo?.username,
+    reposterPics: userPersonalInfo?.userPic,
     respotDate: fullDate,
-    reposterId: loggedInUser?.uid
+    reposterId: userPersonalInfo?.userID
   })
   const notification = () => toast('succesfully reposted');
   notification();
@@ -166,7 +178,7 @@ try {
               </div>
                     <p className="text-slate-700 text-[12px] md:text-[15px] mb-[10px]">{post?.repostThought}</p>
               
-                  </div>}
+                  </div>} 
    <div className="flex gap-1 flex-row items-center">
        <h1 className="font-bold flex justify-center capitalize items-center ">  {post.authorPics !== '' ? <Link href={`/users/${post?.authorId}`}><Image src={post.authorPics} height={50} width={50} className="rounded-full  w-[30px]" alt="post pic" /></Link> : <Link href={`/users/${post.authorId}`}><FaUserCircle className=" text-[15px] bg-slate-50 rounded-full shadow-2xl " /></Link>} <Link href={`/users/${post.authorId}`}><span className=" text-[10px]">@{post.authorName}</span></Link> </h1> <span className="text-slate-500  text-[10px] ">posted</span> <GoDotFill className="text-[10px] "/> <p className="text-slate-500  text-[7px]">{post.postsDate}</p>
    </div>

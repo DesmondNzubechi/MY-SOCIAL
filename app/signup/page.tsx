@@ -81,7 +81,7 @@ router.push('/')
 
   console.log(userDetails);
   return (
-      user ? redirect('/my-profile') :
+      user ? redirect('/') :
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
       <form className="grid md:grid-cols-2 gap-5 items-center justify-center rounded shadow-2xl bg-slate-900 py-[30px] px-[30px]" action="">
         <h1 className="font-bold uppercase text-white text-center md:col-span-2 text-[40px] ">Myu Chat</h1>
