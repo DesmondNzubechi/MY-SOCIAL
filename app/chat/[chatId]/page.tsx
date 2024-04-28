@@ -49,14 +49,26 @@ interface User {
     username: string,
     bio: string,
     location: string,
-    favorite: string
+    favorite: string,
+    dateJoined: string
 }
 const User = ({ params }: { params: { chatId: string } }) => {
 
     const { chatId } = params; // Access the correct parameter name
     const user = userAuth();
     const allUser = AllUser();
-    const [currentUser, setCurrentUser] = useState<User | any>({});
+    const [currentUser, setCurrentUser] = useState<User>({
+        userID: "",
+        fullname: "",
+        useremail: "",
+        userPic:"",
+        coverPic: "",
+        username: "",
+        bio: "",
+        location: "",
+        favorite: "",
+        dateJoined: ''
+      });
     const lastMessageRef = useRef<HTMLDivElement | null>(null);
     const [currentChat, setCurrentChat] = useState<any>([])
     const [userInfoState, setUserInfoState] = useState<userInfo>({
@@ -302,7 +314,7 @@ const [message, setMesage] = useState<messageInfo>({
                         currentChat?.message?.map((chats: messageInfo) => {
                             return <div  ref={(el) => (lastMessageRef.current = el)} className={`flex items-center ${chats?.senderId !== user?.uid? "self-start" : "self-end" }   ${chats?.senderId !== user?.uid? "flex-row" : "flex-row-reverse" }  gap-2`}>
                                 {chats?.senderId === userInfoState?.userID && (userInfoState?.userPic ? <Link href={`/users/${userInfoState?.userID}`}> <Image alt={userInfoState?.username} width={50} height={30} className="rounded-full h-[50px]" src={userInfoState?.userPic} /></Link> : <Link href={`/users/${userInfoState?.userID}`}><FaUserCircle className="text-[50px] " /></Link>)}
-                                {chats?.senderId !== userInfoState?.userID &&  (user?.photoURL ? <Link href='/my-profile'> <Image alt={userInfoState?.username} width={50} height={30} className="rounded-full h-[50px]" src={user?.photoURL} /></Link> : <Link href='/my-profile'><FaUserCircle className="text-[50px] " /></Link>)}
+                                {chats?.senderId !== userInfoState?.userID &&  (currentUser.userPic ? <Link href='/my-profile'> <Image alt={currentUser?.username} width={50} height={30} className="rounded-full h-[50px]" src={currentUser?.userPic} /></Link> : <Link href='/my-profile'><FaUserCircle className="text-[50px] " /></Link>)}
                                 {chats.messageTitle !== '' && <p className={` ${chats?.senderId !== user?.uid ? ' p-[15px] bg-slate-500 text-[15px] text-white rounded-tl-[10px] rounded-r-[15px]' : "p-[15px] bg-sky-500 text-[15px] text-white rounded-tr-[10px] rounded-l-[15px] "} `}>{chats?.messageTitle}</p> }
                                {chats.messageImg !== '' && <Image alt="" width={200} height={200} className="w-[200px] shadow-2xl rounded " src={chats?.messageImg} /> }
                             </div>
