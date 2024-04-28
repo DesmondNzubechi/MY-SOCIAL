@@ -150,14 +150,30 @@ const [dp, setDp] = useState<File | any>(null);
     }, [allTheChat])
     console.log("all my chat", myChats)
     console.log("all the chat", allTheChat)
+
+    const [searchMessage, setSearchMessage] = useState<string>(""); 
+    const [searchMessageResult, setSearchMessageResult] = useState<any>([])
     
+    const filterMessageSearch = () => {
+        const filtermessage = myChats.filter((message: any) => {
+            const username = message?.firstUser.userID === currentUser.userID ? message?.secondUser?.username : message?.firstUser?.username;
+            return message?.lastMessage?.message.toLowerCase().includes(searchMessage.toLowerCase()) ||
+                message?.lastMessage?.messageDate.toLowerCase().includes(searchMessage.toLowerCase()) ||
+                username.toLowerCase().includes(searchMessage.toLowerCase());
+        })
+        setSearchMessageResult(filtermessage);
+    }
+
+    useEffect(() => {
+        filterMessageSearch();
+    }, [searchMessage])
     return (
         <>
             {user ? (
                 <div className="  flex flex-row items-center gap-5   absolute left-0 right-0 top-[50p] bottom-0 justify-evenly">
                     
-                  {myChats.length !== 0? <div className="flex flex-col h-[100vh] w-full overflow-y-scroll gap-5 px-[10px] py-[20px] pt-[100px] pb-[50px]  bg-slate-100 items-center ">
-                        <h1 className="uppercase text-[30px] text-center font-bold">all the chats</h1>
+                  {myChats.length !== 0? <div className="flex flex-col mt-[50px] h-[100vh] w-full overflow-y-scroll gap-5 px-[10px] py-[20px] pt-[100px] pb-[50px]  bg-slate-100 items-center ">
+                        <h1 className="uppercase text-[20px] md:text-[30px] text-center font-bold">all the chats</h1>
                         <div className="flex items-center  w-full self-start justify-center gap-5 ">
                            
                            
@@ -165,13 +181,32 @@ const [dp, setDp] = useState<File | any>(null);
                         </div>
                         <div className="flex flex-col gap-5">
                             <div className="flex items-center  border px-5 border-[2px] bg-slate-100 gap-1 rounded-[10px] justify-center">
-                                <input type="search" name="" className="outline-none w-full bg-transparent p-2" placeholder="Serach for messages" id="" />
+                                <input type="search" name="" value={searchMessage} onChange={(e) => setSearchMessage(e.target.value)}  className="outline-none w-full bg-transparent p-2" placeholder="Search  for messages" id="" />
                                 <IoMdSearch />
                             </div>
                             <div className="flex w-full flex-col gap-5">
-                              
+                             { searchMessage && <h1 className="text-center font-bold">Search Result</h1>}
+                            {
+                                   searchMessage && searchMessageResult?.map((chat:any) => {
+                                        return <><Link   key={chat?.lastMessage?.messageId} href={`chat/${chat?.id}`} className="flex w-full gap-2 items-center">
+                                        {(chat.secondUser.userPic !== '' && chat.firstUser.userPic !== '')? <Image alt='user pic' width={50} height={30} className="rounded-full h-[50px]" src={chat?.firstUser.userID === currentUser.userID ? chat?.secondUser?.userPic : chat?.firstUser?.userPic} /> :
+                                                
+                                                <FaUserCircle className="text-[40px] " />}
+                                        <div className="flex flex-col gap-[5px]">
+                                            <div className="flex items-center flex-row gap-2">
+                                                    <h1 className="text-slate-900 text-[12px] md:text-[15px] uppercase font-bold font-semibold">{chat?.firstUser.userID === currentUser.userID ? chat?.secondUser?.username : chat?.firstUser?.username}</h1> <p className="text-slate-500 italic text-[10px] md:text-[15px]">{chat?.lastMessage?.messageDate}</p>
+                                                </div>  
+                                           <div>
+                                                    <p className="text-slate-500 text-[10px] md:text-[15px]">{chat?.lastMessage?.message}</p>
+                                            </div>
+                                            </div>
+                                        </Link>
+                                            <hr />
+                                            </>
+                                    })
+                                }
                                 {
-                                    myChats?.map((chat:any) => {
+                                   !searchMessage && myChats?.map((chat:any) => {
                                         return <><Link   key={chat?.lastMessage?.messageId} href={`chat/${chat?.id}`} className="flex w-full gap-2 items-center">
                                         {(chat.secondUser.userPic !== '' && chat.firstUser.userPic !== '')? <Image alt='user pic' width={50} height={30} className="rounded-full h-[50px]" src={chat?.firstUser.userID === currentUser.userID ? chat?.secondUser?.userPic : chat?.firstUser?.userPic} /> :
                                                 
