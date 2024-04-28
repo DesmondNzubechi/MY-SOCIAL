@@ -125,13 +125,18 @@ try {
     reposterName: userPersonalInfo?.username,
     reposterPics: userPersonalInfo?.userPic,
     respotDate: fullDate,
-    reposterId: userPersonalInfo?.userID
+    reposterId: loggedInUser.uid
   })
   const notification = () => toast('succesfully reposted');
   notification();
   setShowRepost(false);
 } catch (error) {
-  alert("an error occured")
+  toast.error("An error occured, Try again.", {
+    hideProgressBar: true,
+    closeOnClick: true,
+    autoClose: 5000,
+    pauseOnHover: true
+  })
 }
   }
 

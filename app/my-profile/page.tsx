@@ -297,12 +297,12 @@ useEffect(() => {
             <p className="font-[500] capitalize text-slate-500">@{userPersonalInfo?.username.split(' ').slice(0, 1)}</p>
           </div>
           <div>
-            <p>{userPersonalInfo?.bio ? userPersonalInfo?.bio : "No Bio. Kindly UpdateYour Bio!" }</p>
+            <p className="text-[12px] ">{userPersonalInfo?.bio ? userPersonalInfo?.bio : "No Bio. Kindly UpdateYour Bio!" }</p>
           </div>
           <div className="flex items-center gap-x-[20px] ">
-            <span className="flex items-center gap-1 text-slate-500"><FaHeart  className="text-[20px]"/> <p className="capitalize">{userPersonalInfo?.favorite === "" ? "No favorite Yet! " : userPersonalInfo?.favorite}</p></span>
-            <span className="flex items-center gap-1 text-slate-500"><IoLocationSharp /> <p className="capitalize">{userPersonalInfo?.location? userPersonalInfo?.location : "Unknown" }</p></span>
-<span className="flex items-center gap-1 text-slate-500"><IoIosTime /> <p className="capitalize">{userPersonalInfo?.dateJoined ? userPersonalInfo?.dateJoined : "Private"}</p></span>
+            <span className="flex items-center gap-1 text-slate-500"><FaHeart  className="text-[15px]"/> <p className="capitalize text-[10px]">{userPersonalInfo?.favorite === "" ? "No favorite Yet! " : userPersonalInfo?.favorite}</p></span>
+            <span className="flex items-center gap-1 text-slate-500"><IoLocationSharp className="text-[15px]"/> <p className="capitalize text-[10px]">{userPersonalInfo?.location? userPersonalInfo?.location : "Unknown" }</p></span>
+<span className="flex items-center gap-1 text-slate-500"><IoIosTime className="text-[15px]"/> <p className="capitalize text-[10px]">{userPersonalInfo?.dateJoined ? userPersonalInfo?.dateJoined : "Private"}</p></span>
           </div>
 
           {/* <div className="flex mt-[20px] items-center border rounded justify-around ">
