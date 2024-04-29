@@ -111,16 +111,16 @@ export default function Home() {
                                   return <Link href={`users/${users?.userID}`} className="shadow border hover:bg-white w-full rounded p-2">
                                       <div>
                                       <div className="flex gap-1 w-full flex-row items-start">
-                                              {users?.userPic !== '' ? <Image src={users?.userPic} height={50} width={50} className="rounded-full " alt="post pic" /> : <FaUserCircle className="text-[50px] bg-slate-50 rounded-full shadow-2xl " />}
+                                              {users?.userPic !== '' ? <Image src={users?.userPic} height={50} width={50} className="rounded-full h-[50px] w-[50px] " alt="post pic" /> : <FaUserCircle className="text-[50px] bg-slate-50 rounded-full shadow-2xl " />}
                                               <div className="flex w-full flex-col gap-2">
                                                   <div className="flex flex-row items-center w-full justify-between ">
                                                       <div className="">
-                                                          <h1 className="font-medium text-slate-900 capitalize">{users?.username}</h1>
-                                                          <h2 className="text-slate-500 font-[500] text-[15px] capitalize ">@{users?.username.split(" ").slice(0, 1).join(" ")}</h2>
+                                                          <h1 className="font-medium text-slate-900 text-[12px] md:text-[15px] capitalize">{users?.username}</h1>
+                                                          <h2 className="text-slate-500 font-[500] text-[12px] md:text-[15px] capitalize ">@{users?.username.split(" ").slice(0, 1).join(" ")}</h2>
                                                       </div>
-                                                     <button className="bg-sky-500 rounded-[5px]  hover:bg-sky-600 text-slate-50 px-2  py-1 text-[15px]">View Profile</button>
+                                                     <button className="bg-sky-500 text-[10px] md:text-[15px] rounded-[5px]  hover:bg-sky-600 text-slate-50 px-2  py-1 text-[15px]">View Profile</button>
                                                   </div>
-                                                  <p className="text-[15px] font-[400] w-full text-slate-900">{users?.bio.split(" ").slice(0, 11).join(' ')}...</p>
+                                                  <p className="text-[10px] font-[400] w-full text-slate-900">{users?.bio.split(" ").slice(0, 11).join(' ')}...</p>
                                               </div>
               </div>
                                       </div>
@@ -133,7 +133,7 @@ export default function Home() {
                                   return <Link href={`users/${users?.userID}`} className="shadow border hover:bg-white w-full rounded p-2">
                                       <div>
                                       <div className="flex gap-1 w-full flex-row items-start">
-                                              {users?.userPic !== '' ? <Image src={users?.userPic} height={50} width={50} className="rounded-full " alt="post pic" /> : <FaUserCircle className="text-[50px] bg-slate-50 rounded-full shadow-2xl " />}
+                                              {users?.userPic !== '' ? <Image src={users?.userPic} height={50} width={50} className="rounded-full  h-[50px] w-[50px] " alt="post pic" /> : <FaUserCircle className="text-[50px] bg-slate-50 rounded-full shadow-2xl " />}
                                               <div className="flex w-full flex-col gap-2">
                                                   <div className="flex flex-row items-center w-full justify-between ">
                                                       <div className="">

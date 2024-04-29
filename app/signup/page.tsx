@@ -24,7 +24,7 @@ const options: Intl.DateTimeFormatOptions = {
 };
 
 
-export const fullDate: string = currentDate.toLocaleString(undefined, options);
+const fullDate: string = currentDate.toLocaleString(undefined, options);
 
 export default function SignUp() {
   const allUser = AllUser();
