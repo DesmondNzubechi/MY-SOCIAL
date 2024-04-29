@@ -36,7 +36,7 @@ import { PostSkeleton } from "../../components/SkeletonLoader/postSkeleton";
 import { redirect, useRouter } from "next/navigation";
 import { updateProfile } from "firebase/auth";
 import { PostCard } from "@/app/components/postCard/postCard";
-
+import { QuoteREpost } from "@/app/components/quoteRepost/quoteRepost";
  const currentDate = new Date();
  const options: Intl.DateTimeFormatOptions = {
   year: 'numeric',
@@ -240,7 +240,7 @@ const combinedId = findLoggedInUser?.userID > userPersonalInfo?.userID ?
   userPersonalInfo?.userID + findLoggedInUser?.userID;
 
   const startChat = async () => {
-    try {
+    try { 
       const findLoggedInUser = allUser.find((me: personalInfo) => {
         return me.userID === loggedInUser?.uid
       });
@@ -267,6 +267,7 @@ const combinedId = findLoggedInUser?.userID > userPersonalInfo?.userID ?
   
   return (
     <main className="flex min-h-screen bg-slate-50 pt-[100px] md:pt-[140px] py-[20px] flex-col items-center  ">
+       {showQuoteRepost && <QuoteREpost data={fullPostdata} setShowQuoteRepost={setShowQuoteRepost} />}
       {!userPersonalInfo? <PublishAPostSideBarSkeleton/> :  <PublishAPostSideBar/>}
       {!userPersonalInfo? <SideBarSkeleton/> : <SideBar setPublishPost={setPublishPost}/>}
       <PublishAPost displayPro={showPublishPost} setPublishPost={setPublishPost} />
@@ -283,18 +284,18 @@ const combinedId = findLoggedInUser?.userID > userPersonalInfo?.userID ?
                                  </div>
         </div>
         <Link onClick={startChat} href={`/chat/${combinedId}`} className="absolute top-[300px] right-[30px] active:bg-slate-200 shadow-2xl border p-2 rounded-[5px] text-slate-700 text-[20px] ">Send Message</Link>
-        <div className="pt-[180px] flex flex-col gap-y-[20px]">
+        <div className="pt-[140px] flex flex-col gap-y-[20px]">
           <div>
-            <h1 className="font-bold text-[20px] text-slate-900 capitalize">{userPersonalInfo.username}</h1>
-            <p className="font-[500] text-slate-500">@{userPersonalInfo.username.split(" ").slice(0, 1)}</p>
+            <h1 className="font-bold text-[20px] text-slate-900 capitalize">{userPersonalInfo?.username}</h1>
+            <p className="font-[500] capitalize text-slate-500">@{userPersonalInfo?.username.split(' ').slice(0, 1)}</p>
           </div>
-          <div> 
-            <p>{userPersonalInfo.bio? userPersonalInfo.bio : "User Bio Not Updated" }</p>
+          <div>
+            <p className="text-[12px] ">{userPersonalInfo?.bio ? userPersonalInfo?.bio : "No Bio. Kindly UpdateYour Bio!" }</p>
           </div>
           <div className="flex items-center gap-x-[20px] ">
-            <span className="flex items-center gap-1 text-slate-500"><FaHeart  className="text-[20px]"/> <p className="capitalize">Coding</p></span>
-            <span className="flex items-center gap-1 text-slate-500"><IoLocationSharp /> <p className="capitalize">{userPersonalInfo.location? userPersonalInfo.location : "Unknown"}</p></span>
-<span className="flex items-center gap-1 text-slate-500"><IoIosTime /> <p className="capitalize">{userPersonalInfo?.dateJoined? userPersonalInfo?.dateJoined : "Private" }</p></span>
+            <span className="flex items-center gap-1 text-slate-500"><FaHeart  className="text-[15px]"/> <p className="capitalize text-[10px]">{userPersonalInfo?.favorite === "" ? "No favorite" : userPersonalInfo?.favorite}</p></span>
+            <span className="flex items-center gap-1 text-slate-500"><IoLocationSharp className="text-[15px]"/> <p className="capitalize text-[10px]">{userPersonalInfo?.location? userPersonalInfo?.location : "Unknown" }</p></span>
+<span className="flex items-center gap-1 text-slate-500"><IoIosTime className="text-[15px]"/> <p className="capitalize text-[10px]">{userPersonalInfo?.dateJoined ? userPersonalInfo?.dateJoined : "Private"}</p></span>
           </div>
         </div>
         <div className="flex flex-col py-[50px] gap-5">

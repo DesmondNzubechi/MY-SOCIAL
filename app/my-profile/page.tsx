@@ -298,7 +298,7 @@ useEffect(() => {
           <div>
             <h1 className="font-bold text-[20px] text-slate-900 capitalize">{userPersonalInfo?.username}</h1>
             <p className="font-[500] capitalize text-slate-500">@{userPersonalInfo?.username.split(' ').slice(0, 1)}</p>
-          </div>
+          </div> 
           <div>
             <p className="text-[12px] ">{userPersonalInfo?.bio ? userPersonalInfo?.bio : "No Bio. Kindly UpdateYour Bio!" }</p>
           </div>
@@ -308,12 +308,10 @@ useEffect(() => {
 <span className="flex items-center gap-1 text-slate-500"><IoIosTime className="text-[15px]"/> <p className="capitalize text-[10px]">{userPersonalInfo?.dateJoined ? userPersonalInfo?.dateJoined : "Private"}</p></span>
           </div>
 
-          {/* <div className="flex mt-[20px] items-center border rounded justify-around ">
-            <button className="bg-slate-900 text-slate-50 text-[20px] uppercase font-bold w-full py-[10px]">My Post</button>
-            <button className="w-full py-[10px] text-[20px] uppercase font-bold">Repost</button>
-          </div> */}
+       
         </div>
         <div className="flex flex-col py-[50px] gap-5">
+        {myPost.length == 0 && <p className="text-center">You Have Not Posted Anything</p> }
           {myPost.map((myPost: allPostInfo) => {
             return <PostCard setShowQuoteRepost={setShowQuoteRepost} setFullPostData={setFullPostData} post={myPost} showFullPostFn={showFullPostFn} />
           })}
