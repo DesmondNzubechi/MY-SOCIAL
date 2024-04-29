@@ -49,6 +49,7 @@ export const QuoteREpost = ({ setShowQuoteRepost, data }: { setShowQuoteRepost: 
     favorite: "",
     dateJoined: ''
   })
+  console.log("User information repost", userPersonalInfo)
   const [repostThought, setRepostThought] = useState<string>('');
 
   const getUserProfile = () => {
@@ -60,7 +61,7 @@ export const QuoteREpost = ({ setShowQuoteRepost, data }: { setShowQuoteRepost: 
 
   useEffect(() => {
     getUserProfile();
-  }, [loggedInUser])
+  }, [repostThought, data])
   
   // Add useEffect to handle overflow when the component mounts and unmounts
   useEffect(() => {
@@ -84,7 +85,7 @@ try {
     postImg: data.postImg,
     postsContent: data.postsContent,
     postId: data.postId,
-    postsDate: data.postsDate,
+    postsDate: data.postsDate, 
     authorId: data.authorId,
     authorName: data.authorName,
     authorPics: data.authorPics,
@@ -98,10 +99,16 @@ try {
     repostThought: repostThought,
     repostId: uuid()
   });
-  const notification = () => toast("Reposted succesfully⭐");
-  notification();
   setShowQuoteRepost(false)
+  toast.success("Resposted Successfully", {
+    hideProgressBar: true,
+    closeOnClick: true,
+    autoClose: 5000,
+    pauseOnHover: true
+ })
+ 
 } catch (error) {
+  console.log("repost error", error)
   toast.error("An error occured, Try again.", {
     hideProgressBar: true,
     closeOnClick: true,

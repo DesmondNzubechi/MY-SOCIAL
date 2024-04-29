@@ -37,6 +37,7 @@ import { redirect, useRouter } from "next/navigation";
 import { updateProfile } from "firebase/auth";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { PostCard } from "../components/postCard/postCard";
+import { QuoteREpost } from "../components/quoteRepost/quoteRepost";
 export interface personalInfo {
     userID: string,
     fullname: string,
@@ -44,7 +45,7 @@ export interface personalInfo {
     userPic: string,
     coverPic: string,
     username: string,
-    bio: string,
+    bio: string, 
     location: string,
     favorite: string,
     dateJoined: string
@@ -66,7 +67,7 @@ export default function MyProfile() {
   const [userCoverPics, setUserCoverPics] = useState<File | any>(null);
   const [userPersonalInfo, setUserPersonalInfo] = useState<personalInfo>({
     userID: "",
-    fullname: "",
+    fullname: "", 
     useremail: "",
     userPic:"",
     coverPic: "",
@@ -123,7 +124,7 @@ setShowFullPost(true)
   const [commentInput, setCommentInput] = useState<string>('');
   console.log("comment", commentInput)
   console.log("post id", fullPostdata.id)
-
+ 
 
 //   const likePost = async (post: allPostInfo) => {
 //     if (!loggedInUser) {
@@ -260,10 +261,11 @@ useEffect(() => {
 
 }, [dp])
   
-  console.log("user personal info", userPersonalInfo)
+  //console.log("user personal info", userPersonalInfo)
 
   return (
     <main className="flex min-h-screen justify-center overflow-x-hidden bg-slate-50 pt-[100px] md:pt-[140px]  py-[20px] flex-col items-center  ">
+        {showQuoteRepost && <QuoteREpost data={fullPostdata} setShowQuoteRepost={setShowQuoteRepost} />}
       {allUser.length == 0? <PublishAPostSideBarSkeleton/> :  <PublishAPostSideBar/>}
       {allUser.length == 0? <SideBarSkeleton/> : <SideBar setPublishPost={setPublishPost}/>}
        <PublishAPost displayPro={showPublishPost} setPublishPost={setPublishPost} />
