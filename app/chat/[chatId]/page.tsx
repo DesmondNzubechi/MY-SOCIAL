@@ -175,13 +175,15 @@ const [message, setMesage] = useState<messageInfo>({
         })
         toast.success("message sent successfully", {
             hideProgressBar: true,
-            position: "top-center"
+            position: "top-center",
+            autoClose:500
         })
            
         } catch (error) {
             toast.error("An error occured. Try again", {
                 hideProgressBar: true,
-                position: "top-center"
+                position: "top-center",
+                autoClose: 5000
             })
         }
         

@@ -12,9 +12,21 @@ import { redirect } from "next/navigation";
 import { getDoc, setDoc } from "firebase/firestore";
 import { doc } from "firebase/firestore";
 import { AllUser } from "../components/allUser/allUser";
-import { fullDate } from "../components/publishAPost/publishAPost";
+//import { fullDate } from "../components/publishAPost/publishAPost";
 import { toast } from "react-toastify";
-export default function Home() {
+
+const currentDate: Date = new Date();
+const options: Intl.DateTimeFormatOptions = {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  //weekday: 'long', // or 'short', 'narrow', or undefined
+};
+
+
+export const fullDate: string = currentDate.toLocaleString(undefined, options);
+
+export default function SignUp() {
   const allUser = AllUser();
   const [showPassword, setShowPassword] = useState('password')
   const [signUpState, setSignUpState] = useState<boolean>(true)
