@@ -104,7 +104,7 @@ export default function Home() {
             {allPost.length === 0 && skeletonLoader.map(skel => <UserSkeletonLoader />)}
               <input type="text" value={searchInput} onChange={(e) => {
                 setSearchInput(e.target.value)
-            }} className="bg-white rounded block md:hidden mb-[40px] capitalize outline-none py-[18px] w-full  text-center text-[15px]" placeholder="search for a user here" name="" id="" />
+            }} className="bg-white rounded block  mb-[40px] capitalize outline-none py-[18px] w-full  text-center text-[15px]" placeholder="search for a user here" name="" id="" />
        
        {
                   searchInput &&  searchUserResult.map((users: any) => {

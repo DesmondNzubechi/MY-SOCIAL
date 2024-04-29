@@ -173,7 +173,7 @@ const [dp, setDp] = useState<File | any>(null);
                 <div className="  flex flex-row items-center gap-5   absolute left-0 right-0 top-[50p] bottom-0 justify-evenly">
                     
                   {myChats.length !== 0? <div className="flex flex-col mt-[50px] h-[100vh] w-full overflow-y-scroll gap-5 px-[10px] py-[20px] pt-[100px] pb-[50px]  bg-slate-100 items-center ">
-                        <h1 className="uppercase text-[20px] md:text-[30px] text-center font-bold">all the chats</h1>
+                        <h1 className="uppercase text-[20px] mt-[50px] md:text-[30px] text-center font-bold">all the chats</h1>
                         <div className="flex items-center  w-full self-start justify-center gap-5 ">
                            
                            
