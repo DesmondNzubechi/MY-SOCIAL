@@ -1,19 +1,15 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import CoverPics from '../public/codes.jpg'
 import { userAuth } from "./components/auths/auth";
 import { FaUserCircle } from "react-icons/fa";
-import { GoDotFill } from "react-icons/go";
-import { FaCommentAlt } from "react-icons/fa";
-import { SlLike } from "react-icons/sl";
-import { BiRepost } from "react-icons/bi";
 import { FullPost } from "./components/full post/fullPost";
 import { PublishAPost } from "./components/publishAPost/publishAPost";
 import { IoMdPhotos } from "react-icons/io";
 import { MdVideoLibrary } from "react-icons/md";
-import { TbSocial } from "react-icons/tb";
+
 import { AllThePost } from "./components/allPosts/allPost";
 import { allPostInfo } from "./components/allPosts/allPost";
 import { SideBar } from "./components/sidebar/sidebar";
@@ -63,103 +59,22 @@ setShowFullPost(true)
   console.log("comment", commentInput)
   console.log("post id", fullPostdata.id)
 
-console.log("Log in useer", loggedInUser)
-//   const likePost = async (post: allPostInfo) => {
-//     if (!loggedInUser) {
-//       const notification = () => toast("Kindly login before you can like this post");
-//       notification();
-//       return;
-//     }
-//     const postRef = doc(db, 'posts', post.id)
-//     try {
-//       const likeStatus = post.postLike.find(like => like.likeId === loggedInUser?.uid);
-//       const addLike = post.postLike.filter(like => like.likeId !== loggedInUser?.uid)
-     
-//         if (likeStatus) {
-//           await updateDoc(postRef, {
-//             postLike: [...addLike]
-//           })
-//           const notification = () => toast("You unliked this post");
-//           notification();
-//         } else {
-//           await updateDoc(postRef, {
-//             postLike: [...post.postLike, {likeId: loggedInUser?.uid, likeName: loggedInUser?.displayName}]
-//           })
-//           const notification = () => toast("You liked this post");
-//           notification();
-//         }
-// } catch (error) {
-//   console.log(error)
-// }
-//   }
+  console.log("Log in useer", loggedInUser)
+  const [searchText, setSearchText] = useState<string>("");
+  const [searchPostResult, setSearchPostResult] = useState<allPostInfo[]>([]);
 
-//   const Repost = async (post: allPostInfo) => {
-//     if (!loggedInUser) {
-//       const notification = () => toast.info('Kindly login before you can repost');
-//       notification();
-//       return;
-//     }
-//     const postRef = doc(db, 'posts', uuid())
-// try {
-//   await setDoc(postRef, {
-//     postImg: post.postImg,
-//     postsContent:post.postsContent,
-//     postId: post.postId,
-//     postsDate: post.postsDate,
-//     authorId: post.authorId,
-//     authorName: post.authorName,
-//     authorPics: post.authorPics,
-//     postComment: post.postComment,
-//     postLike: post.postLike,
-//     postRepost: post.postRepost,
-//     reposterName: loggedInUser.displayName,
-//     reposterPics: loggedInUser.photoURL === null? "" : loggedInUser.photoURL,
-//     respotDate: fullDate,
-//     reposterId: loggedInUser.uid
-//   })
-//   const notification = () => toast.info('succesfully reposted');
-//   notification();
-//   setShowRepost(false);
-// } catch (error) {
-//   const errorNotification = () => toast.error("An error occured. Please Try again", {
-//     hideProgressBar: true,
-//  })
-//   errorNotification();
-// }
-//   }
+  const searchForAPostFn = () => {
+    const filterSearch = allPost.filter((post: allPostInfo) => {
+      return post.authorName.toLowerCase().includes(searchText.toLowerCase()) ||
+        post.postsDate.toLowerCase().includes(searchText.toLowerCase()) ||
+      post.postsContent.toLowerCase().includes(searchText.toLowerCase())
+    })
+    setSearchPostResult(filterSearch)
+  }
 
-
-  
-  // const addCommentfn = async (post: allPostInfo) => {
-  //   if (!loggedInUser) {
-  //     const notification = () => toast("Kindly login before you can comment on this post");
-  //         notification();
-  //     return;
-  //   }
-  //   if (commentInput === '') {
-  //     const notification = () => toast('Kindly input your comment');
-  //     notification();
-  //     return;
-  //   }
-  
-  //   try {
-  //     const commentRef = doc(db, 'posts', post?.id);
-      
-  //     // Check if post.postComment is an array
-  //     const updatedComments = Array.isArray(post.postComment) 
-  //       ? [{ commentDate: fullDate, commenterName: loggedInUser?.displayName, commenterPic: loggedInUser?.photoURL, commentContent: commentInput }, ...post.postComment]
-  //       : [{ commentDate: fullDate, commenterName: loggedInUser?.displayName, commenterPic: loggedInUser?.photoURL, commentContent: commentInput }];
-  
-  //     await updateDoc(commentRef, {
-  //       postComment: updatedComments
-  //     });
-  //     const notification = () => toast("You commented to this post")
-  //     notification();
-  //   } catch (error) {
-  //     const notification = () => toast("An error occured")
-  //     notification();
-  //   }
-  // }
+  useEffect(() => {
+    searchForAPostFn()
+  }, [searchText])
 
   return (
     <>
@@ -185,8 +100,6 @@ console.log("Log in useer", loggedInUser)
       {allPost.length == 0? <SideBarSkeleton/> : <SideBar setPublishPost={setPublishPost}/>}
     
           <div className="md:col-span-2 flex max-w-[500px] flex-col gap-5">
-          <input type="text" className="bg-white rounded block md:hidden shadow capitalize outline-none py-[18px] w-full  text-center text-[15px]" placeholder="search for a post here" name="" id="" />
-       
     
           <div onClick={() => setPublishPost('block')} className="md:hidden flex flex-col cursor-pointer gap-y-2 bg-white p-4 rounded">
             <div className="flex flex-row gap-x-[20px] items-center">
@@ -200,10 +113,15 @@ console.log("Log in useer", loggedInUser)
               <button className="bg-sky-500 text-[12px] md:text-[15px] text-slate-50 p-2 rounded">Publish Post</button>
             </div>
             </div>
-            
-            {allPost.length === 0 && skeletonLoader.map(skel => <PostSkeleton />)}
 
-            {allPost.map((myPost: allPostInfo) => {
+            <input type="text" value={searchText} onChange={(e) => setSearchText(e.target.value)} className="bg-white rounded block md:hidden shadow capitalize outline-none py-[18px] w-full min-w-[400px]  text-center text-[15px]" placeholder="search for a post here" name="" id="" />
+       
+            {allPost.length === 0 && skeletonLoader.map(skel => <PostSkeleton />)}
+            {searchText && <h1 className="text-center font-bold">Your Search Result    "<span className="font-bold uppercase">{ searchText}</span>"</h1>}
+            {searchText && searchPostResult.map((myPost: allPostInfo) => {
+            return <PostCard setShowQuoteRepost={setShowQuoteRepost} setFullPostData={setFullPostData} post={myPost} showFullPostFn={showFullPostFn} />
+          })}
+            {!searchText && allPost.map((myPost: allPostInfo) => {
             return <PostCard setShowQuoteRepost={setShowQuoteRepost} setFullPostData={setFullPostData} post={myPost} showFullPostFn={showFullPostFn} />
           })}
           {/* {
