@@ -90,7 +90,8 @@ router.push('/')
     } catch (error) { 
       setSignUpState(true)
       toast.error("An error occured, Please try again.", {
-      hideProgressBar: true,
+        hideProgressBar: true,
+        autoClose: 5000
     })
     }
   }
