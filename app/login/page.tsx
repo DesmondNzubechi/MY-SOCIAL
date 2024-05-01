@@ -21,42 +21,56 @@ export default function Login() {
     email: '',
     password: ''
   })
-
   const signInUser = async () => {
-    setSignInState(false)
-    if (userDetails.email === '') {
-      alert("please input your email");
+    setSignInState(false);
+    
+    // Email validation regex pattern
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    if (!userDetails.email || !emailPattern.test(userDetails.email)) {
+      toast.error("Please provide a valid email address", {
+        hideProgressBar: true
+      });
+      setSignInState(true);
       return;
-    } else if (userDetails.password === '') {
-      alert("please input password")
+    }
+    
+    if (!userDetails.password) {
+      toast.error("Please provide your password", {
+        hideProgressBar: true
+      });
+      setSignInState(true);
       return;
-    } else if (userDetails.email === '' && userDetails.password === '') {
-      alert("fill in the field please");
-      return;
-}
+    }
+  
     try {
       await signInWithEmailAndPassword(auth, userDetails.email, userDetails.password);
       setUserDertails({
         email: '',
         password: ''
-      })
-      setSignInState(true)
+      });
+      setSignInState(true);
       //router.push("/");
       toast.success("Login Successful", {
         hideProgressBar: true
-      })
-    } catch (error: any) {
-      setSignInState(true)
-      toast.error("An Error Occured. Please Try Again", {
-        hideProgressBar: true
-      })
+      });
+    } catch (error) {
+      setSignInState(true);
+      toast.error("An Error Occurred. Please Try Again", {
+        hideProgressBar: true,
+        autoClose: 5000
+      });
     }
-  }
+  };
+  
   return (
       <>{ user? redirect('/') :
-        <div className="flex min-h-screen flex-col items-center justify-center p-24">
+      <div className="flex min-h-screen flex-col items-center justify-center p-">
+        <div>
+          
+        </div>
     <form className="grid  gap-5 items-center justify-center rounded shadow-2xl bg-slate-900 py-[30px] px-[30px]" action="">
-        <h1 className="font-bold uppercase text-white text-center  text-[40px] ">Myu Chat</h1>
+       
           <input value={userDetails.email} onChange={(e) => setUserDertails({...userDetails, email: e.target.value})} className=" text-center w-full p-2 rounded placeholder:text-[#555]  border outline-none" type="email" name="email" placeholder="Email"  id="email" />
         <div className="flex items-center p-2 rounded bg-slate-50">
             <input value={userDetails.password} onChange={(e) => setUserDertails({...userDetails, password: e.target.value})} className=" text-center rounded-l bg-transparent w-full   placeholder:text-[#555]  outline-none" type={showPassword} name="Password" placeholder="Password" id="password" />

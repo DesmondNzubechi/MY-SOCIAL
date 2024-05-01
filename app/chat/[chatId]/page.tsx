@@ -28,7 +28,7 @@ import { ConversationSkeletonLoader } from "@/app/components/SkeletonLoader/conv
 interface userInfo  { 
     userID: string,
     username: string,
-    useremail: string,
+    useremail: string, 
     userPic: string
 }
 
@@ -147,7 +147,7 @@ const [message, setMesage] = useState<messageInfo>({
         return () => unsubscribe();
     }, [combinedId, params.chatId, message.messageTitle]);
 
-
+ const [sendingMessageStatus, setSendingMessageStatus] = useState<boolean>(false)
 
     
     const sendAMessage = async () => {
@@ -158,6 +158,7 @@ const [message, setMesage] = useState<messageInfo>({
             })
             return;
         }
+        setSendingMessageStatus(true)
         try {
             const chatRef = doc(db, 'chats', params.chatId);
             await updateDoc(chatRef, {
@@ -173,6 +174,7 @@ const [message, setMesage] = useState<messageInfo>({
         time: fullDate,
             messageImg: '',
         })
+            setSendingMessageStatus(false)
         toast.success("message sent successfully", {
             hideProgressBar: true,
             position: "top-center",
@@ -180,6 +182,7 @@ const [message, setMesage] = useState<messageInfo>({
         })
            
         } catch (error) {
+            setSendingMessageStatus(false)
             toast.error("An error occured. Try again", {
                 hideProgressBar: true,
                 position: "top-center",
@@ -215,14 +218,11 @@ const [message, setMesage] = useState<messageInfo>({
         })
         setMyChats(filterMyChat)
     }, [allTheChat])
-    // const messenger = currentChat?.firstUser?.userID === currentUser.userID ? currentChat.secondUser : currentUser.firstUser
-    // const imageExtensions = /\.(jpeg|jpg|gif|png|bmp)$/i;
-    // const  isImageLink = (str: any) => {
-    //     return imageExtensions.test(str);
-    // }
+    
     const [chatImg, setChatImg] = useState<File | any>(null);
 
     const sendChatImage = async () => {
+        setSendingMessageStatus(true);
         try {
             const chatImgRef = ref(storage, "chat images");
             const chatImgname = ref(chatImgRef, `${uuid()} chat image ${chatImg.name}`)
@@ -243,12 +243,19 @@ const [message, setMesage] = useState<messageInfo>({
                 ],
                 lastMessage: { message: "An Image", messageDate: fullDate, messageId:uuid() }
             })
+            setSendingMessageStatus(false)
             toast.success("message sent successfully", {
                 hideProgressBar: true,
-                position: "top-center"
+                position: "top-center",
+                autoClose: 5000
             })
         } catch (error) {
-            alert(error)
+            setSendingMessageStatus(false);
+            toast.error("an error occurred. Please Try again", {
+                hideProgressBar: true,
+                position: "top-center",
+                autoClose: 5000
+            })
         }
     }
 
@@ -337,8 +344,12 @@ const [message, setMesage] = useState<messageInfo>({
                 </div> */}
                 </div>
                 
-                <form action=""  className="left-0 md:left-[48.8%] right-0 md:right-[0%]  flex gap-2 right-0 items-center p-2 rounded fixed bg-slate-100 bottom-0">
-                    <input type="text" onChange={(e) => {
+                <form action="" onSubmit={(e) => {
+                    e.preventDefault()
+                    sendAMessage();
+                }} className="left-0 md:left-[48.8%] right-0 md:right-[0%]  flex gap-2 right-0 items-center p-2 rounded fixed bg-slate-100 bottom-0">
+                    <input type="text"  onChange={(e) => {
+                        e.preventDefault();
                         setMesage({
                             messageTitle: e.target.value,
                             senderId: user?.uid,
@@ -348,12 +359,14 @@ const [message, setMesage] = useState<messageInfo>({
                         })
                     }} name="" value={message.messageTitle} placeholder="Write you message here" className=" py-[10px] text-[20px] bg-transparent outline-none  w-full rounded " id="" />
                     <input type="file" onChange={(e) => {
+
                         setChatImg(e.target.files?.[0])
                     }} className="hidden " name="file" id="file" />
                     <label htmlFor="file">
                     <RiImageAddFill className="text-[40px] rounded-full    "/>
                     </label>
-                    <button onClick={sendAMessage} className="bg-sky-500 py-[5px] shadow-2xl rounded-[7px] text-slate-50 text-[20px]  px-[20px]" type="button">Send</button>
+                   { sendingMessageStatus ? <button  className="bg-yellow-500 py-[5px] shadow-2xl rounded-[7px] text-slate-50 text-[20px]  px-[20px]" type="button">Sending</button> :
+                    <button onClick={sendAMessage} className="bg-sky-500 py-[5px] shadow-2xl rounded-[7px] text-slate-50 text-[20px]  px-[20px]" type="button">Send</button>}
            </form>
             </div> : <ConversationSkeletonLoader/>}
             </div>
