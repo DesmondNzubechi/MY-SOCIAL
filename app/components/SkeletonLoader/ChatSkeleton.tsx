@@ -23,13 +23,8 @@ const ChatSkeletonLoader = () => {
     return (
     
                    <div className="md:flex hidden flex-col h-[100vh] w-[100%]  overflow-y-scroll gap-5 px-[10px] py-[20px] pt-[100px]  bg-slate-100 items-center ">
-                        <h1 className="uppercase   text-[30px] text-center font-bold">ALL THE CHATs</h1>
-                       
                         <div className="flex flex-col gap-5">
-                            <div className="flex items-center  border px-5 border-[2px] bg-slate-100 gap-1 rounded-[10px] justify-center">
-                                <input type="search" name="" disabled className="outline-none w-full bg-transparent p-2" placeholder="Serach for messages" id="" />
-                                <IoMdSearch />
-                            </div>
+                         
                             <div className="flex w-full flex-col gap-5">
                               
                              
