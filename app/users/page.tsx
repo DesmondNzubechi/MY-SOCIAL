@@ -63,8 +63,8 @@ export default function Home() {
   const [searchInput, setSearchInput] = useState<string>('')
   const [searchUserResult, setSearchUserResult] = useState<personalInfo[]>([])
   const searchUserFn = () => {
-    const searchUser = filterAllUser.filter((users: any) => {
-    return users.username.includes(searchInput)
+    const searchUser = filterAllUser.filter((users: personalInfo) => {
+    return users.username.toLowerCase().includes(searchInput.toLowerCase())
     })
     setSearchUserResult(searchUser);
   }
@@ -106,7 +106,8 @@ export default function Home() {
                 setSearchInput(e.target.value)
             }} className="bg-white rounded block  mb-[40px] capitalize outline-none py-[18px] w-full  text-center text-[15px]" placeholder="search for a user here" name="" id="" />
        
-       {
+         {searchInput && <h1 className="text-center font-bold">Your Search Result For {searchInput}</h1>}
+                            {
                   searchInput &&  searchUserResult.map((users: any) => {
                                   return <Link href={`users/${users?.userID}`} className="shadow border hover:bg-white w-full rounded p-2">
                                       <div>
@@ -129,7 +130,7 @@ export default function Home() {
                               })
                           }
                           {
-                    filterAllUser.map((users: any) => {
+                  !searchInput &&  filterAllUser.map((users: any) => {
                                   return <Link href={`users/${users?.userID}`} className="shadow border hover:bg-white w-full rounded p-2">
                                       <div>
                                       <div className="flex gap-1 w-full flex-row items-start">

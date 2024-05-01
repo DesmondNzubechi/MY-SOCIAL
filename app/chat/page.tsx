@@ -185,7 +185,7 @@ const [dp, setDp] = useState<File | any>(null);
                                 <IoMdSearch />
                             </div>
                             <div className="flex w-full flex-col gap-5">
-                             { searchMessage && <h1 className="text-center font-bold">Your Search Result</h1>}
+                                {searchMessage && <h1 className="text-center font-bold">Your Search Result For {searchMessage}</h1>}
                             {
                                    searchMessage && searchMessageResult?.map((chat:any) => {
                                         return <><Link   key={chat?.lastMessage?.messageId} href={`chat/${chat?.id}`} className="flex w-full gap-2 items-center">
