@@ -110,7 +110,16 @@ export const PostCard = ({post, setShowQuoteRepost, showFullPostFn, setFullPostD
       return;
     } 
     const postRef = doc(db, 'posts', uuid())
-try {
+const originalPostRef = doc(db, "posts", post.id)
+    try {
+      await updateDoc(originalPostRef, {
+        postRepost: [...post.postRepost, {
+          reposterName: userPersonalInfo?.username,
+          reposterPics: userPersonalInfo?.userPic,
+          respotDate: fullDate,
+          reposterId: loggedInUser?.uid
+    }]
+  })
   await setDoc(postRef, {
     postImg: post.postImg,
     postsContent:post.postsContent,

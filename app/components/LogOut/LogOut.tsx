@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 export const LogOut = ({logOut, setLogOut} : {logOut: boolean, setLogOut: React.Dispatch<React.SetStateAction<boolean>>}) => {
-    //const [logOut, setLogOut] = useState<boolean>(false);
+   
   const router = useRouter();
     const signOutUser = async () => {
         try {

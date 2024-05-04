@@ -80,7 +80,16 @@ export const QuoteREpost = ({ setShowQuoteRepost, data }: { setShowQuoteRepost: 
       return;
     }
     const postRef = doc(db, 'posts',  uuid())
-try {
+    const originalPostRef = doc(db, "posts", data.id)
+    try {
+      await updateDoc(originalPostRef, {
+        postRepost: [...data.postRepost, {
+          reposterName: userPersonalInfo?.username,
+          reposterPics: userPersonalInfo?.userPic,
+          respotDate: fullDate,
+          reposterId: loggedInUser?.uid
+    }]
+  })
   await setDoc(postRef, {
     postImg: data.postImg,
     postsContent: data.postsContent,
