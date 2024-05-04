@@ -172,7 +172,7 @@ const [dp, setDp] = useState<File | any>(null);
 
    
     return (
-        !user? redirect("/login"):
+        !user? <Login/>:
                 <div className="  flex flex-row items-center gap-5   absolute left-0 right-0 top-[50p] bottom-0 justify-evenly">
                     
                   {allTheUsers? <div className="flex flex-col mt-[50px] h-[100vh] w-full overflow-y-scroll gap-5 px-[10px] py-[20px] pt-[100px] pb-[50px]  bg-slate-100 items-center ">

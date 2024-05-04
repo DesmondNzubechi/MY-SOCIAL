@@ -10,7 +10,7 @@ import Image from "next/image";
 import fvi from '../../../public/codes.jpg';
 import { RiImageAddFill } from "react-icons/ri";
 import { FcAddImage } from "react-icons/fc";
-
+import Login from "@/app/login/page";
 import { userAuth } from "@/app/components/auths/auth";
 import { AllUser } from "@/app/components/allUser/allUser";
 import { Timestamp, collection, doc, getDoc, getDocs, onSnapshot, query, serverTimestamp, setDoc, updateDoc, where } from "firebase/firestore";
@@ -270,7 +270,7 @@ const [message, setMesage] = useState<messageInfo>({
     
     return (
        
-            !user? redirect("/login"):
+            !user? <Login/>:
         <div className=" fixed w-full top-[70px] flex flex-row items-start gap-5  justify-around">
          
          {userInfoState ? <div className="md:flex hidden flex-col h-[100vh] w-full overflow-y-scroll gap-5 px-[10px] py-[20px] pt-[100px] pb-[50px]  bg-slate-100 items-center ">

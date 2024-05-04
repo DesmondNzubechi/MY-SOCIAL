@@ -37,6 +37,7 @@ import { redirect, useRouter } from "next/navigation";
 import { updateProfile } from "firebase/auth";
 import { PostCard } from "@/app/components/postCard/postCard";
 import { QuoteREpost } from "@/app/components/quoteRepost/quoteRepost";
+import Login from "@/app/login/page";
  const currentDate = new Date();
  const options: Intl.DateTimeFormatOptions = {
   year: 'numeric',
@@ -266,7 +267,7 @@ const combinedId = findLoggedInUser?.userID > userPersonalInfo?.userID ?
   }
   
   return (
-    loggedInUser? redirect("/login") :
+    loggedInUser? <Login/> :
     <main className="flex min-h-screen bg-slate-50 pt-[100px] md:pt-[140px] py-[20px] flex-col items-center  ">
        {showQuoteRepost && <QuoteREpost data={fullPostdata} setShowQuoteRepost={setShowQuoteRepost} />}
       {!userPersonalInfo? <PublishAPostSideBarSkeleton/> :  <PublishAPostSideBar/>}
