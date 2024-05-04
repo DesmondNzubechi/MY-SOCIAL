@@ -243,7 +243,7 @@ const originalPostRef = doc(db, "posts", post.id)
        {showRepost && <div className="absolute flex flex-col bg-slate-50 gap-2 p-2 items-start rounded border  bottom-[135px]  right-0 ">
          <button
            onClick={() => {
-            Repost(post)
+            Repost(post) 
            }}
            className=" text-slate-700 text-[15px] flex flex-row items-center gap-x-1"><BiRepost className="text-[20px] "/> Instant Repost
          </button>

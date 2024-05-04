@@ -19,8 +19,8 @@ import Link from "next/link";
 import { AllUser } from "../allUser/allUser";
 import { personalInfo } from "@/app/my-profile/page";
 
-export const FullPost = ({ setShowFullPost, data, postComment, setFullPostData }: { setShowFullPost: React.Dispatch<React.SetStateAction<boolean>>, data: allPostInfo, postComment: any[], setFullPostData: React.Dispatch<React.SetStateAction<allPostInfo>> }) => {
-  const loggedInUser = userAuth();
+export const FullPost = ({ setShowFullPost, postRepost, data, postComment, setFullPostData }: { setShowFullPost: React.Dispatch<React.SetStateAction<boolean>>, data: allPostInfo, postComment: any[], postRepost:any[], setFullPostData: React.Dispatch<React.SetStateAction<allPostInfo>> }) => {
+  const loggedInUser = userAuth(); 
   const allUser = AllUser();
   const [commentInput, setCommentInput] = useState<string>('');
   const [userPersonalInfo, setUserPersonalInfo] = useState<personalInfo>({
@@ -183,7 +183,7 @@ export const FullPost = ({ setShowFullPost, data, postComment, setFullPostData }
             <div className="flex items-center border-t border-b bg-slate-50 py-[10px] justify-around">
               <div className=" flex items-center p-[5px] gap-x-[5px] rounded"><FaCommentAlt className="md:text-[20px] text-[12px] "/> <p className="text-slate-500 text-[10px] md:text-[15px]">{data.postComment.length} Comments</p></div>
               <div onClick={() => likePost(data)} className="cursor-pointer flex items-center p-[5px] gap-x-[5px] rounded"><SlLike className="md:text-[20px] text-[12px] "/> <p className="text-slate-500 text-[10px] md:text-[15px]">{data.postLike.length} Likes</p></div>
-              <div className=" flex items-center p-[5px] gap-x-[5px] rounded"><BiRepost className="md:text-[20px] text-[12px]" /><p className="text-slate-500 text-[10px] md:text-[15px]">{data.postRepost} Repost</p></div>
+              <div className=" flex items-center p-[5px] gap-x-[5px] rounded"><BiRepost className="md:text-[20px] text-[12px]" /><p className="text-slate-500 text-[10px] md:text-[15px]">{data.postRepost.length} Repost</p></div>
                         </div>
                         {/* COMMENTS UNDER POST */}
                         <div className="flex flex-col gap-5">
