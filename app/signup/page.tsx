@@ -13,6 +13,7 @@ import { getDoc, setDoc } from "firebase/firestore";
 import { doc } from "firebase/firestore";
 import { AllUser } from "../components/allUser/allUser";
 //import { fullDate } from "../components/publishAPost/publishAPost";
+import 'react-toastify/ReactToastify.css';
 import { toast } from "react-toastify";
 import { TbSocial } from "react-icons/tb";
 const currentDate: Date = new Date();
@@ -39,27 +40,52 @@ export default function SignUp() {
   const router = useRouter();
 
   const registerUser = async () => {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (userDetails.username === '') {
-      alert('Please insert username')
+      toast.info('Please insert username', {
+        hideProgressBar: true,
+        autoClose: 5000
+      })
       return;
     } else if (userDetails.userEmail === '') {
-      alert("please insert email")
+      toast.info('please insert email', {
+        hideProgressBar: true,
+        autoClose: 5000
+      })
       return;
-    } else if (userDetails.userPassword === '') {
-      alert("please input password")
+    }  else if (!emailPattern.test(userDetails.userEmail)) {
+      toast.info('please input a valid email', {
+        hideProgressBar: true,
+        autoClose: 5000
+      })
+      return;
+    }  else if (userDetails.userPassword === '') {
+      toast.info('please input password', {
+        hideProgressBar: true,
+        autoClose: 5000
+      })
       return;
     } else if (userDetails.userConfirmPassword === '') {
-      alert("please confirm password")
+      toast.info('please confirm password', {
+        hideProgressBar: true,
+        autoClose: 5000
+      })
       return;
     } else if (userDetails.userPassword !== userDetails.userConfirmPassword) {
-      alert("password doe not match")
+      toast.info('password doe not match', {
+        hideProgressBar: true,
+        autoClose: 5000
+      })
       return;
     } else if (userDetails.userConfirmPassword === '' &&
       userDetails.userPassword === '' &&
       userDetails.userEmail === '' &&
       userDetails.username === ''
-      ) {
-      alert("Please fill in your details")
+    ) {
+      toast.info('Please fill in your details', {
+        hideProgressBar: true,
+        autoClose: 5000
+      })
       return;
     }
     setSignUpState(false)
