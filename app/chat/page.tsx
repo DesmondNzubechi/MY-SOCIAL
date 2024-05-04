@@ -20,6 +20,7 @@ import { AllUser } from "../components/allUser/allUser";
 import { Timestamp, collection, doc, getDoc, getDocs, onSnapshot, query, serverTimestamp, setDoc, updateDoc, where } from "firebase/firestore";
 import { v4 as uuid } from "uuid";
 import StartChatSkeletonLoader from "../components/SkeletonLoader/StartChatSkeleton";
+import { redirect, useRouter } from "next/navigation";
 
 const currentDate = new Date();
 const options: Intl.DateTimeFormatOptions = {
@@ -33,6 +34,7 @@ const fullDate = currentDate.toLocaleString(undefined, options);
      
 const Chat = () => {
     const user = userAuth();
+    const router = useRouter();
     //const allUser = AllUser();
     const [allTheUsers, setAllTheUsers] = useState<Array<any>>([]);
 
@@ -167,8 +169,10 @@ const [dp, setDp] = useState<File | any>(null);
     useEffect(() => {
         filterMessageSearch();
     }, [searchMessage]) 
+
+   
     return (
-        <>
+        !user? redirect("/login"):
                 <div className="  flex flex-row items-center gap-5   absolute left-0 right-0 top-[50p] bottom-0 justify-evenly">
                     
                   {allTheUsers? <div className="flex flex-col mt-[50px] h-[100vh] w-full overflow-y-scroll gap-5 px-[10px] py-[20px] pt-[100px] pb-[50px]  bg-slate-100 items-center ">
@@ -232,7 +236,7 @@ const [dp, setDp] = useState<File | any>(null);
                         <p className="text-slate-500">Choose from your existing conversations, start a new one.</p>
                     </div>
                 </div>
-            </>
+          
         )
 }
 

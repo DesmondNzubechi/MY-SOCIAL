@@ -24,6 +24,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { userAuth } from "../components/auths/auth";
 import { UserSkeletonLoader } from "../components/SkeletonLoader/UserSkeleton";
 import { personalInfo } from "../my-profile/page";
+import { redirect } from "next/navigation";
 //import { postCard } from "./components/postCard/postCard";
  
 export default function Home() {
@@ -74,8 +75,7 @@ export default function Home() {
   }, [searchInput])
   
   return (
-    <>
-      
+   !loggedInUser? redirect("/login") :
       <main className="flex min-h-screen pt-[100px] py-[20px] bg-slate-50 flex-col items-center  ">
         {showQuoteRepost && <QuoteREpost data={fullPostdata} setShowQuoteRepost={setShowQuoteRepost} />}
    { showFullPost &&  <FullPost postComment={fullPostdata.postComment} data={fullPostdata} setFullPostData={setFullPostData} setShowFullPost={setShowFullPost} />}
@@ -158,6 +158,5 @@ export default function Home() {
         </div>
         <ToastContainer autoClose={2000} />
       </main>
-      </>
   );
 }

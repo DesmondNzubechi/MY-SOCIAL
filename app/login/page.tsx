@@ -67,9 +67,10 @@ export default function Login() {
       <>{ user? redirect('/') :
       <div className="flex min-h-screen flex-col items-center  justify-center p-">
         <div className="flex flex-col gap-[20px] items-center bg-slate-900 px-[20px] py-[20px] rounded">
-        <div className="flex flex-row gap-0 items-center">
+        <div className="flex justify-center md:col-span-2 flex-row gap-0 items-center">
+          <h1 className="text-slate-50 text-[20px] font-bold mr-[-30px]">MY</h1>
           <TbSocial className="text-slate-50 text-[100px]"/>
-          <h1 className="text-slate-50 text-[20px] font-bold ml-[-30px]">MYSocial</h1>
+          <h1 className="text-slate-50 text-[20px] font-bold ml-[-30px]">Social</h1>
         </div>
     <form className="grid  gap-5 items-center justify-center rounded   py-[30px] " action="">
        

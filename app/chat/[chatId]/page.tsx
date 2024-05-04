@@ -24,6 +24,7 @@ import Chat from "../page";
 import { userInfo } from "os";
 import ChatSkeletonLoader from "@/app/components/SkeletonLoader/ChatSkeleton";
 import { ConversationSkeletonLoader } from "@/app/components/SkeletonLoader/conversationSkeleton";
+import { redirect, useRouter } from "next/navigation";
 //import { userInfo } from "os";
 interface userInfo  { 
     userID: string,
@@ -267,8 +268,9 @@ const [message, setMesage] = useState<messageInfo>({
     //console.log("current chat ", myChats)
     
     
-    
     return (
+       
+            !user? redirect("/login"):
         <div className=" fixed w-full top-[70px] flex flex-row items-start gap-5  justify-around">
          
          {userInfoState ? <div className="md:flex hidden flex-col h-[100vh] w-full overflow-y-scroll gap-5 px-[10px] py-[20px] pt-[100px] pb-[50px]  bg-slate-100 items-center ">
@@ -370,6 +372,7 @@ const [message, setMesage] = useState<messageInfo>({
            </form>
             </div> : <ConversationSkeletonLoader/>}
             </div>
+            </>
     )
 }
 

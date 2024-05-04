@@ -266,6 +266,7 @@ const combinedId = findLoggedInUser?.userID > userPersonalInfo?.userID ?
   }
   
   return (
+    loggedInUser? redirect("/login") :
     <main className="flex min-h-screen bg-slate-50 pt-[100px] md:pt-[140px] py-[20px] flex-col items-center  ">
        {showQuoteRepost && <QuoteREpost data={fullPostdata} setShowQuoteRepost={setShowQuoteRepost} />}
       {!userPersonalInfo? <PublishAPostSideBarSkeleton/> :  <PublishAPostSideBar/>}
