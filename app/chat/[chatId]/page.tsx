@@ -372,7 +372,7 @@ const [message, setMesage] = useState<messageInfo>({
            </form>
             </div> : <ConversationSkeletonLoader/>}
             </div>
-            </>
+         
     )
 }
 
