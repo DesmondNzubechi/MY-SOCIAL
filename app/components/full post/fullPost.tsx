@@ -1,6 +1,5 @@
 "use client"
 import { FaUserCircle } from "react-icons/fa";
-import CoverPics from '../../../public/codes.jpg';
 import { FaCommentAlt } from "react-icons/fa";
 import { SlLike } from "react-icons/sl";
 import { BiRepost } from "react-icons/bi";
@@ -35,8 +34,7 @@ export const FullPost = ({ setShowFullPost, postRepost, data, postComment, setFu
     favorite: "",
     dateJoined: ''
   })
-  console.log("comment", commentInput)
-  console.log("post id", data.id)
+
 
   const getUserProfile = () => {
     const findUser = allUser.find((profile: any) => {
@@ -60,32 +58,6 @@ export const FullPost = ({ setShowFullPost, postRepost, data, postComment, setFu
     };
   }, []);
 
-
-  // const addComment = async () => {
-  //   if (!loggedInUser) {
-  //     alert('Kindly login');
-  //     return;
-  //   }
-  //   if (commentInput === '') {
-  //     alert('kindly input you comment');
-  //     return;
-  //   }
-   
-  //   try {
-  //     const commentRef = doc(db, 'posts', data?.id);
-  //     await updateDoc(commentRef, {
-  //       postComment: [{
-  //         commentDate: 'ggf',
-  //         commenterName: loggedInUser?.displayName,
-  //         commenterPic: loggedInUser?.photoURL,
-  //         commentContent: commentInput
-  //       }, ...data.postComment]
-  //     })
-  //     alert('success'); 
-  //   } catch (error) {
-  //     alert(error)
-  //   }
-  // }
 
   const addComment = async () => {
     if (!loggedInUser) {
@@ -117,11 +89,13 @@ export const FullPost = ({ setShowFullPost, postRepost, data, postComment, setFu
       setFullPostData({ ...data, postComment: [{ commentDate: fullDate, commenterName: userPersonalInfo?.username, commenterPic: userPersonalInfo?.userPic, commentContent: commentInput, commenterId: userPersonalInfo?.userID }, ...data.postComment] })
       setCommentInput('');
       toast.success("You added a new comment", {
-       hideProgressBar: true
+        hideProgressBar: true,
+        autoClose: 500
      })
     } catch (error) {
       toast.error("An error occured, please try again.", {
-        hideProgressBar: true
+        hideProgressBar: true,
+        autoClose: 500
       })
     }
   }

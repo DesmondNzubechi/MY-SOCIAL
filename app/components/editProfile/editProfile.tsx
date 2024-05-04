@@ -42,7 +42,7 @@ export const EditProfile = ({ setShowEditProfile, userInfo, setUserPersonalInfo 
             <div className="flex flex-col bg-white rounded shadow-xl border p-1 gap-1 ">
               <label htmlFor="userName" className="font-bold">Username:</label>
               <hr />
-              <input type="text" onChange={(e) => {
+              <input disabled type="text" onChange={(e) => {
                 setProfileInfo({...profileInfo, username:e.target.value })
               }} value={profileInfo.username} className="bg-transparent outline-none" placeholder="Username..."/>
             </div>

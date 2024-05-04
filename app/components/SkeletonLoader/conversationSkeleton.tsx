@@ -13,7 +13,7 @@ export const ConversationSkeletonLoader = () => {
 
     useEffect(() => {
       const timer = setTimeout(() => {
-        setIsLoading(true); // Simulating data loading completion after 2 seconds
+        setIsLoading(true);
       }, 2000);
   
       return () => clearTimeout(timer); 

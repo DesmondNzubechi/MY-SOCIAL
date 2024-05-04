@@ -2,25 +2,15 @@
 import Link from "next/link";
 import { IoMdSearch } from "react-icons/io";
 import { FaUserCircle } from "react-icons/fa";
-import { GoDotFill } from "react-icons/go";
 import { IoIosChatbubbles } from "react-icons/io";
-import { FcAddImage } from "react-icons/fc";
 import { userAuth } from "../components/auths/auth";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { storage } from "../components/config/firebase";
 import { useEffect, useState } from "react";
-import { updateProfile } from "firebase/auth";
-import { ProtectedRoute } from "../components/protected  route/protected";
-import { signOut } from "firebase/auth";
-import { auth } from "../components/config/firebase";
 import Login from "../login/page";
 import { db } from "../components/config/firebase";
 import Image from "next/image";
-import { AllUser } from "../components/allUser/allUser";
-import { Timestamp, collection, doc, getDoc, getDocs, onSnapshot, query, serverTimestamp, setDoc, updateDoc, where } from "firebase/firestore";
+import { collection, doc, getDoc, onSnapshot,  setDoc,  } from "firebase/firestore";
 import { v4 as uuid } from "uuid";
 import StartChatSkeletonLoader from "../components/SkeletonLoader/StartChatSkeleton";
-import { redirect, useRouter } from "next/navigation";
 
 const currentDate = new Date();
 const options: Intl.DateTimeFormatOptions = {
@@ -34,12 +24,10 @@ const fullDate = currentDate.toLocaleString(undefined, options);
      
 const Chat = () => {
     const user = userAuth();
-    const router = useRouter();
-    //const allUser = AllUser();
+  
     const [allTheUsers, setAllTheUsers] = useState<Array<any>>([]);
 
-    //const [secondChat, setSecondChat] = useState<any>({});
-
+    
 
     useEffect(() => {
         const userStore = collection(db, 'users');
@@ -73,8 +61,6 @@ const [currentUser, setCurrentUser] = useState<User | any>({});
             getCurrentUser();
        
     }, [allTheUsers])
-    // console.log('all user', allUser)
-    console.log("current user", currentUser)
 
     
     const startChat = async (theUserID: any) => {
@@ -99,35 +85,6 @@ const [currentUser, setCurrentUser] = useState<User | any>({});
             alert(error)
         }
     }
-
-
-const [dp, setDp] = useState<File | any>(null);
-
-    //console.log(user)
-    
-    const updateDp = async () => {
-        const dpRef = ref(storage, 'dp');
-        try {
-            const dpName = ref(dpRef, currentUser.username)
-            const uploadDp = await uploadBytes(dpName, dp);
-            const dpUrl = await getDownloadURL(uploadDp.ref);
-           
-
-            await updateDoc(doc(db, 'users', currentUser.userID), {
-             userPic: dpUrl   
-            })
-            alert("success");
-        } catch (error) {
-           alert(error) 
-        }
-    }
-
-    useEffect(() => {
-        if (dp !== null) {
-            updateDp()
-        }
-
-    }, [dp])
 
 
     const [allTheChat, setAllTheChat] = useState<any>([])

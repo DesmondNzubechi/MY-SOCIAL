@@ -2,8 +2,6 @@ import React, { useState } from "react";
 
 import { signOut } from "firebase/auth";
 import { auth } from "../config/firebase";
-
-import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 export const LogOut = ({logOut, setLogOut} : {logOut: boolean, setLogOut: React.Dispatch<React.SetStateAction<boolean>>}) => {
@@ -11,7 +9,7 @@ export const LogOut = ({logOut, setLogOut} : {logOut: boolean, setLogOut: React.
   const router = useRouter();
     const signOutUser = async () => {
         try {
-         // setMainUser(0)
+        
           await signOut(auth);
             setLogOut(false)
           router.push('/login');

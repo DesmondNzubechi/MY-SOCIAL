@@ -3,14 +3,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ToastContainer } from "react-toastify";
-import { FaMessage } from "react-icons/fa6";
-import { FaUsersRectangle } from "react-icons/fa6";
-import { FaCircleUser } from "react-icons/fa6";
-import { MdHome } from "react-icons/md";
-import { MdLogout } from "react-icons/md";
-import { TbSocial } from "react-icons/tb";
-import Link from "next/link";
-import { userAuth } from "./components/auths/auth";
 import { HeaderNavLink } from "./components/Header/Header";
 const inter = Inter({ subsets: ["latin"] });
 

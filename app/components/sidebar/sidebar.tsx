@@ -7,6 +7,7 @@ import { userAuth } from "../auths/auth";
 import Image from "next/image";
 import { AllUser } from "../allUser/allUser";
 import { personalInfo } from "@/app/my-profile/page";
+
 export const SideBar = ({ setPublishPost }: { setPublishPost: React.Dispatch<React.SetStateAction<string>> }) => {
   
   const allUser = AllUser()

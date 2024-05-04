@@ -10,10 +10,6 @@ import { FaHeart } from "react-icons/fa";
 import { FcAddImage } from "react-icons/fc";
 import { IoLocationSharp } from "react-icons/io5";
 import { IoIosTime } from "react-icons/io";
-import { GoDotFill } from "react-icons/go";
-import { FaCommentAlt } from "react-icons/fa";
-import { SlLike } from "react-icons/sl";
-import { BiRepost } from "react-icons/bi";
 import { FullPost } from "../components/full post/fullPost";
 import { SideBar } from "../components/sidebar/sidebar";
 import { EditProfile } from "../components/editProfile/editProfile";
@@ -22,11 +18,9 @@ import { AllUser } from "../components/allUser/allUser";
 import { AllThePost } from "../components/allPosts/allPost";
 import { allPostInfo } from "../components/allPosts/allPost";
 import { doc, updateDoc, setDoc } from "firebase/firestore";
-import { fullDate } from "../components/publishAPost/publishAPost";
 import { db, storage } from "../components/config/firebase";
 import { v4 as uuid } from "uuid";
 import { ToastContainer, toast } from "react-toastify";
-import { FaEdit } from "react-icons/fa";
 import 'react-toastify/ReactToastify.css';
 import { PublishAPostSideBar } from "../components/publishAPostSidebar/publishAPostSideBar";
 import { ProfileSkeleton } from "../components/SkeletonLoader/ProfileSkeleton";
@@ -34,7 +28,6 @@ import { SideBarSkeleton } from "../components/SkeletonLoader/SidebarSkeleton";
 import { PublishAPostSideBarSkeleton } from "../components/SkeletonLoader/PublishApostSkeleton";
 import { PostSkeleton } from "../components/SkeletonLoader/postSkeleton";
 import { redirect, useRouter } from "next/navigation";
-import { updateProfile } from "firebase/auth";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { PostCard } from "../components/postCard/postCard";
 import { QuoteREpost } from "../components/quoteRepost/quoteRepost";
@@ -90,19 +83,17 @@ export default function MyProfile() {
     postRepost: [],
     id: ''
   })
-  console.log("user info", allUser)
-  console.log("log in useer", loggedInUser)
-  const fetchUserPost = () => {
-   // const userPersonalInfo = allUser.find((me: any) => me.userID == loggedInUser?.uid)
-    const userPost = allPost.filter((post: any) => {
-      return post.authorId == loggedInUser?.uid
-      || post.reposterId == loggedInUser?.uid
-    })
-   // setUserInfo({...userPersonalInfo});
-    setUserPost(userPost)
-  }
 
-  //const router = useRouter()
+  // const fetchUserPost = () => {
+   
+  //   const userPost = allPost.filter((post: any) => {
+  //     return post.authorId == loggedInUser?.uid
+  //     || post.reposterId == loggedInUser?.uid
+  //   })
+  
+  //   setUserPost(userPost)
+  // }
+
 
   const getUserProfile = () => {
     const findUser = allUser.find((profile: any) => {
@@ -124,37 +115,6 @@ setShowFullPost(true)
   const [commentInput, setCommentInput] = useState<string>('');
   console.log("comment", commentInput)
   console.log("post id", fullPostdata.id)
- 
-
-//   const likePost = async (post: allPostInfo) => {
-//     if (!loggedInUser) {
-//       const notification = () => toast("Kindly login before you can like this post");
-//       notification();
-//       return;
-//     }
-//     const postRef = doc(db, 'posts', post.id)
-//     try {
-//       const likeStatus = post.postLike.find(like => like.likeId === loggedInUser?.uid);
-//       const addLike = post.postLike.filter(like => like.likeId !== loggedInUser?.uid)
-     
-//         if (likeStatus) {
-//           await updateDoc(postRef, {
-//             postLike: [...addLike]
-//           })
-//           const notification = () => toast("You unliked this post");
-//           notification();
-//         } else {
-//           await updateDoc(postRef, {
-//             postLike: [...post.postLike, {likeId: loggedInUser?.uid, likeName: loggedInUser?.displayName}]
-//           })
-//           const notification = () => toast("You liked this post");
-//           notification();
-//         }
-// } catch (error) {
-//   console.log(error)
-// }
-//   }
-
 
 
   
@@ -169,14 +129,7 @@ setShowFullPost(true)
   useEffect(() => {
     getMyPost();
   }, [allPost, loggedInUser])
-  console.log("all post", myPost)
 
-  
-  // const checkIfUserIsLoggedin = () = {
-  //   setTimeout(() => {
-  //     redirect('/login')
-  //   }, 5000);
-  // }
 
 
   useEffect(() => {
@@ -196,9 +149,7 @@ setShowFullPost(true)
         const dpName = ref(dpRef, userPersonalInfo.username)
         const uploadDp = await uploadBytes(dpName, dp);
         const dpUrl = await getDownloadURL(uploadDp.ref);
-        // await updateProfile(loggedInUser, {
-        //   photoURL: dpUrl
-        // })
+       
 
         await updateDoc(doc(db, 'users', userPersonalInfo.userID), {
          userPic: dpUrl   
@@ -261,7 +212,7 @@ useEffect(() => {
 
 }, [dp])
   
-  //console.log("user personal info", userPersonalInfo)
+  
 
   return (
     <main className="flex min-h-screen justify-center overflow-x-hidden bg-slate-50 pt-[100px] md:pt-[140px]  py-[20px] flex-col items-center  ">

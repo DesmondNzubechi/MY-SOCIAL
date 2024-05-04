@@ -7,7 +7,7 @@ import { v4 as uuid } from 'uuid';
 import { doc, setDoc } from "firebase/firestore";
 import { userAuth } from "../auths/auth";
 import { toast } from "react-toastify";
-
+import 'react-toastify/ReactToastify.css'
 const currentDate: Date = new Date();
 const options: Intl.DateTimeFormatOptions = {
   year: 'numeric',
@@ -21,16 +21,6 @@ export const fullDate: string = currentDate.toLocaleString(undefined, options);
 
 export const PublishAPostSideBar = () => {
   const loggedInUser = userAuth();
-//   const currentDate: Date = new Date();
-//   const options: Intl.DateTimeFormatOptions = {
-//     year: 'numeric',
-//     month: 'long',
-//     day: 'numeric',
-//     weekday: 'long', // or 'short', 'narrow', or undefined
-// };
-
-//   const loggedInUser = userAuth();
-// const fullDate: string = currentDate.toLocaleString(undefined, options);
 
 
     interface PostInfo {
@@ -52,8 +42,7 @@ export const PublishAPostSideBar = () => {
         authorName: "",
         authorId: "",
     })
-  
-  console.log(thePost)
+
 
   const publishPostFn = async () => {
     if (!loggedInUser) {
@@ -87,7 +76,12 @@ export const PublishAPostSideBar = () => {
         authorName: "",
         authorId: "",})
     } catch (error) {
-      alert(error)
+      toast.error("An Error Occur. Please Try Again",
+      {
+        hideProgressBar: true,
+        autoClose: 500
+      }
+    )
     }
   }
 
@@ -98,9 +92,19 @@ export const PublishAPostSideBar = () => {
             const uploadPhoto = await uploadBytes(imgName, postImg);
             const downloadURL = await getDownloadURL(uploadPhoto.ref);
             setThePost({...thePost, imageInfo: downloadURL})
-alert("success")
-        } catch (error) {
-           alert(error) 
+            toast.success("Image Uploaded", {
+              hideProgressBar: true,
+              closeOnClick: true,
+              autoClose: 500,
+              pauseOnHover: true
+  })
+          } catch (error) {
+            toast.error("An error occured. Please Try Again", {
+              hideProgressBar: true,
+              closeOnClick: true,
+              autoClose: 500,
+              pauseOnHover: true
+  })
         }
     }
 

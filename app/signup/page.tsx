@@ -12,7 +12,6 @@ import { redirect } from "next/navigation";
 import { getDoc, setDoc } from "firebase/firestore";
 import { doc } from "firebase/firestore";
 import { AllUser } from "../components/allUser/allUser";
-//import { fullDate } from "../components/publishAPost/publishAPost";
 import 'react-toastify/ReactToastify.css';
 import { toast } from "react-toastify";
 import { TbSocial } from "react-icons/tb";
@@ -21,7 +20,6 @@ const options: Intl.DateTimeFormatOptions = {
   year: 'numeric',
   month: 'long',
   day: 'numeric',
-  //weekday: 'long', // or 'short', 'narrow', or undefined
 };
 
 

@@ -1,7 +1,6 @@
 "use client"
 import { FaMessage } from "react-icons/fa6";
 import { FaUsersRectangle } from "react-icons/fa6";
-import { FaCircleUser } from "react-icons/fa6";
 import { MdHome } from "react-icons/md";
 import { TbSocial } from "react-icons/tb";
 import Link from "next/link";

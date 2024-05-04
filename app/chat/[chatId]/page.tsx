@@ -2,30 +2,24 @@
 import Link from "next/link";
 import { IoMdSearch } from "react-icons/io";
 import { FaUserCircle } from "react-icons/fa";
-import { GoDotFill } from "react-icons/go";
-
 import { HiDotsHorizontal } from "react-icons/hi";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import fvi from '../../../public/codes.jpg';
 import { RiImageAddFill } from "react-icons/ri";
-import { FcAddImage } from "react-icons/fc";
 import Login from "@/app/login/page";
 import { userAuth } from "@/app/components/auths/auth";
 import { AllUser } from "@/app/components/allUser/allUser";
-import { Timestamp, collection, doc, getDoc, getDocs, onSnapshot, query, serverTimestamp, setDoc, updateDoc, where } from "firebase/firestore";
+import { collection, doc, onSnapshot,  updateDoc} from "firebase/firestore";
 import { db, storage } from "@/app/components/config/firebase";
 import { fullDate } from "@/app/components/publishAPost/publishAPost";
 import { v4 as uuid } from "uuid";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { toast } from "react-toastify";
 import 'react-toastify/ReactToastify.css';
-import Chat from "../page";
 import { userInfo } from "os";
 import ChatSkeletonLoader from "@/app/components/SkeletonLoader/ChatSkeleton";
 import { ConversationSkeletonLoader } from "@/app/components/SkeletonLoader/conversationSkeleton";
-import { redirect, useRouter } from "next/navigation";
-//import { userInfo } from "os";
+
 interface userInfo  { 
     userID: string,
     username: string,
@@ -265,7 +259,6 @@ const [message, setMesage] = useState<messageInfo>({
             sendChatImage()
         }
     }, [chatImg])
-    //console.log("current chat ", myChats)
     
     
     return (

@@ -102,104 +102,6 @@ export default function UserProfile({params}: {params: {userProfile: string}}) {
 setShowFullPost(true)
   }
   
-  const [commentInput, setCommentInput] = useState<string>('');
-
-  const likePost = async (post: allPostInfo) => {
-    if (!loggedInUser) {
-      const notification = () => toast("Kindly login before you can like this post");
-      notification();
-      return;
-    }
-    const postRef = doc(db, 'posts', post.id)
-    try {
-      const likeStatus = post.postLike.find((like: any) => like.likeId === loggedInUser?.uid);
-      const addLike = post.postLike.filter((like: any) => like.likeId !== loggedInUser?.uid)
-     
-        if (likeStatus) {
-          await updateDoc(postRef, {
-            postLike: [...addLike]
-          })
-          const notification = () => toast("You unliked this post");
-          notification();
-        } else {
-          await updateDoc(postRef, {
-            postLike: [...post.postLike, {likeId: loggedInUser?.uid, likeName: loggedInUser?.displayName}]
-          })
-          const notification = () => toast("You liked this post");
-          notification();
-        }
-} catch (error) {
-  console.log(error)
-}
-  }
-
-  const Repost = async (post: allPostInfo) => {
-    if (!loggedInUser) {
-      const notification = () => toast('Kindly login before you can repost');
-      notification();
-      return;
-    } 
-    const postRef = doc(db, 'posts', uuid())
-try {
-  await setDoc(postRef, {
-    postImg: post.postImg,
-    postsContent:post.postsContent,
-    postId: uuid(),
-    postsDate: post.postsDate,
-    authorId: post.authorId,
-    authorName: post.authorName,
-    authorPics: post.authorPics,
-    postComment: [],
-    postLike: [],
-    postRepost: post.postRepost,
-    reposterName: loggedInUser?.displayName,
-    reposterPics: loggedInUser?.photoURL,
-    respotDate: fullDate,
-    reposterId: loggedInUser?.uid
-  })
-  const notification = () => toast('succesfully reposted');
-  notification();
-  setShowRepost(false);
-} catch (error) {
-  alert("an error occured")
-}
-  }
-
-
-  
-  const addCommentfn = async (post: allPostInfo) => {
-    if (!loggedInUser) {
-      const notification = () => toast("Kindly login before you can comment on this post");
-          notification();
-      return;
-    }
-    if (commentInput === '') {
-      const notification = () => toast('Kindly input your comment');
-      notification();
-      return;
-    }
-  
-    try {
-      const commentRef = doc(db, 'posts', post?.id);
-      
-     
-      const updatedComments = Array.isArray(post.postComment) 
-        ? [{ commentDate: fullDate, commenterName: loggedInUser?.displayName, commenterPic: loggedInUser?.photoURL, commentContent: commentInput }, ...post.postComment]
-        : [{ commentDate: fullDate, commenterName: loggedInUser?.displayName, commenterPic: loggedInUser?.photoURL, commentContent: commentInput }];
-  
-      await updateDoc(commentRef, {
-        postComment: updatedComments
-      });
-      const notification = () => toast("You commented to this post")
-      notification();
-    } catch (error) {
-      const notification = () => toast("An error occured")
-      notification();
-    }
-  }
-
-  
-
   const getUserPost = () => {
     const filterPost = allPost.filter((post: any) => {
       return post.authorId === params.userProfile
@@ -273,8 +175,7 @@ const combinedId = findLoggedInUser?.userID > userPersonalInfo?.userID ?
       {!userPersonalInfo? <PublishAPostSideBarSkeleton/> :  <PublishAPostSideBar/>}
       {!userPersonalInfo? <SideBarSkeleton/> : <SideBar setPublishPost={setPublishPost}/>}
       <PublishAPost displayPro={showPublishPost} setPublishPost={setPublishPost} />
-    {/* { showEditProfile && <EditProfile setShowEditProfile={setShowEditProfile} />} */}
-      {showFullPost && <FullPost postComment={fullPostdata.postComment} data={fullPostdata} setFullPostData={setFullPostData} setShowFullPost={setShowFullPost} />}
+      {showFullPost && <FullPost postComment={fullPostdata.postComment} postRepost={fullPostdata.postRepost} data={fullPostdata} setFullPostData={setFullPostData} setShowFullPost={setShowFullPost} />}
      {!userPersonalInfo? <ProfileSkeleton/> : <div className="relative max-w-[500px] px-[20px]">
         <Image alt="cover pics" src={userPersonalInfo.coverPic? userPersonalInfo.coverPic : CoverPics} className="rounded h-[250px] w-full md:w-[400px]" width={500} height={200} />
        

@@ -37,16 +37,7 @@ export const PostCard = ({post, setShowQuoteRepost, showFullPostFn, setFullPostD
     const allUser = AllUser();
   const loggedInUser = userAuth();
   const allPost = AllThePost();
-  const [showFullPost, setShowFullPost] = useState<boolean>(false)
-  const [showPublishPost, setPublishPost] = useState<string>('hidden')
-  const [showEditProfile, setShowEditProfile] = useState<boolean>(false);
-  const [userInfo, setUserInfo] = useState<any>({});
-  const [userPost, setUserPost] = useState<any[]>([]);
   const [showRepost, setShowRepost] = useState<boolean>(false);
-  //const [showQuoteRepost, setShowQuoteRepost] = useState<boolean>(false);
-  const [myPost, setMyPost] = useState<any[]>([]);
-  const [dp, setDp] = useState<File | any>(null);
-  const [userCoverPics, setUserCoverPics] = useState<File | any>(null);
   const [userPersonalInfo, setUserPersonalInfo] = useState<personalInfo>({
     userID: "",
     fullname: "",

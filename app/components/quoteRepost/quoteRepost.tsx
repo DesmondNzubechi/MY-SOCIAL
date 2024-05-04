@@ -112,7 +112,7 @@ export const QuoteREpost = ({ setShowQuoteRepost, data }: { setShowQuoteRepost: 
   toast.success("Resposted Successfully", {
     hideProgressBar: true,
     closeOnClick: true,
-    autoClose: 5000,
+    autoClose: 500,
     pauseOnHover: true
  })
  
@@ -121,7 +121,7 @@ export const QuoteREpost = ({ setShowQuoteRepost, data }: { setShowQuoteRepost: 
   toast.error("An error occured, Try again.", {
     hideProgressBar: true,
     closeOnClick: true,
-    autoClose: 5000,
+    autoClose: 500,
     pauseOnHover: true
   })
 }

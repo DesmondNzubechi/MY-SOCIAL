@@ -33,7 +33,7 @@ export const AllThePost = () => {
 
             return () => Unsub();
         } catch (error) {
-          alert(error)  
+          console.log("an error detected")
         }
     }, [])
 
