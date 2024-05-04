@@ -33,5 +33,5 @@ export default function RootLayout({
       </body>
       <ToastContainer autoClose={2000} />
     </html>
-  );
+  ); 
 }

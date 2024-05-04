@@ -14,7 +14,7 @@ import { doc } from "firebase/firestore";
 import { AllUser } from "../components/allUser/allUser";
 //import { fullDate } from "../components/publishAPost/publishAPost";
 import { toast } from "react-toastify";
-
+import { TbSocial } from "react-icons/tb";
 const currentDate: Date = new Date();
 const options: Intl.DateTimeFormatOptions = {
   year: 'numeric',
@@ -100,9 +100,13 @@ router.push('/')
   console.log(userDetails);
   return (
       user ? redirect('/') :
-    <main className="flex min-h-screen flex-col items-center justify-center p-24">
-      <form className="grid md:grid-cols-2 gap-5 items-center justify-center rounded shadow-2xl bg-slate-900 py-[30px] px-[30px]" action="">
-        <h1 className="font-bold uppercase text-white text-center md:col-span-2 text-[40px] ">Myu Chat</h1>
+    <main className="flex min-h-screen flex-col items-center justify-center py-24">
+      <form className="grid md:grid-cols-2 gap-5 min-w-[350px] items-center justify-center rounded  bg-slate-900 py-[30px] px-[30px]" action="">
+      <div className="flex justify-center md:col-span-2 flex-row gap-0 items-center">
+          <h1 className="text-slate-50 text-[20px] font-bold mr-[-30px]">MY</h1>
+          <TbSocial className="text-slate-50 text-[100px]"/>
+          <h1 className="text-slate-50 text-[20px] font-bold ml-[-30px]">Social</h1>
+        </div>
         <input value={userDetails.username} onChange={(e) => {
           let value = e.target.value;
           setUserDetails({...userDetails, username:value })

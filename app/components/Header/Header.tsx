@@ -91,7 +91,7 @@ export const HeaderNavLink = () => {
             <Link href="/users" className="flex flex-col items-center gap-0">
               <FaUsersRectangle className="text-slate-700  text-[15px] md:text-[20px]"/>
               <span className="md:text-[12px] text-[10px]">Friends</span>
-            </Link>
+            </Link> 
             <button onClick={viewProFn} className="flex flex-col items-center gap-0">
             {userPersonalInfo?.userPic?  <Image className="rounded-full h-[20px] w-[20px]" alt={`${userPersonalInfo?.username} profile pic`} src={userPersonalInfo?.userPic} height={50} width={50} /> : <FaUserCircle className="text-slate-700  text-[15px] md:text-[20px]" />}
               <span className="md:text-[12px] text-[10px]">Me</span>

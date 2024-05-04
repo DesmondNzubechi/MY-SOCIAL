@@ -123,7 +123,7 @@ setShowFullPost(true)
           })}
             {!searchText && allPost.map((myPost: allPostInfo) => {
             return <PostCard setShowQuoteRepost={setShowQuoteRepost} setFullPostData={setFullPostData} post={myPost} showFullPostFn={showFullPostFn} />
-          })}
+          })} 
           {/* {
              allPost.map((post) => {
                 const postContents = post.postsContent.split(' ');

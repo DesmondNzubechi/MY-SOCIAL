@@ -109,7 +109,7 @@ export default function Home() {
          {searchInput && <h1 className="text-center font-bold">Your Search Result For {searchInput}</h1>}
                             {
                   searchInput &&  searchUserResult.map((users: any) => {
-                                  return <Link href={`users/${users?.userID}`} className="shadow border hover:bg-white w-full rounded p-2">
+                                  return <Link href={`users/${users?.userID}`} className=" border hover:bg-white w-full rounded p-2">
                                       <div>
                                       <div className="flex gap-1 w-full flex-row items-start">
                                               {users?.userPic !== '' ? <Image src={users?.userPic} height={50} width={50} className="rounded-full h-[50px] w-[50px] " alt="post pic" /> : <FaUserCircle className="text-[50px] bg-slate-50 rounded-full shadow-2xl " />}
@@ -131,7 +131,7 @@ export default function Home() {
                           }
                           {
                   !searchInput &&  filterAllUser.map((users: any) => {
-                                  return <Link href={`users/${users?.userID}`} className="shadow border hover:bg-white w-full rounded p-2">
+                                  return <Link href={`users/${users?.userID}`} className="border hover:bg-white w-full rounded p-2">
                                       <div>
                                       <div className="flex gap-1 w-full flex-row items-start">
                                               {users?.userPic !== '' ? <Image src={users?.userPic} height={50} width={50} className="rounded-full  h-[50px] w-[50px] " alt="post pic" /> : <FaUserCircle className="text-[50px] bg-slate-50 rounded-full shadow-2xl " />}

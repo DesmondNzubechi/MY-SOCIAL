@@ -176,7 +176,7 @@ try {
     const postContents = post.postsContent.split(' ');
     const tobeDisplayed = postContents.slice(0, 20).join(' ');
 
-    return <div key={post.postId} className="shadow-xl border bg-white relative  p-2 gap-[20px] rounded-[10px] flex-col flex">
+    return <div key={post.postId} className="border bg-white relative  p-2 gap-[20px] rounded-[10px] w-full flex-col flex">
     {  post?.reposterName &&  <div className="bg-slate-100 p-2">
               <div className="flex gap-1 flex-row items-center">
               <h1 className="font-bold flex  capitalize items-center ">  {(post?.reposterPics !== '' || post?.reposterPics) ? <Link href={`/users/${post.reposterId}`}><Image src={post?.reposterPics} height={50} width={50} className="rounded-full h-[30px] w-[30px] " alt="post pic" /></Link> :  <Link href={`/users/${post.reposterId}`}><FaUserCircle className="text-[15px] bg-slate-50 rounded-full shadow-2xl " /></Link>} <Link href={`/users/${post.reposterId}`}><span className="text-[10px] "> @{post.reposterName} </span></Link> </h1> <span className="text-slate-500  text-[10px] ">reposted</span> <GoDotFill className="text-[10px]"/> <p className="text-slate-500 text-[7px]">{post.respotDate}</p>
