@@ -6,7 +6,7 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAm-3F5Z6GBzvEK-BUhzgKrNUODAkWNjmQ",
+  apiKey: process.env.MY_API_KEY,
   authDomain: "myuchats-cc6c5.firebaseapp.com",
   projectId: "myuchats-cc6c5",
   storageBucket: "myuchats-cc6c5.appspot.com",

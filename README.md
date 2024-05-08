@@ -1,4 +1,4 @@
-MYsocial
+### MYSocial
 
 Welcome to MYsocial! This is a personal project I've been developing to create a social media platform that's intuitive, engaging, and just plain fun. Below, you'll find details about the project, its features, the technologies used, and how you can stay updated on its progress.
 
