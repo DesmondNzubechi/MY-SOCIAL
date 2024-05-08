@@ -91,7 +91,7 @@ setShowFullPost(true)
         {allPost.length == 0? <PublishAPostSideBarSkeleton/> :  <PublishAPostSideBar/>}
       {allPost.length == 0? <SideBarSkeleton/> : <SideBar setPublishPost={setPublishPost}/>}
     
-          <div className="md:col-span-2 flex max-w-[500px] flex-col gap-5">
+          <div className="md:col-span-2 flex  flex-col gap-5">
     
           <div onClick={() => setPublishPost('block')} className="md:hidden flex flex-col cursor-pointer gap-y-2 bg-white p-4 rounded">
             <div className="flex flex-row gap-x-[20px] items-center">
@@ -116,7 +116,7 @@ setShowFullPost(true)
             {!searchText && allPost.map((myPost: allPostInfo) => {
             return <PostCard setShowQuoteRepost={setShowQuoteRepost} setFullPostData={setFullPostData} post={myPost} showFullPostFn={showFullPostFn} />
           })} 
-       
+          {} 
            
         </div>
         </div>

@@ -13,10 +13,6 @@ import { GoDotFill } from "react-icons/go";
 import { FaCommentAlt } from "react-icons/fa";
 import { SlLike } from "react-icons/sl";
 import { BiRepost } from "react-icons/bi";
-import { FullPost } from "../../components/full post/fullPost";
-import { SideBar } from "../../components/sidebar/sidebar";
-import { EditProfile } from "../../components/editProfile/editProfile";
-import { PublishAPost } from "../../components/publishAPost/publishAPost";
 import { AllUser } from "../../components/allUser/allUser";
 import { AllThePost } from "../../components/allPosts/allPost";
 import { allPostInfo } from "../../components/allPosts/allPost";
@@ -38,6 +34,9 @@ export const PostCard = ({post, setShowQuoteRepost, showFullPostFn, setFullPostD
   const loggedInUser = userAuth();
   const allPost = AllThePost();
   const [showRepost, setShowRepost] = useState<boolean>(false);
+  const [myPost, setMyPost] = useState<any[]>([]);
+  const [dp, setDp] = useState<File | any>(null);
+  const [userCoverPics, setUserCoverPics] = useState<File | any>(null);
   const [userPersonalInfo, setUserPersonalInfo] = useState<personalInfo>({
     userID: "",
     fullname: "",
