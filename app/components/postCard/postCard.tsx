@@ -184,7 +184,7 @@ const originalPostRef = doc(db, "posts", post.id)
               
                   </div> <hr /></div>} 
    <div className="flex gap-1 flex-row items-center">
-       <h1 className="font-bold flex justify-center capitalize items-center ">  {post.authorPics !== '' ? <Link href={`/users/${post?.authorId}`}><Image src={post.authorPics} height={50} width={50} className="rounded-full  w-[30px]" alt="post pic" /></Link> : <Link href={`/users/${post.authorId}`}><FaUserCircle className=" text-[15px] bg-slate-50 rounded-full shadow-2xl " /></Link>} <Link href={`/users/${post.authorId}`}><span className=" text-[10px]">@{post.authorName}</span></Link> </h1> <span className="text-slate-500  text-[10px] ">posted</span> <GoDotFill className="text-[10px] "/> <p className="text-slate-500  text-[7px]">{post.postsDate}</p>
+       <h1 className="font-bold flex justify-center capitalize items-center ">  {post.authorPics !== '' ? <Link href={`/users/${post?.authorId}`}><Image src={post.authorPics} height={50} width={50} className="rounded-full  w-[30px]" alt="post pic" /></Link> : <Link href={`/users/${post.authorId}`}><FaUserCircle className=" text-[15px] bg-slate-50 rounded-full shadow-2xl " /></Link>} <Link href={`/users/${post.authorId}`}><span className=" text-[10px]">@{post.authorName}</span></Link> </h1>  <GoDotFill className="text-[10px] "/> <p className="text-slate-500  text-[7px]">{post.postsDate}</p>
    </div>
    <div className="">
        <p className="text-[10px] ">{ tobeDisplayed }</p>
