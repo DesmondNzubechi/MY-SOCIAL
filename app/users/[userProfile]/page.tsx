@@ -173,7 +173,7 @@ const combinedId = findLoggedInUser?.userID > userPersonalInfo?.userID ?
       {!userPersonalInfo? <SideBarSkeleton/> : <SideBar setPublishPost={setPublishPost}/>}
       <PublishAPost displayPro={showPublishPost} setPublishPost={setPublishPost} />
       {showFullPost && <FullPost postComment={fullPostdata.postComment} postRepost={fullPostdata.postRepost} data={fullPostdata} setFullPostData={setFullPostData} setShowFullPost={setShowFullPost} />}
-        {!userPersonalInfo ? <ProfileSkeleton /> : <div className="relative md:max-w-[500px]">
+        {!userPersonalInfo ? <ProfileSkeleton /> : <div className="relative lg:max-w-[500px]">
         <div className="max-w-[500px]  self-center px-[20px]">
         <Image alt="cover pics" src={userPersonalInfo.coverPic? userPersonalInfo.coverPic : CoverPics} className="rounded h-[250px] w-full md:w-[400px]" width={500} height={200} />
      

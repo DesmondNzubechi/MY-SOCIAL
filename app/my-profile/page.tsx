@@ -222,7 +222,7 @@ useEffect(() => {
        <PublishAPost displayPro={showPublishPost} setPublishPost={setPublishPost} />
     { showEditProfile && <EditProfile setUserPersonalInfo={setUserPersonalInfo} userInfo={userPersonalInfo} setShowEditProfile={setShowEditProfile} />}
       {showFullPost && <FullPost postRepost={fullPostdata.postRepost} postComment={fullPostdata.postComment} data={fullPostdata} setFullPostData={setFullPostData} setShowFullPost={setShowFullPost} />}
-      {allUser.length == 0 ? <ProfileSkeleton /> : <div className="relative md:max-w-[500px]">
+      {allUser.length == 0 ? <ProfileSkeleton /> : <div className="relative lg:max-w-[500px]">
       <div className="max-w-[500px] px-[20px]">
      <Image alt="cover pics" src={userPersonalInfo?.coverPic ? userPersonalInfo?.coverPic : CoverPics} className="rounded h-[250px] w-full md:w-[400px]" width={400} height={100} />
         
@@ -267,68 +267,6 @@ useEffect(() => {
           {myPost.map((myPost: allPostInfo) => {
             return <PostCard setShowQuoteRepost={setShowQuoteRepost} setFullPostData={setFullPostData} post={myPost} showFullPostFn={showFullPostFn} />
           })}
-        {/* {
-              myPost.map((post) => {
-                const postContents = post.postsContent.split(' ');
-                const tobeDisplayed = postContents.slice(0, 20).join(' ');
-                return <div key={post.id} className="shadow-xl border bg-white relative  gap-[20px] rounded-[10px] flex-col flex">
-             {  post?.reposterName &&  <div className="bg-slate-100 p-2">
-              <div className="flex gap-1 flex-row items-center">
-              <h1 className="font-bold flex  capitalize items-center ">  {(post.reposterPics !== '' || post.reposterPics) ? <Image src={post.reposterPics} height={50} width={50} className="rounded-full " alt="post pic" /> :  <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />}@{post.reposterName}</h1> <span className="text-slate-500 ">Reposted</span> <GoDotFill/> <p className="text-slate-500 text-[10px]">{post.respotDate}</p>
-              </div>
-                    <p className="text-slate-700 text-[15px] mb-[10px]">{post.repostThought}</p>
-              
-                  </div>}
-                  <div className="flex flex-col gap-[20px] p-2">
-              <div className="flex gap-1  flex-row items-center">
-                  <h1 className="font-bold flex  capitalize items-center ">  {post.authorPics !== '' ? <Image src={post.authorPics} height={50} width={50} className="rounded-full " alt="post pic" /> :  <FaUserCircle className="text-[30px] bg-slate-50 rounded-full shadow-2xl " />}@{post.authorName}</h1> <span className="text-slate-500 ">posted this</span> <GoDotFill/> <p className="text-slate-500 text-[10px]">{post.postsDate}</p>
-              </div>
-              <div className="">
-                  <p>{ tobeDisplayed }</p>
-                {postContents.length > 20 && <button
-                  onClick={() => {
-                    showFullPostFn();
-                    setFullPostData({...post})
-                  }}
-                  type="button"
-                  className="font-bold">See More...
-                </button>}
-              </div>
-              <Image src={post.postImg} width={500} height={300} className="rounded-[10px] " alt="post pic" />
-              <div className="flex items-center border-t border-b py-[5px] justify-around">
-                <div  onClick={() => {
-                    showFullPostFn();
-                    setFullPostData({...post})
-                  }} className=" border-r flex items-center cursor-pointer p-[5px] gap-x-[5px] "><FaCommentAlt className="text-[20px] "/> <p className="text-slate-500">{post.postComment.length} Comments</p></div>
-                  <div onClick={() => likePost(post)} className={` flex items-center p-[5px] cursor-pointer gap-x-[5px] ${post.postLike.find((like: any) => like.likeId === loggedInUser?.uid) ? 'text-sky-700 ' : 'text-slate-500'}  `}><SlLike className="text-[20px] " /> <p
-                    className={post.postLike.find((like: any) => like.likeId === loggedInUser?.uid) ? 'text-sky-700 ' : 'text-slate-500' }>{post.postLike.length} Likes</p></div>
-                  <div onClick={() => showRepost? setShowRepost(false) : setShowRepost(true)} className=" flex items-center p-[5px] cursor-pointer gap-x-[5px] border-l "><BiRepost className="text-[20px] " /><p className="text-slate-500">{post?.postRepost?.length} Repost</p></div>
-                  {showRepost && <div className="absolute flex flex-col bg-slate-50 gap-2 p-2 items-start rounded border  bottom-[135px]  right-0 ">
-                    <button
-                      onClick={() => {
-                       Repost(post)
-                      }}
-                      className=" text-slate-700 text-[15px] flex flex-row items-center gap-x-1"><BiRepost className="text-[20px] "/> Instant Repost
-                    </button>
-                    <button  onClick={() => {
-                        setShowQuoteRepost(true);
-                        setFullPostData({...post})
-                      }} className="text-slate-700 text-[15px]  flex flex-row items-center gap-x-1"><FaEdit className="text-[20px] "/> Repost with you thought</button>
-                  </div>}
-              </div>
-            
-                <div className="py-[10px] w-full bg-slate-50 flex items-center justify-around px-[20px] gap-1">
-                  <input onChange={(e) => setCommentInput(e.target.value)} type="text" placeholder="Input your comment" className="w-full outline-none bg-transparent" />
-                      <button onClick={() => {
-                        addCommentfn(post);
-                          showFullPostFn();
-                          setFullPostData({...post})
-                      }} type="button" className="bg-sky-500 p-2 rounded text-slate-50">Comment</button>
-                </div>
-                </div>
-            </div>
-            })
-          }    */}
 </div>
       </div>}
      
