@@ -167,14 +167,14 @@ const combinedId = findLoggedInUser?.userID > userPersonalInfo?.userID ?
   
   return (
     !loggedInUser? <Login/> :
-    <main className="flex min-h-screen bg-slate-50 pt-[100px] md:pt-[140px] py-[20px] flex-col w-full items-center  ">
+    <main className="flex min-h-screen bg-slate-50 pt-[100px] md:pt-[140px] py-[20px] flex-col  items-center  ">
        {showQuoteRepost && <QuoteREpost data={fullPostdata} setShowQuoteRepost={setShowQuoteRepost} />}
       {!userPersonalInfo? <PublishAPostSideBarSkeleton/> :  <PublishAPostSideBar/>}
       {!userPersonalInfo? <SideBarSkeleton/> : <SideBar setPublishPost={setPublishPost}/>}
       <PublishAPost displayPro={showPublishPost} setPublishPost={setPublishPost} />
       {showFullPost && <FullPost postComment={fullPostdata.postComment} postRepost={fullPostdata.postRepost} data={fullPostdata} setFullPostData={setFullPostData} setShowFullPost={setShowFullPost} />}
-        {!userPersonalInfo ? <ProfileSkeleton /> : <div className="relative ">
-        <div className="max-w-[500px] px-[20px]">
+        {!userPersonalInfo ? <ProfileSkeleton /> : <div className="relative md:max-w-[500px]">
+        <div className="max-w-[500px]  self-center px-[20px]">
         <Image alt="cover pics" src={userPersonalInfo.coverPic? userPersonalInfo.coverPic : CoverPics} className="rounded h-[250px] w-full md:w-[400px]" width={500} height={200} />
      
         <div className="absolute top-[200px] ">
@@ -186,7 +186,7 @@ const combinedId = findLoggedInUser?.userID > userPersonalInfo?.userID ?
         </div>
         <Link onClick={startChat} href={`/chat/${combinedId}`} className="absolute top-[300px] right-[30px] active:bg-slate-200 shadow-2xl border p-2 rounded-[5px] text-slate-700 text-[20px] ">Send Message</Link>
         <div className="pt-[140px] flex flex-col gap-y-[20px]">
-          <div>
+          <div className="mt-[10px]">
             <h1 className="font-bold text-[20px] text-slate-900 capitalize">{userPersonalInfo?.username}</h1>
             <p className="font-[500] capitalize text-slate-500">@{userPersonalInfo?.username.split(' ').slice(0, 1)}</p>
           </div>
@@ -200,7 +200,7 @@ const combinedId = findLoggedInUser?.userID > userPersonalInfo?.userID ?
           </div>
             </div>
             </div>
-        <div className="flex flex-col py-[50px] gap-y-5 w-full">
+        <div className="flex flex-col py-[50px] self-center gap-y-5 ">
           {myPost.length == 0 && <p className="text-center">{userPersonalInfo.username} Has Not Posted Anything</p> }
         {myPost.map((myPost: allPostInfo) => {
             return <PostCard setShowQuoteRepost={setShowQuoteRepost} setFullPostData={setFullPostData} post={myPost} showFullPostFn={showFullPostFn} />

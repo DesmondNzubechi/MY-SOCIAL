@@ -114,7 +114,7 @@ export const PublishAPostSideBar = () => {
 }
     }, [postImg])
     
-    return <div className="bg-white shadow fixed justify-center  hidden md:flex flex-col left-[50px] overflow-y-auto w-fit top-[120px]  md:h-[70vh] h-full p-4 md:rounded-[10px]  ">
+    return <div className="bg-white shadow fixed justify-center  hidden lg:flex flex-col left-[50px] overflow-y-auto w-fit top-[120px]  md:h-[70vh] h-full p-4 md:rounded-[10px]  ">
       <div className="flex justify-between items-center mb-[20px]">
         <h1 className="text-center font-bold uppercase text-center text-[20px]">Publish a post</h1>
       </div>
