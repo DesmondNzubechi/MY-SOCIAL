@@ -313,7 +313,7 @@ const [message, setMesage] = useState<messageInfo>({
                      { viewProfile &&  <Link href="" className="text-slate-900 bg-white  fixed top-[50px] font-medium px-[20px] py-[30px] shadow-2xl rounded  right-0">View Profile</Link>}
                  
            </div>
-                <div className="flex  pb-[140px] pt-[50px]  items-center flex-col gap-y-[50px]">
+                <div className="flex  pb-[160px] pt-[50px]  items-center flex-col gap-y-[50px]">
                     {
                         currentChat?.message?.map((chats: messageInfo) => {
                             return <div  ref={(el) => (lastMessageRef.current = el)} className={`flex items-center ${chats?.senderId !== user?.uid? "self-start" : "self-end" }   ${chats?.senderId !== user?.uid? "flex-row" : "flex-row-reverse" }  gap-2`}>
