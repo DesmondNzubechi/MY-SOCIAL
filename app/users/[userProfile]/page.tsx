@@ -201,7 +201,7 @@ const combinedId = findLoggedInUser?.userID > userPersonalInfo?.userID ?
             </div>
             </div>
         <div className="flex flex-col py-[50px] gap-y-5 w-full">
-          {myPost.length == 0 && <p className="text-center">User Has Not Posted Anything</p> }
+          {myPost.length == 0 && <p className="text-center">{userPersonalInfo.username} Has Not Posted Anything</p> }
         {myPost.map((myPost: allPostInfo) => {
             return <PostCard setShowQuoteRepost={setShowQuoteRepost} setFullPostData={setFullPostData} post={myPost} showFullPostFn={showFullPostFn} />
           })}

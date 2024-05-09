@@ -92,7 +92,7 @@ setShowFullPost(true)
       {allPost.length == 0? <SideBarSkeleton/> : <SideBar setPublishPost={setPublishPost}/>}
     
           <div className="md:col-span-2 flex  flex-col gap-5">
-    
+          <div className="px-[20px] ">
           <div onClick={() => setPublishPost('block')} className="md:hidden flex flex-col cursor-pointer gap-y-2 bg-white p-4 rounded">
             <div className="flex flex-row gap-x-[20px] items-center">
               <FaUserCircle className="md:text-[30px] text-[20px] bg-slate-50 rounded-full shadow-2xl " />
@@ -104,10 +104,11 @@ setShowFullPost(true)
               <div className="flex items-center gap-1 text-slate-700 bg-slate-50 p-2 rounded"><MdVideoLibrary /><span className="text-[12px] md:text-[15px]">Video</span></div>
               <button className="bg-sky-500 text-[12px] md:text-[15px] text-slate-50 p-2 rounded">Publish Post</button>
             </div>
+              </div>
+              </div>
+<div className="px-[20px] ">
+            <input type="text" value={searchText} onChange={(e) => setSearchText(e.target.value)} className="bg-white rounded block shadow capitalize outline-none py-[18px] w-full   text-center text-[15px]" placeholder="search for a post here" name="" id="" />
             </div>
-
-            <input type="text" value={searchText} onChange={(e) => setSearchText(e.target.value)} className="bg-white rounded block  shadow capitalize outline-none py-[18px] w-full   text-center text-[15px]" placeholder="search for a post here" name="" id="" />
-       
             {allPost.length === 0 && skeletonLoader.map(skel => <PostSkeleton />)}
             {searchText && <h1 className="text-center font-bold">Your Search Result    "<span className="font-bold uppercase">{ searchText}</span>"</h1>}
             {searchText && searchPostResult.map((myPost: allPostInfo) => {
