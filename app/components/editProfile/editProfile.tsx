@@ -21,6 +21,7 @@ export const EditProfile = ({ setShowEditProfile, userInfo, setUserPersonalInfo 
         pauseOnHover: true
       })
       setShowEditProfile(false)
+      setUserPersonalInfo({...profileInfo})
     } catch (error) {
       toast.error("an error occured while trying to update your profile. Please try again", {
         hideProgressBar: true,
@@ -70,6 +71,6 @@ export const EditProfile = ({ setShowEditProfile, userInfo, setUserPersonalInfo 
           </form>
           <button onClick={updateProfile} className="bg-slate-900 mt-[20px] py-[15px]  w-full text-slate-50 rounded ">Update Profile</button>
 </div>
-      </div>
+      </div> 
     )
 }

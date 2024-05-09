@@ -213,7 +213,7 @@ useEffect(() => {
 }, [dp])
   
   
-
+ 
   return (
     <main className="flex min-h-screen justify-center overflow-x-hidden bg-slate-50 pt-[100px] md:pt-[140px]  py-[20px] flex-col items-center  ">
         {showQuoteRepost && <QuoteREpost data={fullPostdata} setShowQuoteRepost={setShowQuoteRepost} />}
@@ -248,7 +248,7 @@ useEffect(() => {
         <button onClick={() => showEditProfile ? setShowEditProfile(false) : setShowEditProfile(true) } className="absolute top-[300px] right-[30px] active:bg-slate-200 shadow-2xl border p-2 rounded-[5px] text-slate-700 text-[20px] ">Edit Profile</button>
         <div className="pt-[140px] flex flex-col gap-y-[20px]">
           <div>
-            <h1 className="font-bold text-[20px] text-slate-900 capitalize">{userPersonalInfo?.username}</h1>
+            <h1 className="font-bold text-[20px] lg:mt-[40px] text-slate-900 capitalize">{userPersonalInfo?.username}</h1>
             <p className="font-[500] capitalize text-slate-500">@{userPersonalInfo?.username.split(' ').slice(0, 1)}</p>
           </div> 
           <div>

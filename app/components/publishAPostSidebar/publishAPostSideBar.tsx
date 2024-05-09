@@ -8,11 +8,13 @@ import { doc, setDoc } from "firebase/firestore";
 import { userAuth } from "../auths/auth";
 import { toast } from "react-toastify";
 import 'react-toastify/ReactToastify.css'
+import { personalInfo } from "@/app/my-profile/page";
+import { AllUser } from "../allUser/allUser";
 const currentDate: Date = new Date();
 const options: Intl.DateTimeFormatOptions = {
   year: 'numeric',
   month: 'long',
-  day: 'numeric',
+  day: 'numeric', 
   weekday: 'long', // or 'short', 'narrow', or undefined
 };
 
@@ -21,7 +23,19 @@ export const fullDate: string = currentDate.toLocaleString(undefined, options);
 
 export const PublishAPostSideBar = () => {
   const loggedInUser = userAuth();
-
+  const allUser = AllUser()
+  const [userPersonalInfo, setUserPersonalInfo] = useState<personalInfo>({
+    userID: "",
+    fullname: "", 
+    useremail: "",
+    userPic:"",
+    coverPic: "",
+    username: "",
+    bio: "",
+    location: "",
+    favorite: "",
+    dateJoined: ''
+  })
 
     interface PostInfo {
         imageInfo: any,
@@ -60,9 +74,9 @@ export const PublishAPostSideBar = () => {
         postsContent: thePost.postContent,
         postId: uuid(),
         postsDate: fullDate,
-        authorId: loggedInUser.uid,
-        authorName: loggedInUser.displayName,
-        authorPics: loggedInUser.photoURL,
+        authorId: userPersonalInfo.userID,
+        authorName: userPersonalInfo.username,
+        authorPics: userPersonalInfo.userPic,
         postComment: [],
         postLike: [],
         postRepost: []
@@ -113,6 +127,19 @@ export const PublishAPostSideBar = () => {
             uploadPostImg();
 }
     }, [postImg])
+  
+  
+    const getUserProfile = () => {
+      const findUser = allUser.find((profile: any) => {
+        return profile.userID === loggedInUser?.uid
+      })
+      setUserPersonalInfo(findUser); 
+  }
+  
+  
+  useEffect(() => {
+    getUserProfile();
+  }, [allUser, loggedInUser])
     
     return <div className="bg-white shadow fixed justify-center  hidden lg:flex flex-col left-[50px] overflow-y-auto w-fit top-[120px]  md:h-[70vh] h-full p-4 md:rounded-[10px]  ">
       <div className="flex justify-between items-center mb-[20px]">

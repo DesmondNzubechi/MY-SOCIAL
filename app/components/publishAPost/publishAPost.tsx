@@ -8,6 +8,8 @@ import { doc, setDoc } from "firebase/firestore";
 import { userAuth } from "../auths/auth";
 import { toast } from "react-toastify";
 import 'react-toastify/ReactToastify.css'
+import { AllUser } from "../allUser/allUser";
+import { personalInfo } from "@/app/my-profile/page";
 const currentDate: Date = new Date();
 const options: Intl.DateTimeFormatOptions = {
   year: 'numeric',
@@ -21,8 +23,19 @@ export const fullDate: string = currentDate.toLocaleString(undefined, options);
 
 export const PublishAPost = ({ displayPro, setPublishPost }: { displayPro: string; setPublishPost: React.Dispatch<React.SetStateAction<string>> }) => {
   const loggedInUser = userAuth();
-
-
+  const allUser = AllUser();
+  const [userPersonalInfo, setUserPersonalInfo] = useState<personalInfo>({
+    userID: "",
+    fullname: "", 
+    useremail: "",
+    userPic:"",
+    coverPic: "",
+    username: "",
+    bio: "",
+    location: "",
+    favorite: "",
+    dateJoined: ''
+  })
 
     interface PostInfo {
         imageInfo: any,
@@ -62,11 +75,11 @@ export const PublishAPost = ({ displayPro, setPublishPost }: { displayPro: strin
         postsContent: thePost.postContent,
         postId: uuid(),
         postsDate: fullDate,
-        authorId: loggedInUser.uid,
-        authorName: loggedInUser.displayName,
-        authorPics: loggedInUser.photoURL,
+        authorId: userPersonalInfo.userID,
+        authorName: userPersonalInfo.username,
+        authorPics: userPersonalInfo.userPic,
         postComment: [],
-        postLike: [],
+        postLike: [],  
         postRepost: []
       })
       toast.success("Successfully Posted",
@@ -112,6 +125,19 @@ export const PublishAPost = ({ displayPro, setPublishPost }: { displayPro: strin
             uploadPostImg();
 }
     }, [postImg])
+  
+  
+    const getUserProfile = () => {
+      const findUser = allUser.find((profile: any) => {
+        return profile.userID === loggedInUser?.uid
+      })
+      setUserPersonalInfo(findUser); 
+  }
+  
+  
+  useEffect(() => {
+    getUserProfile();
+  }, [allUser, loggedInUser])
     
     return <div className={` ${displayPro} fixed flex flex-col justify-center items-center top-0 bottom-0 left-0 right-0 h-full w-full bg-Tp z-[1000]`}>
     <div className="bg-slate-50 overflow-y-auto md:w-[700px] w-full md:h-[90vh] h-full p-4 md:rounded-[10px]  ">
