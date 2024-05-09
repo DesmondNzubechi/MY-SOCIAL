@@ -84,16 +84,16 @@ setShowFullPost(true)
    { showFullPost &&  <FullPost postComment={fullPostdata.postComment} postRepost={fullPostdata.postRepost} data={fullPostdata} setFullPostData={setFullPostData} setShowFullPost={setShowFullPost} />}
      <PublishAPost displayPro={showPublishPost} setPublishPost={setPublishPost} />
      
-      <div className="grid md:grid-cols-6  relative">
+      <div className="grid lg:grid-cols-6  relative">
           <div></div>
           <div></div>
           {/* SIDE BAR */}
         {allPost.length == 0? <PublishAPostSideBarSkeleton/> :  <PublishAPostSideBar/>}
       {allPost.length == 0? <SideBarSkeleton/> : <SideBar setPublishPost={setPublishPost}/>}
     
-          <div className="md:col-span-2 flex  flex-col gap-5">
+          <div className="lg:col-span-2 flex  flex-col gap-5">
           <div className="px-[20px] ">
-          <div onClick={() => setPublishPost('block')} className="md:hidden flex flex-col cursor-pointer gap-y-2 bg-white p-4 rounded">
+          <div onClick={() => setPublishPost('block')} className="lg:hidden flex flex-col cursor-pointer gap-y-2 bg-white p-4 rounded">
             <div className="flex flex-row gap-x-[20px] items-center">
               <FaUserCircle className="md:text-[30px] text-[20px] bg-slate-50 rounded-full shadow-2xl " />
               <div className="text-slate-500 text-[12px] md:text-[15px]  p-3 border w-full rounded-[10px]">Write a post here...</div>
