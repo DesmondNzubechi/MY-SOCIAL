@@ -35,7 +35,7 @@ export const LogOut = ({logOut, setLogOut} : {logOut: boolean, setLogOut: React.
               setLogOut(false);
             }
           }} className="py-[100px] z-[2000] bg-Tp h-full fixed flex justify-center items-center top-0 w-full px-[40px] ">
-          
+           
                   <div className="flex flex-col items-center justify-center  bg-white font-poppins rounded p-[50px] relative gap-5">
                   <h1 className="text-[20px] text-center capitalize font-semibold">Are you sure <br />  you want to logout?</h1>
                   <div className="flex flex-row gap-[30px]">
