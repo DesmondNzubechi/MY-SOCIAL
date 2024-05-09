@@ -4,9 +4,10 @@ import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+//import './envConfig'
 
 const firebaseConfig = {
-  apiKey: process.env.MY_API_KEY,
+  apiKey: process.env.MY_API_KEY,  
   authDomain: "myuchats-cc6c5.firebaseapp.com",
   projectId: "myuchats-cc6c5",
   storageBucket: "myuchats-cc6c5.appspot.com",

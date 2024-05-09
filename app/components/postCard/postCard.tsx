@@ -175,14 +175,14 @@ const originalPostRef = doc(db, "posts", post.id)
     const postContents = post.postsContent.split(' ');
     const tobeDisplayed = postContents.slice(0, 20).join(' ');
 
-    return <div key={post.postId} className="border bg-white relative  p-2 gap-[20px] rounded-[10px] w-full flex-col flex">
-    {  post?.reposterName &&  <div className="bg-slate-100 p-2">
+    return <div key={post.postId} className="border bg-white relative mb-[20px]  py-[20px] px-[30px] gap-[20px] md:rounded-[10px] w-full flex-col flex">
+    {  post?.reposterName && <div> <div className="bg-white p-2">
               <div className="flex gap-1 flex-row items-center">
               <h1 className="font-bold flex  capitalize items-center ">  {(post?.reposterPics !== '' || post?.reposterPics) ? <Link href={`/users/${post.reposterId}`}><Image src={post?.reposterPics} height={50} width={50} className="rounded-full h-[30px] w-[30px] " alt="post pic" /></Link> :  <Link href={`/users/${post.reposterId}`}><FaUserCircle className="text-[15px] bg-slate-50 rounded-full shadow-2xl " /></Link>} <Link href={`/users/${post.reposterId}`}><span className="text-[10px] "> @{post.reposterName} </span></Link> </h1> <span className="text-slate-500  text-[10px] ">reposted</span> <GoDotFill className="text-[10px]"/> <p className="text-slate-500 text-[7px]">{post.respotDate}</p>
               </div>
                     <p className="text-slate-700 text-[12px] md:text-[15px] mb-[10px]">{post?.repostThought}</p>
               
-                  </div>} 
+                  </div> <hr /></div>} 
    <div className="flex gap-1 flex-row items-center">
        <h1 className="font-bold flex justify-center capitalize items-center ">  {post.authorPics !== '' ? <Link href={`/users/${post?.authorId}`}><Image src={post.authorPics} height={50} width={50} className="rounded-full  w-[30px]" alt="post pic" /></Link> : <Link href={`/users/${post.authorId}`}><FaUserCircle className=" text-[15px] bg-slate-50 rounded-full shadow-2xl " /></Link>} <Link href={`/users/${post.authorId}`}><span className=" text-[10px]">@{post.authorName}</span></Link> </h1> <span className="text-slate-500  text-[10px] ">posted</span> <GoDotFill className="text-[10px] "/> <p className="text-slate-500  text-[7px]">{post.postsDate}</p>
    </div>
@@ -226,10 +226,10 @@ const originalPostRef = doc(db, "posts", post.id)
               postRepost:post.postRepost,
               id:post.id,
             })
-     }} className=" border-r flex items-center cursor-pointer p-[5px] gap-x-[5px] "><FaCommentAlt className="md:text-[20px] text-[15px] "/> <p className="text-slate-500 md:text-[15px] text-[12px]">{post.postComment.length} Comments</p></div>
+     }} className="flex items-center cursor-pointer p-[5px] gap-x-[5px] "><FaCommentAlt className="md:text-[20px] text-[15px] "/> <p className="text-slate-500 md:text-[15px] text-[12px]">{post.postComment.length} Comments</p></div>
        <div onClick={() => likePost(post)} className={` flex items-center p-[5px] cursor-pointer gap-x-[5px] ${post.postLike.find((like:any) => like.likeId === loggedInUser?.uid) ? 'text-sky-700 ' : 'text-slate-500'}  `}><SlLike className="md:text-[20px] text-[15px]" /> <p
          className={post.postLike.find((like: any) => like.likeId === loggedInUser?.uid) ? 'text-sky-700 md:text-[15px] text-[12px] ' : 'text-slate-500 md:text-[15px] text-[12px]'  }>{post.postLike.length} Likes</p></div>
-       <div onClick={() => showRepost? setShowRepost(false) : setShowRepost(true)} className=" flex items-center p-[5px] cursor-pointer gap-x-[5px] border-l "><BiRepost className="md:text-[20px] text-[15px] " /><p className="text-slate-500 md:text-[15px] text-[12px]">{post?.postRepost?.length} Repost</p></div>
+       <div onClick={() => showRepost? setShowRepost(false) : setShowRepost(true)} className=" flex items-center p-[5px] cursor-pointer gap-x-[5px]  "><BiRepost className="md:text-[20px] text-[15px] " /><p className="text-slate-500 md:text-[15px] text-[12px]">{post?.postRepost?.length} Repost</p></div>
        {showRepost && <div className="absolute flex flex-col bg-slate-50 gap-2 p-2 items-start rounded border  bottom-[135px]  right-0 ">
          <button
            onClick={() => {
@@ -256,7 +256,7 @@ const originalPostRef = doc(db, "posts", post.id)
        </div>}
    </div>
  
-     <div className="py-[10px] w-full bg-slate-50 flex items-center justify-around px-[20px] gap-1">
+     <div className="py-[10px] w-full bg-white border rounded-[10px] flex items-center justify-around px-[20px] gap-1">
        <input onChange={(e) => setCommentInput(e.target.value)} type="text" placeholder={loggedInUser? `Comment as ${loggedInUser?.displayName}` : " Kindly Login"} className="w-full text-[10px] outline-none bg-transparent" />
        <button onClick={() => addCommentfn(post)} type="button" className="bg-sky-500 p-2 rounded md:text-[15px] text-[10px] text-slate-50">Comment</button>
      </div>

@@ -84,7 +84,7 @@ setShowFullPost(true)
    { showFullPost &&  <FullPost postComment={fullPostdata.postComment} postRepost={fullPostdata.postRepost} data={fullPostdata} setFullPostData={setFullPostData} setShowFullPost={setShowFullPost} />}
      <PublishAPost displayPro={showPublishPost} setPublishPost={setPublishPost} />
      
-      <div className="grid md:grid-cols-6 px-[30px] relative">
+      <div className="grid md:grid-cols-6  relative">
           <div></div>
           <div></div>
           {/* SIDE BAR */}
@@ -106,7 +106,7 @@ setShowFullPost(true)
             </div>
             </div>
 
-            <input type="text" value={searchText} onChange={(e) => setSearchText(e.target.value)} className="bg-white rounded block md:hidden shadow capitalize outline-none py-[18px] w-full   text-center text-[15px]" placeholder="search for a post here" name="" id="" />
+            <input type="text" value={searchText} onChange={(e) => setSearchText(e.target.value)} className="bg-white rounded block  shadow capitalize outline-none py-[18px] w-full   text-center text-[15px]" placeholder="search for a post here" name="" id="" />
        
             {allPost.length === 0 && skeletonLoader.map(skel => <PostSkeleton />)}
             {searchText && <h1 className="text-center font-bold">Your Search Result    "<span className="font-bold uppercase">{ searchText}</span>"</h1>}

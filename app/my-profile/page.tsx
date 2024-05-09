@@ -222,7 +222,8 @@ useEffect(() => {
        <PublishAPost displayPro={showPublishPost} setPublishPost={setPublishPost} />
     { showEditProfile && <EditProfile setUserPersonalInfo={setUserPersonalInfo} userInfo={userPersonalInfo} setShowEditProfile={setShowEditProfile} />}
       {showFullPost && <FullPost postRepost={fullPostdata.postRepost} postComment={fullPostdata.postComment} data={fullPostdata} setFullPostData={setFullPostData} setShowFullPost={setShowFullPost} />}
-     {allUser.length == 0? <ProfileSkeleton/> : <div className="relative w-full md:max-w-[500px] px-[20px]">
+      {allUser.length == 0 ? <ProfileSkeleton /> : <div className="relative ">
+      <div className="max-w-[500px] px-[20px]">
      <Image alt="cover pics" src={userPersonalInfo?.coverPic ? userPersonalInfo?.coverPic : CoverPics} className="rounded h-[250px] w-full md:w-[400px]" width={400} height={100} />
         
         <input type="file" onChange={(e) => {
@@ -259,7 +260,7 @@ useEffect(() => {
 <span className="flex items-center gap-1 text-slate-500"><IoIosTime className="text-[15px]"/> <p className="capitalize text-[10px]">{userPersonalInfo?.dateJoined ? userPersonalInfo?.dateJoined : "Private"}</p></span>
           </div>
 
-       
+       </div>
         </div>
         <div className="flex flex-col py-[50px] gap-5">
         {myPost.length == 0 && <p className="text-center">You Have Not Posted Anything</p> }
