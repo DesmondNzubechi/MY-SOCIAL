@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ToastContainer } from "react-toastify";
 import { HeaderNavLink } from "./components/Header/Header";
+import { Footer } from "./components/Footer/footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -22,6 +23,7 @@ export default function RootLayout({
       <body className={inter.className}>
     <HeaderNavLink/>
         {children}
+        <Footer/>
       </body>
       <ToastContainer autoClose={2000} />
     </html>
