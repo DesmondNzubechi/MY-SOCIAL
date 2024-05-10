@@ -16,13 +16,14 @@ import { BiRepost } from "react-icons/bi";
 import { AllUser } from "../../components/allUser/allUser";
 import { AllThePost } from "../../components/allPosts/allPost";
 import { allPostInfo } from "../../components/allPosts/allPost";
-import { doc, updateDoc, setDoc } from "firebase/firestore";
+import { doc, updateDoc, setDoc, deleteDoc } from "firebase/firestore";
 import { fullDate } from "../../components/publishAPost/publishAPost";
 import { db, storage } from "../../components/config/firebase";
 import { v4 as uuid } from "uuid";
 import { ToastContainer, toast } from "react-toastify";
 import { FaEdit } from "react-icons/fa";
 import 'react-toastify/ReactToastify.css';
+import { HiDotsHorizontal } from "react-icons/hi";
 //import { QuoteREpost } from "../quoteRepost/quoteRepost";
 import { personalInfo } from "@/app/my-profile/page";
 interface props {
@@ -77,7 +78,7 @@ export const PostCard = ({post, setShowQuoteRepost, showFullPostFn, setFullPostD
      
         if (likeStatus) {
           await updateDoc(postRef, {
-            postLike: [...addLike]
+            postLike: [...addLike] 
           })
           const notification = () => toast("You unliked this post");
           notification();
@@ -174,6 +175,28 @@ const originalPostRef = doc(db, "posts", post.id)
     
     const postContents = post.postsContent.split(' ');
     const tobeDisplayed = postContents.slice(0, 20).join(' ');
+  const [deletePostState, setDeletePostState] = useState<boolean>(false);
+
+  const deletePostFn = async (id: string) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this post")
+    if (!confirmDelete) {
+      return;
+    }
+    try {
+      const postRef = doc(db, 'posts' , id)
+      await deleteDoc(postRef);
+      setDeletePostState(false);
+      toast.success("Post Deleted Successfully", {
+        autoClose: 500,
+        position: "top-center",
+      })
+    } catch (error) {
+      toast.error("An error occured, please try again", {
+        autoClose: 500,
+        position: "top-center",
+      })
+    }
+  }
 
     return <div key={post.postId} className="border bg-white relative  py-[20px] px-[15px] gap-[20px] md:rounded-[10px] w-full flex-col flex">
     {  post?.reposterName && <div> <div className="bg-white p-2">
@@ -182,10 +205,22 @@ const originalPostRef = doc(db, "posts", post.id)
               </div>
                     <p className="text-slate-700 text-[12px] md:text-[15px] mb-[10px]">{post?.repostThought}</p>
               
-                  </div> <hr /></div>} 
-   <div className="flex gap-1 flex-row items-center">
-       <h1 className="font-bold flex justify-center capitalize items-center ">  {post.authorPics !== '' ? <Link href={`/users/${post?.authorId}`}><Image src={post.authorPics} height={50} width={50} className="rounded-full  w-[30px]" alt="post pic" /></Link> : <Link href={`/users/${post.authorId}`}><FaUserCircle className=" text-[15px] bg-slate-50 rounded-full shadow-2xl " /></Link>} <Link href={`/users/${post.authorId}`}><span className=" text-[10px]">@{post.authorName}</span></Link> </h1>  <GoDotFill className="text-[10px] "/> <p className="text-slate-500  text-[7px]">{post.postsDate}</p>
-   </div>
+      </div> <hr /></div>} 
+      <div className="flex justify-between items-center relative">
+      <div className="flex gap-1 flex-row items-center">
+       <h1 className="font-bold flex justify-center capitalize items-center ">  {post.authorPics !== '' ? <Link href={`/users/${post?.authorId}`}><Image src={post.authorPics} height={50} width={50} className="rounded-full  w-[30px]" alt="post pic" /></Link> : <Link href={`/users/${post.authorId}`}><FaUserCircle className=" text-[15px] bg-slate-50 rounded-full shadow-2xl " /></Link>} <Link href={`/users/${post.authorId}`}><span className=" text-[10px]">@{post.authorName}</span></Link> </h1>  <GoDotFill className="text-[10px] self-center "/> <p className="text-slate-500 self-center text-[7px]">{post.postsDate}</p>
+        </div>
+        <HiDotsHorizontal
+          onClick={() => {
+deletePostState? setDeletePostState(false) :setDeletePostState(true)
+          }}
+          className="border text-[30px] focus:text-slate-500 cursor-pointer justify-self-end border-slate-900 p-1  rounded-full "
+        />
+       {deletePostState && <div className="absolute p-[10px] hover:bg-red-900 text-slate-50 right-[35px] rounded shadow top-[-5px]  bg-red-500">
+          <button onClick={() => deletePostFn(post?.postId)}>Delete Post</button>
+        </div>}
+      </div>
+   
    <div className="">
        <p className="text-[10px] ">{ tobeDisplayed }</p>
      {postContents.length > 20 && <button

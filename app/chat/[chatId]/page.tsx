@@ -321,22 +321,10 @@ const [message, setMesage] = useState<messageInfo>({
                                 {chats?.senderId !== userInfoState?.userID &&  (currentUser.userPic ? <Link href='/my-profile'> <Image alt={currentUser?.username} width={50} height={30} className="rounded-full h-[50px]" src={currentUser?.userPic} /></Link> : <Link href='/my-profile'><FaUserCircle className="text-[50px] " /></Link>)}
                                 {chats.messageTitle !== '' && <p className={` ${chats?.senderId !== user?.uid ? ' p-[15px] bg-slate-500 text-[15px] text-white rounded-tl-[10px] rounded-r-[15px]' : "p-[15px] bg-sky-500 text-[15px] text-white rounded-tr-[10px] rounded-l-[15px] "} `}>{chats?.messageTitle}</p> }
                                {chats.messageImg !== '' && <Image alt="" width={200} height={200} className="w-[200px] shadow-2xl rounded " src={chats?.messageImg} /> }
-                            </div>
+                             </div>
                         })
                 }
-                    {/* <div className="flex items-center  self-start  gap-2">
-                    <FaUserCircle className="text-[40px]"/>
-                    <p className="p-[20px] bg-slate-500 text-[20px] text-white rounded-tl-[10px] rounded-r-[15px] ">What's good ]?</p>
-                </div>
-               
-                <div className="flex items-center self-end align-end gap-2">
-                    <p className="p-[20px] bg-sky-500 text-[20px] text-white rounded-tr-[10px] rounded-l-[15px] ">What's good?</p>
-                    <FaUserCircle className="text-[40px]"/>
-                    </div> */}
-                    {/* <div className="flex items-center self-end align-end gap-2">
-                        <Image alt="" width={200} height={200} className="w-[200px] shadow-2xl rounded " src={fvi} />
-                    <FaUserCircle className="text-[40px]"/>
-                </div> */}
+                   
                 </div>
                 
                 <form action="" onSubmit={(e) => {
