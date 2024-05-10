@@ -63,7 +63,7 @@ const User = ({ params }: { params: { chatId: string } }) => {
         location: "",
         favorite: "",
         dateJoined: ''
-      });
+      }); 
     const lastMessageRef = useRef<HTMLDivElement | null>(null);
     const [currentChat, setCurrentChat] = useState<any>([])
     const [userInfoState, setUserInfoState] = useState<userInfo>({

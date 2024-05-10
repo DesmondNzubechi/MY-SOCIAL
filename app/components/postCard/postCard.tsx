@@ -216,7 +216,7 @@ deletePostState? setDeletePostState(false) :setDeletePostState(true)
           }}
           className="border text-[30px] focus:text-slate-500 cursor-pointer justify-self-end border-slate-900 p-1  rounded-full "
         />
-       {deletePostState && <div className="absolute p-[10px] hover:bg-red-900 text-slate-50 right-[35px] rounded shadow top-[-5px]  bg-red-500">
+       {deletePostState && (loggedInUser?.uid === post.authorId) && <div className="absolute p-[10px] hover:bg-red-900 text-slate-50 right-[35px] rounded shadow top-[-5px]  bg-red-500">
           <button onClick={() => deletePostFn(post?.postId)}>Delete Post</button>
         </div>}
       </div>
