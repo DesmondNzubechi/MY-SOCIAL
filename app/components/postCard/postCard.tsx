@@ -201,8 +201,17 @@ const originalPostRef = doc(db, "posts", post.id)
 
     return <div key={post.postId} className="border bg-white relative  py-[20px] px-[15px] gap-[20px] md:rounded-[10px] w-full flex-col flex">
     {  post?.reposterName && <div> <div className="bg-white p-2">
-              <div className="flex gap-1 flex-row items-center">
-              <h1 className="font-bold flex  capitalize items-center ">  {(post?.reposterPics !== '' || post?.reposterPics) ? <Link href={`/users/${post.reposterId}`}><Image src={post?.reposterPics} height={50} width={50} className="rounded-full h-[30px] w-[30px] " alt="post pic" /></Link> :  <Link href={`/users/${post.reposterId}`}><FaUserCircle className="text-[15px] bg-slate-50 rounded-full shadow-2xl " /></Link>} <Link href={`/users/${post.reposterId}`}><span className="text-[10px] "> @{post.reposterName} </span></Link> </h1> <span className="text-slate-500  text-[10px] ">reposted</span> <GoDotFill className="text-[10px]"/> <p className="text-slate-500 text-[7px]">{post.respotDate}</p>
+              <div className="flex gap-1 relative flex-row items-center">
+          <h1 className="font-bold flex  capitalize items-center ">  {(post?.reposterPics !== '' || post?.reposterPics) ? <Link href={`/users/${post.reposterId}`}><Image src={post?.reposterPics} height={50} width={50} className="rounded-full h-[30px] w-[30px] " alt="post pic" /></Link> : <Link href={`/users/${post.reposterId}`}><FaUserCircle className="text-[15px] bg-slate-50 rounded-full shadow-2xl " /></Link>} <Link href={`/users/${post.reposterId}`}><span className="text-[10px] "> @{post.reposterName} </span></Link> </h1> <span className="text-slate-500  text-[10px] ">reposted</span> <GoDotFill className="text-[10px]" /> <p className="text-slate-500 text-[7px]">{post.respotDate}</p>
+          {(loggedInUser?.uid === post.reposterId) && <HiDotsHorizontal
+          onClick={() => {
+deletePostState? setDeletePostState(false) :setDeletePostState(true)
+          }}
+          className="border text-[30px] focus:text-slate-500 absolute right-0 cursor-pointer justify-self-end border-slate-900 p-1  rounded-full "
+        />}
+       {(deletePostState && loggedInUser?.uid === post.reposterId) &&  <div className="absolute p-[10px] hover:bg-red-900 text-slate-50 right-[35px] rounded shadow top-[-5px]  bg-red-500">
+          <button onClick={() => deletePostFn(post?.postId)}>Delete Post</button>
+        </div>}
               </div>
                     <p className="text-slate-700 text-[12px] md:text-[15px] mb-[10px]">{post?.repostThought}</p>
               
@@ -211,13 +220,13 @@ const originalPostRef = doc(db, "posts", post.id)
       <div className="flex gap-1 flex-row items-center">
        <h1 className="font-bold flex justify-center capitalize items-center ">  {post.authorPics !== '' ? <Link href={`/users/${post?.authorId}`}><Image src={post.authorPics} height={50} width={50} className="rounded-full  w-[30px]" alt="post pic" /></Link> : <Link href={`/users/${post.authorId}`}><FaUserCircle className=" text-[15px] bg-slate-50 rounded-full shadow-2xl " /></Link>} <Link href={`/users/${post.authorId}`}><span className=" text-[10px]">@{post.authorName}</span></Link> </h1>  <GoDotFill className="text-[10px] self-center "/> <p className="text-slate-500 self-center text-[7px]">{post.postsDate}</p>
         </div>
-       {(loggedInUser?.uid === post.authorId) && <HiDotsHorizontal
+       {(loggedInUser?.uid === post.authorId ) && <HiDotsHorizontal
           onClick={() => {
 deletePostState? setDeletePostState(false) :setDeletePostState(true)
           }}
           className="border text-[30px] focus:text-slate-500 cursor-pointer justify-self-end border-slate-900 p-1  rounded-full "
         />}
-       {deletePostState &&  <div className="absolute p-[10px] hover:bg-red-900 text-slate-50 right-[35px] rounded shadow top-[-5px]  bg-red-500">
+       {(deletePostState && loggedInUser?.uid === post.authorId) &&  <div className="absolute p-[10px] hover:bg-red-900 text-slate-50 right-[35px] rounded shadow top-[-5px]  bg-red-500">
           <button onClick={() => deletePostFn(post?.postId)}>Delete Post</button>
         </div>}
       </div>

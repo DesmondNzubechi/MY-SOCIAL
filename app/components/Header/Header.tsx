@@ -76,7 +76,7 @@ export const HeaderNavLink = () => {
           <TbSocial className="md:text-[50px] text-[25px] text-blue-500"/>
           <h1 className="md:text-[15px] text-[12px] text-blue-500 ">MYsocial</h1>
             </div>
-            <input type="text" className="bg-slate-50 rounded capitalize outline-none py-[18px] w-full md:block hidden  text-center text-[15px]" placeholder="search for a post here" name="" id="" />
+            <input type="text" disabled className="bg-slate-50 rounded capitalize outline-none py-[18px] w-full md:block hidden  text-center text-[15px]" placeholder="search for a post here" name="" id="" />
      </div>
           <div className="flex items-center gap-5 ">
           <Link href="/" className="flex flex-col items-center gap-0">
