@@ -14,7 +14,7 @@ import { AllThePost } from "./components/allPosts/allPost";
 import { allPostInfo } from "./components/allPosts/allPost";
 import { SideBar } from "./components/sidebar/sidebar";
 import { fullDate } from "./components/publishAPost/publishAPost";
-import { doc, setDoc, updateDoc } from "firebase/firestore";
+import { deleteDoc, doc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "./components/config/firebase";
 import { v4 as uuid } from "uuid";
 import { ToastContainer, toast } from "react-toastify";
@@ -76,6 +76,8 @@ setShowFullPost(true)
     searchForAPostFn()
   }, [searchText])
 
+  
+  
   return (
     <>
       
@@ -115,7 +117,7 @@ setShowFullPost(true)
             return <PostCard setShowQuoteRepost={setShowQuoteRepost} setFullPostData={setFullPostData} post={myPost} showFullPostFn={showFullPostFn} />
           })}
             {!searchText && allPost.map((myPost: allPostInfo) => {
-            return <PostCard setShowQuoteRepost={setShowQuoteRepost} setFullPostData={setFullPostData} post={myPost} showFullPostFn={showFullPostFn} />
+            return <PostCard  setShowQuoteRepost={setShowQuoteRepost}  setFullPostData={setFullPostData} post={myPost} showFullPostFn={showFullPostFn} />
           })} 
           {} 
            

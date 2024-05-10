@@ -182,8 +182,9 @@ const originalPostRef = doc(db, "posts", post.id)
     if (!confirmDelete) {
       return;
     }
+    const postRef = doc(db, 'posts' , post.id)
     try {
-      const postRef = doc(db, 'posts' , id)
+
       await deleteDoc(postRef);
       setDeletePostState(false);
       toast.success("Post Deleted Successfully", {
@@ -210,13 +211,13 @@ const originalPostRef = doc(db, "posts", post.id)
       <div className="flex gap-1 flex-row items-center">
        <h1 className="font-bold flex justify-center capitalize items-center ">  {post.authorPics !== '' ? <Link href={`/users/${post?.authorId}`}><Image src={post.authorPics} height={50} width={50} className="rounded-full  w-[30px]" alt="post pic" /></Link> : <Link href={`/users/${post.authorId}`}><FaUserCircle className=" text-[15px] bg-slate-50 rounded-full shadow-2xl " /></Link>} <Link href={`/users/${post.authorId}`}><span className=" text-[10px]">@{post.authorName}</span></Link> </h1>  <GoDotFill className="text-[10px] self-center "/> <p className="text-slate-500 self-center text-[7px]">{post.postsDate}</p>
         </div>
-        <HiDotsHorizontal
+       {(loggedInUser?.uid === post.authorId) && <HiDotsHorizontal
           onClick={() => {
 deletePostState? setDeletePostState(false) :setDeletePostState(true)
           }}
           className="border text-[30px] focus:text-slate-500 cursor-pointer justify-self-end border-slate-900 p-1  rounded-full "
-        />
-       {deletePostState && (loggedInUser?.uid === post.authorId) && <div className="absolute p-[10px] hover:bg-red-900 text-slate-50 right-[35px] rounded shadow top-[-5px]  bg-red-500">
+        />}
+       {deletePostState &&  <div className="absolute p-[10px] hover:bg-red-900 text-slate-50 right-[35px] rounded shadow top-[-5px]  bg-red-500">
           <button onClick={() => deletePostFn(post?.postId)}>Delete Post</button>
         </div>}
       </div>
