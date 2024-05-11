@@ -19,7 +19,7 @@ export const Footer = () => {
                 <h1 className="uppercase text-white font-bold md:text-[20px] ">Important links</h1>
             <div className="flex flex-col gap-2">
             <li  className="text-slate-300 md:text-[15px] text-[15px]   ">About Us</li>
-            <li  className="text-slate-300 md:text-[15px] text-[15px]   ">Admission</li>
+            <li  className="text-slate-300 md:text-[15px] text-[15px]   ">Terms</li>
            </div>
             </div>
             <div>
