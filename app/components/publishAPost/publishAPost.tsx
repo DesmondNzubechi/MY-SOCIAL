@@ -83,11 +83,8 @@ export const PublishAPost = ({ displayPro, setPublishPost }: { displayPro: strin
         postRepost: []
       })
       setPublishPost("hidden");
-      toast.success("Successfully Posted",
-        {
-        position: "top-center",
-        autoClose: 500
-      })
+      const notification = () => toast("Successfully Posted")
+      notification();
     } catch (error) {
       toast.error("An Error Occur. Please Try Again",
         {
