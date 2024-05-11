@@ -7,9 +7,9 @@ import { getFirestore } from "firebase/firestore";
 //import './envConfig'
 
 const firebaseConfig = {
-  apiKey: process.env.MY_API_KEY,  
+  apiKey: process.env.NEXT_PUBLIC_MY_API_KEY,  
   authDomain: "myuchats-cc6c5.firebaseapp.com",
-  projectId: "myuchats-cc6c5",
+  projectId: process.env.NEXT_PUBLIC_MY_PROJECT_ID,
   storageBucket: "myuchats-cc6c5.appspot.com",
   messagingSenderId: "1012050697565",
   appId: "1:1012050697565:web:7f07d0528a7fc20a9e1cb4",
