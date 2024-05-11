@@ -70,6 +70,8 @@ export const FullPost = ({ setShowFullPost, postRepost, data, postComment, setFu
       
       toast.info("Kindly input your comment", {
         hideProgressBar: true,
+        autoClose: 500,
+        position: "top-center"
      });
       return;
     }
@@ -85,11 +87,10 @@ export const FullPost = ({ setShowFullPost, postRepost, data, postComment, setFu
       await updateDoc(commentRef, {
         postComment: updatedComments
       });
-  
+
       setFullPostData({ ...data, postComment: [{ commentDate: fullDate, commenterName: userPersonalInfo?.username, commenterPic: userPersonalInfo?.userPic, commentContent: commentInput, commenterId: userPersonalInfo?.userID }, ...data.postComment] })
       setCommentInput('');
       toast.success("You added a new comment", {
-        hideProgressBar: true,
         autoClose: 500
      })
     } catch (error) {
@@ -181,7 +182,7 @@ export const FullPost = ({ setShowFullPost, postRepost, data, postComment, setFu
        
                         </div>
                         {/* ADD YOUR COMMENTS */}
-                        <div className="bg-slate-50 bottom-0 md:left-[26.9%] md:right-[26.9%] fixed left-0 right-0 border-t md:bottom-[20px] p-2">
+                        <div className="bg-slate-50 bottom-0 md:left-[25.9%] md:right-[25.9%] fixed left-0 right-0 border-t md:bottom-[20px] p-2">
                         <div className="py-[10px] w-full bg-white flex items-center justify-around px-[20px] gap-1">
                 <input type="text" onChange={(e) => setCommentInput(e.target.value)} placeholder={loggedInUser? `Comment as ${loggedInUser?.displayName}` : " Kindly Login"} value={commentInput} className="w-full outline-none bg-transparent" />
                 <button onClick={addComment} type="button" className="bg-sky-500 p-2 text-[12px] md:text-[15px] rounded text-slate-50">Comment</button>
