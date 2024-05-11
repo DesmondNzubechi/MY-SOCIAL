@@ -82,16 +82,17 @@ export const PublishAPost = ({ displayPro, setPublishPost }: { displayPro: strin
         postLike: [],  
         postRepost: []
       })
+      setPublishPost("hidden");
       toast.success("Successfully Posted",
-      {
-        hideProgressBar: true,
+        {
+        position: "top-center",
         autoClose: 500
       })
     } catch (error) {
       toast.error("An Error Occur. Please Try Again",
         {
-          hideProgressBar: true,
-          autoClose: 500
+          
+          autoClose: 5000
         }
       )
     }
