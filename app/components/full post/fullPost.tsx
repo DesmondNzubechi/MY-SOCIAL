@@ -145,7 +145,7 @@ export const FullPost = ({ setShowFullPost, postRepost, data, postComment, setFu
         <div>
         <div className={`fixed  flex flex-col justify-center items-center top-0 bottom-0 left-0 right-0 h-full w-full bg-Tp z-[1000]`}>
         <div className="bg-slate-50 relative overflow-y-auto md:w-[700px] w-full h-full md:h-[90vh] p-4   ">
-        <h1 onClick={() => setShowFullPost(false)} className="uppercase text-white fixed z-[10] right-[35px] md:right-[450px] md:top-[50px] top-[10px] bg-slate-900 focus:bg-slate-500 cursor-pointer text-[20px] px-[12px] rounded-full py-[4px] ">X</h1>
+        <h1 onClick={() => setShowFullPost(false)} className="uppercase text-white fixed z-[10] right-[35px] md:right-[450px] md:top-[50px] top-[10px] bg-slate-900 focus:bg-slate-500 hover:bg-red-500 cursor-pointer text-[20px] px-[12px] rounded-full py-[4px] ">X</h1>
           <div className=" p-2 gap-[20px] relative pb-[70px] flex-col flex">
             <div className="flex gap-1 flex-row items-center">
             <h1 className="font-bold flex  capitalize items-center ">  {data.authorPics !== '' ? <Link href={`/users/${data.authorId}`}><Image src={data.authorPics} height={50} width={50} className="rounded-full w-[30px] md:w-[50px] " alt="post pic" /></Link> : <Link href={`/users/${data.authorId}`}><FaUserCircle className="md:text-[30px] text-[20px] bg-slate-50 rounded-full shadow-2xl " /></Link>} <Link href={`/users/${data.authorId}`} className="md:text-[15px] text-[10px] ">@{data.authorName}</Link> </h1> <span className="text-slate-500 text-[8px] md:text-[12px] ">posted</span> <GoDotFill className="text-[10px] "/> <p className="text-slate-500 text-[8px] md:text-[12px]">{data.postsDate}</p>
