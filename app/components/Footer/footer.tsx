@@ -4,7 +4,7 @@ import { MdOutlineMail } from "react-icons/md"
 import { TbSocial } from "react-icons/tb";
 export const Footer = () => {
     return (
-        <div className="bg-slate-900">
+        <div className="bg-slate-900  relative z-[20000]">
         <div className="bg-slate-900 p-5 items-start justify-center  gap-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             <div className="flex flex-row-reverse items-start gap-2 ">
                 <div>
