@@ -243,9 +243,10 @@ useEffect(() => {
                                   <label htmlFor="user profile pic" className="absolute text-[50px] bottom-0 md:bottom-[10px] md:left-[150px] left-[70px] " >
                                       <FcAddImage className="bg-slate-"/>
                                   </label>
-                                 </div>
+                                 </div> 
         </div>
-        <button onClick={() => showEditProfile ? setShowEditProfile(false) : setShowEditProfile(true) } className="absolute top-[300px] right-[30px] active:bg-slate-200 shadow-2xl border p-2 rounded-[5px] text-slate-700 text-[20px] ">Edit Profile</button>
+          <button onClick={() => showEditProfile ? setShowEditProfile(false) : setShowEditProfile(true)} className="absolute top-[350px] right-[30px] active:bg-slate-200 shadow-2xl border p-2 rounded-[5px] text-slate-700 bg-white text-[13px] ">Edit Profile</button>
+          <button onClick={() => setPublishPost('block')} className="absolute top-[350px] lg:hidden right-[120px] active:bg-slate-200 shadow-2xl border bg-slate-900 p-2 rounded-[5px] text-slate-50 text-[13px] ">Create Post</button>
         <div className="pt-[140px] flex flex-col gap-y-[20px]">
           <div>
             <h1 className="font-bold text-[20px] lg:mt-[40px] text-slate-900 capitalize">{userPersonalInfo?.username}</h1>

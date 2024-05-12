@@ -94,35 +94,34 @@ export const PublishAPost = ({ displayPro, setPublishPost }: { displayPro: strin
       )
     }
   }
-
-    const uploadPostImg = async () => {
-        const imgRef = ref(storage, 'PostImgs');
-        try {
-            const imgName = ref(imgRef, postImg.name);
-            const uploadPhoto = await uploadBytes(imgName, postImg);
-            const downloadURL = await getDownloadURL(uploadPhoto.ref);
-            setThePost({...thePost, imageInfo: downloadURL})
-          toast.success("Image Uploaded", {
-            hideProgressBar: true,
-            closeOnClick: true,
-            autoClose: 500,
-            pauseOnHover: true
+  const uploadPostImg = async () => {
+    const imgRef = ref(storage, 'PostImgs');
+    try {
+        const imgName = ref(imgRef, postImg.name);
+        const uploadPhoto = await uploadBytes(imgName, postImg);
+        const downloadURL = await getDownloadURL(uploadPhoto.ref);
+        setThePost({...thePost, imageInfo: downloadURL})
+        toast.success("Image Uploaded", {
+          hideProgressBar: true,
+          closeOnClick: true,
+          autoClose: 500,
+          pauseOnHover: true
 })
-        } catch (error) {
-          toast.error("An error occured. Please Try Again", {
-            hideProgressBar: true,
-            closeOnClick: true,
-            autoClose: 500,
-            pauseOnHover: true
+      } catch (error) {
+        toast.error("An error occured. Please Try Again", {
+          hideProgressBar: true,
+          closeOnClick: true,
+          autoClose: 500,
+          pauseOnHover: true
 })
-        }
     }
-
-    useEffect(() => {
-        if (postImg !== null) {
-            uploadPostImg();
 }
-    }, [postImg])
+
+useEffect(() => {
+  if (postImg !== null) {
+        uploadPostImg();
+}
+}, [postImg])
   
   
     const getUserProfile = () => {
@@ -142,7 +141,7 @@ export const PublishAPost = ({ displayPro, setPublishPost }: { displayPro: strin
       <div className="flex justify-between items-center mb-[20px]">
         <h1 className="text-center font-bold capitalize  text-[20px]">Publish a post</h1>
         <h1 onClick={() => setPublishPost("hidden")} className="uppercase text-white bg-slate-900 focus:bg-slate-500 cursor-pointer text-[30px] px-[18px] rounded-full py-[5px] ">X</h1>
-      </div>
+      </div> 
       <form action="" className="flex flex-col gap-1">
         <div className="flex flex-col bg-white rounded shadow-xl border p-1 gap-1 ">
           <label htmlFor="userName" className="font-bold">Post contents</label>
@@ -150,11 +149,11 @@ export const PublishAPost = ({ displayPro, setPublishPost }: { displayPro: strin
           <textarea onChange={(e) => setThePost({...thePost, postContent: e.target.value})}  className="bg-transparent min-w-[300px] min-h-[200px] outline-none" placeholder="Type your post contents here"></textarea>
         </div>
                 <div className="flex items-center">
-                   {thePost.imageInfo && <Image width={50} height={50} src={thePost.imageInfo} className="w-[50px] h-[50px] rounded-[20px]" alt="post image" />}
+                   {thePost.imageInfo && <Image width={50} height={50} src={thePost?.imageInfo} className="w-[50px] h-[50px] rounded-[20px]" alt="post image" />}
                 <input accept="image" type="file" onChange={(e) => {
                                     setPostImg(e.target.files?.[0])
-                                  }} name="image" className="hidden" id="image" />
-                                  <label htmlFor="image" className=" bg-slate-50 rounded-full text-[50px]   " >
+                                  }} name="img" className="hidden" id="img" />
+                                  <label htmlFor="img" className=" bg-slate-50 rounded-full text-[50px]   " >
                                      <FcAddImage className="bg-slate-"/>
                                   </label>
        </div>

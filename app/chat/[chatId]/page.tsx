@@ -341,7 +341,7 @@ const [message, setMesage] = useState<messageInfo>({
                             messageImg: ''
                         })
                     }} name="" value={message.messageTitle} placeholder="Write you message here" className=" py-[10px] text-[20px] bg-transparent outline-none  w-full rounded " id="" />
-                    <input type="file" onChange={(e) => {
+                    <input accept="image" type="file" onChange={(e) => {
 
                         setChatImg(e.target.files?.[0])
                     }} className="hidden " name="file" id="file" />

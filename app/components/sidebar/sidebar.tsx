@@ -43,7 +43,7 @@ export const SideBar = ({ setPublishPost }: { setPublishPost: React.Dispatch<Rea
         <Link className="bg-sky-500  w-full text-center text-slate-50 rounded p-1" href='/my-profile'>Full Profile</Link>
       </div>
    
-      <button onClick={() => setPublishPost('block')} type="button" className="text-slate-700 text-[20px] capitalize ">Make a post</button>
+      {/* <button onClick={() => setPublishPost('block')} type="button" className="text-slate-700 text-[20px] capitalize ">Make a post</button> */}
        </ul> :  <ul className="flex flex-col gap-3 items-center ">
     <Link href='/' className="text-slate-700 text-[20px] capitalize ">Home</Link>
       <Link href='/login' className="flex text-[20px] mt-[20px] items-center"><IoMdLogOut /> <span className="text-slate-500">Login</span></Link>

@@ -38,7 +38,7 @@ export const PublishAPostSideBar = () => {
   })
 
     interface PostInfo {
-        imageInfo: any,
+        theImgInfo: any,
         postContent: string,
         postId: string,
         postDate: string,
@@ -46,10 +46,10 @@ export const PublishAPostSideBar = () => {
         authorId: string,
     } 
 
-    const [postImg, setPostImg] = useState<any>(null);
+    const [thePostImg, setThePostImg] = useState<any>(null);
 
     const [thePost, setThePost] = useState<PostInfo>({
-        imageInfo:'',
+        theImgInfo:'',
         postContent: "",
         postId: "",
         postDate: fullDate,
@@ -68,9 +68,9 @@ export const PublishAPostSideBar = () => {
       return;
     }
     const postRef = doc(db, 'posts', uuid())
-    try {
+    try { 
       await setDoc(postRef, {
-        postImg: thePost.imageInfo,
+        postImg: thePost.theImgInfo,
         postsContent: thePost.postContent,
         postId: uuid(),
         postsDate: fullDate,
@@ -83,7 +83,7 @@ export const PublishAPostSideBar = () => {
       })
         const notification = () => toast('Post succesfully published');
         notification();
-        setThePost({  imageInfo:'',
+        setThePost({  theImgInfo:'',
         postContent: "",
         postId: "",
         postDate: fullDate,
@@ -102,10 +102,10 @@ export const PublishAPostSideBar = () => {
     const uploadPostImg = async () => {
         const imgRef = ref(storage, 'PostImgs');
         try {
-            const imgName = ref(imgRef, postImg.name);
-            const uploadPhoto = await uploadBytes(imgName, postImg);
+            const imgName = ref(imgRef, thePostImg.name);
+            const uploadPhoto = await uploadBytes(imgName, thePostImg);
             const downloadURL = await getDownloadURL(uploadPhoto.ref);
-            setThePost({...thePost, imageInfo: downloadURL})
+            setThePost({...thePost, theImgInfo: downloadURL})
             toast.success("Image Uploaded", {
               hideProgressBar: true,
               closeOnClick: true,
@@ -123,10 +123,10 @@ export const PublishAPostSideBar = () => {
     }
 
     useEffect(() => {
-        if (postImg !== null) {
+        if (thePostImg !== null) {
             uploadPostImg();
 }
-    }, [postImg])
+    }, [thePostImg])
   
   
     const getUserProfile = () => {
@@ -144,15 +144,15 @@ export const PublishAPostSideBar = () => {
     return <div className="bg-white shadow fixed justify-center  hidden lg:flex flex-col left-[50px] overflow-y-auto w-fit top-[100px]  md:h-[60vh] h-full p-4 md:rounded-[10px]  ">
       <div className="flex justify-between items-center mb-[20px]">
         <h1 className="text-center font-bold uppercase text-center text-[20px]">Publish a post</h1>
-      </div>
+      </div> 
       <form action="" className="flex flex-col gap-1">
         <div className="flex flex-col bg-white rounded shadow-xl border p-1 gap-1 ">
           <textarea onChange={(e) => setThePost({...thePost, postContent: e.target.value})}  className="bg-transparent w-[300px] h-[200px] outline-none" placeholder="Write your post contents here..."/>
         </div>
                 <div className="flex items-center">
-                   {thePost.imageInfo && <Image width={50} height={50} src={thePost.imageInfo} className="w-[50px] h-[50px] rounded-[20px]" alt="post image" />}
+                   {thePost.theImgInfo && <Image width={50} height={50} src={thePost.theImgInfo} className="w-[50px] h-[50px] rounded-[20px]" alt="post image" />}
                 <input accept="image" type="file" onChange={(e) => {
-                                    setPostImg(e.target.files?.[0])
+                                    setThePostImg(e.target.files?.[0])
                                   }} name="image" className="hidden" id="image" />
                                   <label htmlFor="image" className=" bg-slate-50 rounded-full text-[50px]   " >
                                      <FcAddImage className="bg-slate-"/>

@@ -38,7 +38,7 @@ export default function Home() {
   const [fullPostdata, setFullPostData] = useState<allPostInfo>({
     postImg: '',
     postsContent: '',
-    postId:'',
+    postId:'', 
     postsDate: '',
     authorId: '',
     authorName: '',
@@ -93,7 +93,7 @@ setShowFullPost(true)
         {allPost.length == 0? <PublishAPostSideBarSkeleton/> :  <PublishAPostSideBar/>}
       {allPost.length == 0? <SideBarSkeleton/> : <SideBar setPublishPost={setPublishPost}/>}
     
-          <div className="lg:col-span-2 flex  flex-col gap-5">
+          <div className="lg:col-span-2 flex  flex-col gap-5"> 
           <div className="px-[20px] ">
           <div onClick={() => setPublishPost('block')} className="lg:hidden flex flex-col cursor-pointer gap-y-2 bg-white p-4 rounded">
             <div className="flex flex-row gap-x-[20px] items-center">
