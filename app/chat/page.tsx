@@ -63,29 +63,6 @@ const [currentUser, setCurrentUser] = useState<User | any>({});
     }, [allTheUsers])
 
     
-    const startChat = async (theUserID: any) => {
-        try {
-            const combinedId = currentUser?.userID  > theUserID.userID ?
-              currentUser?.userID  + theUserID.userID :
-              theUserID.userID + currentUser?.userID ;
-            
-            const docRef = doc(db, 'chats', combinedId);
-            const res = await getDoc(docRef);
-            if (!res.exists()) {
-              await setDoc(docRef,
-                {
-                  message: [],
-                  firstUser: currentUser, 
-                  secondUser: theUserID,
-                  lastMessage: { message: "Start New Chat", messageDate: fullDate, messageId:uuid() }
-                });
-            }
-         
-        } catch (error) {
-            alert(error)
-        }
-    }
-
 
     const [allTheChat, setAllTheChat] = useState<any>([])
 

@@ -122,16 +122,6 @@ setShowFullPost(true)
   }, [allPost, loggedInUser])
 
 
-
-  // useEffect(() => {
-  //  if (!loggedInUser) {
-  //     const timeoutId = setTimeout(() => {
-  //       redirect("/login");
-  //     }, 5000);
-  //     return () => clearTimeout(timeoutId);
-  //   }
-  // }, []);
-
   const findLoggedInUser = allUser.find((me: personalInfo) => {
     return me.userID === loggedInUser?.uid
   });

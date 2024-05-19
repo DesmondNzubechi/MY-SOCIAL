@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import 'react-toastify/ReactToastify.css';
 import { TbSocial } from "react-icons/tb";
+import MyProfile from "../my-profile/page";
 export default function Login() {
   const user = userAuth();
   const [showPassword, setShowPassword] = useState('password')
@@ -64,10 +65,10 @@ export default function Login() {
   };
   
   return (
-      <>{ user? redirect('/') :
+      <>{ user? <MyProfile/> :
       <div className="flex min-h-screen  flex-col items-center  justify-center py-[30px]">
         <div className="flex flex-col gap-[20px] items-center bg-slate-900 px-[20px] py-[20px] rounded">
-        <div className="flex justify-center md:col-span-2 flex-row gap-0 items-center">
+        <div className="fl[ex justify-center md:col-span-2 flex-row gap-0 items-center">
           <h1 className="text-slate-50 text-[20px] font-bold mr-[-30px]">MY</h1>
           <TbSocial className="text-slate-50 text-[100px]"/>
           <h1 className="text-slate-50 text-[20px] font-bold ml-[-30px]">Social</h1>

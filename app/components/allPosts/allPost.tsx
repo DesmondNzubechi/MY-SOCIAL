@@ -24,16 +24,18 @@ export const AllThePost = () => {
     const [allThePost, setAllThePost] = useState<allPostInfo[] | any[]>([]);
 
     useEffect(() => {
-        const postCollection = collection(db, 'posts');
-        try {
-            const Unsub = onSnapshot(postCollection, (postSnapshot) => {
-                const allPost: allPostInfo[] = postSnapshot.docs.map((doc: DocumentSnapshot<DocumentData>) => ({...doc.data(), id: doc.id}) as allPostInfo);
-                setAllThePost(allPost)
-            })
+        if (typeof window !== 'undefined') {
+            const postCollection = collection(db, 'posts');
+            try {
+                const Unsub = onSnapshot(postCollection, (postSnapshot) => {
+                    const allPost: allPostInfo[] = postSnapshot.docs.map((doc: DocumentSnapshot<DocumentData>) => ({ ...doc.data(), id: doc.id }) as allPostInfo);
+                    setAllThePost(allPost)
+                })
 
-            return () => Unsub();
-        } catch (error) {
-          console.log("an error detected")
+                return () => Unsub();
+            } catch (error) {
+                console.log("an error detected")
+            }
         }
     }, [])
 

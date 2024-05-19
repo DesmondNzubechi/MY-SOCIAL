@@ -141,7 +141,6 @@ setShowFullPost(true)
     }
   }, []);
 
-  console.log("looooogggg", loggedInUser)
 
   const updateDp = async () => {
     const dpRef = ref(storage, 'dp');

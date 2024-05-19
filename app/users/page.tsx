@@ -26,15 +26,13 @@ import { UserSkeletonLoader } from "../components/SkeletonLoader/UserSkeleton";
 import { personalInfo } from "../my-profile/page";
 import Login from "../login/page";
 import { redirect } from "next/navigation";
-//import { postCard } from "./components/postCard/postCard";
- 
+
 export default function Home() {
  const loggedInUser = userAuth();
   const skeletonLoader = [1, 2, 3, 4, 5]
   const allPost = AllThePost();
   const [showFullPost, setShowFullPost] = useState<boolean>(false)
   const [showPublishPost, setPublishPost] = useState<string>('hidden')
-  const [showRepost, setShowRepost] = useState<boolean>(false);
   const [showQuoteRepost, setShowQuoteRepost] = useState<boolean>(false);
   const [fullPostdata, setFullPostData] = useState<allPostInfo>({
     postImg: '',
