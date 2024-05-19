@@ -170,19 +170,10 @@ const [message, setMesage] = useState<messageInfo>({
             messageImg: '',
         })
             setSendingMessageStatus(false)
-        toast.success("message sent successfully", {
-            hideProgressBar: true,
-            position: "top-center",
-            autoClose:500
-        })
-           
+        
         } catch (error) {
             setSendingMessageStatus(false)
-            toast.error("An error occured. Try again", {
-                hideProgressBar: true,
-                position: "top-center",
-                autoClose: 5000
-            })
+           
         }
         
     }
@@ -239,18 +230,10 @@ const [message, setMesage] = useState<messageInfo>({
                 lastMessage: { message: "An Image", messageDate: fullDate, messageId:uuid() }
             })
             setSendingMessageStatus(false)
-            toast.success("message sent successfully", {
-                hideProgressBar: true,
-                position: "top-center",
-                autoClose: 5000
-            })
+           
         } catch (error) {
             setSendingMessageStatus(false);
-            toast.error("an error occurred. Please Try again", {
-                hideProgressBar: true,
-                position: "top-center",
-                autoClose: 5000
-            })
+           
         }
     }
 
