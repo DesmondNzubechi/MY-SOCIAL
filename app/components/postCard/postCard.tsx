@@ -80,14 +80,12 @@ export const PostCard = ({post, setShowQuoteRepost, showFullPostFn, setFullPostD
           await updateDoc(postRef, {
             postLike: [...addLike] 
           })
-          const notification = () => toast("You unliked this post");
-          notification();
+       
         } else {
           await updateDoc(postRef, {
             postLike: [...post.postLike, {likeId: loggedInUser?.uid, likeName: loggedInUser?.displayName}]
           })
-          const notification = () => toast("You liked this post");
-          notification();
+        
         }
 } catch (error) {
   console.log(error)
@@ -165,8 +163,7 @@ const originalPostRef = doc(db, "posts", post.id)
       await updateDoc(commentRef, {
         postComment: updatedComments
       });
-      const notification = () => toast("You commented to this post")
-      notification();
+    
     } catch (error) {
       const notification = () => toast("An error occured")
       notification();
